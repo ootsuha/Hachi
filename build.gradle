@@ -1,0 +1,35 @@
+plugins {
+    id 'application'
+}
+
+group 'io.github.ootsuha'
+version '1.0'
+
+compileJava.options.encoding = 'UTF-8'
+
+repositories {
+    mavenCentral()
+    maven {
+        name 'm2-dv8tion'
+        url 'https://m2.dv8tion.net/releases'
+    }
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    implementation 'net.dv8tion:JDA:4.4.0_350'
+    implementation 'ch.qos.logback:logback-classic:1.2.10'
+    implementation 'io.github.cdimascio:dotenv-java:2.2.3'
+}
+
+test {
+    useJUnitPlatform()
+}
+sourceCompatibility = JavaVersion.VERSION_15
+targetCompatibility = JavaVersion.VERSION_15
+mainClassName = 'io.github.ootsuha.hachi.Hachi'
+
+run {
+    enableAssertions(true)
+}
