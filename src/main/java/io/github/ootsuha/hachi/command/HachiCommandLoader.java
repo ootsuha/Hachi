@@ -8,6 +8,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Utility class to initialize <code>HachiCommand</code>s.
+ */
 public final class HachiCommandLoader {
     /**
      * Map of command names to <code>HachiCommand</code>s.
@@ -58,12 +61,13 @@ public final class HachiCommandLoader {
      */
     public static void createGuildCommands(final Guild g) {
         for (HachiCommand c : COMMAND_MAP.values()) {
-            g.upsertCommand(c.getName(), c.getDescription()).queue();
+            g.upsertCommand(c.getCommandData()).queue();
         }
     }
 
     /**
      * Gets a <code>HachiCommand</code> from <code>COMMAND_MAP</code>.
+     *
      * @param name name of command
      * @return HachiCommand, or null
      */

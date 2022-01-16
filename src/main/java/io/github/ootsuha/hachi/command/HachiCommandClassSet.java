@@ -5,9 +5,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Utility class that holds a set of all <code>HachiCommand</code> classes.
+ */
 public final class HachiCommandClassSet {
     /**
      * Set of command classes.
@@ -72,6 +76,6 @@ public final class HachiCommandClassSet {
      * @return set of command classes
      */
     public static Set<Class<?>> getSet() {
-        return SET;
+        return new HashSet<>(SET);
     }
 }

@@ -1,6 +1,6 @@
 package io.github.ootsuha.hachi.command;
 
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 
 /**
  * Interface for commands that Hachi has.
@@ -21,9 +21,16 @@ public interface HachiCommand {
     String getDescription();
 
     /**
+     * Gets the <code>CommandData</code> of the command.
+     *
+     * @return command data
+     */
+    CommandData getCommandData();
+
+    /**
      * Runs the command.
      *
-     * @param e event that called the command
+     * @param r event that called the command
      */
-    void run(SlashCommandEvent e);
+    void run(HachiCommandRequest r);
 }

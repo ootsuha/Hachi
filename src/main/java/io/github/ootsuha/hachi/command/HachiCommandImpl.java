@@ -1,45 +1,54 @@
 package io.github.ootsuha.hachi.command;
 
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Implements the methods in <code>HachiCommand</code>.
  */
-public abstract class HachiCommandImpl implements HachiCommand {
+public abstract class HachiCommandImpl extends CommandData implements HachiCommand {
     /**
-     * Name of the command.
+     * List of aliases for the command. Should be lowercase. Defaults to empty
+     * list.
      */
-    private String name;
+    @Nonnull private List<String> aliases;
     /**
-     * Description of the command.
+     * List of examples for the command.
      */
-    private String description;
+    @Nonnull private List<String> example;
 
-    @Override public final String getName() {
-        if (this.name == null) {
-            return getClass().getSimpleName().toLowerCase();
-        }
-        return this.name;
+    /**
+     * @param name        The command name, 1-32 lowercase alphanumeric characters
+     * @param description The command description, 1-100 characters
+     * @throws IllegalArgumentException If any of the following requirements are not met
+     *                                  <ul>
+     *                                      <li>The name must be lowercase alphanumeric (with dash), 1-32 characters
+     *                                      long</li>
+     *                                      <li>The description must be 1-100 characters long</li>
+     *                                  </ul>
+     */
+    public HachiCommandImpl(@NotNull final String name, @NotNull final String description) {
+        super(name, description);
+        this.aliases = new ArrayList<>();
+        this.example = new ArrayList<>();
     }
 
     /**
-     * Sets <code>this.name</code>.
+     * Sets <code>this.aliases</code>.
      *
-     * @param name new value
+     * @param aliases string var args
      */
-    protected void setName(final String name) {
-        this.name = name;
+    public void setAliases(final String... aliases) {
+        this.aliases = Arrays.stream(aliases).collect(Collectors.toList());
     }
 
-    @Override public final String getDescription() {
-        return this.description;
+    @Override public final CommandData getCommandData() {
+        return this;
     }
-
-    /**
-     * Sets <code>this.description</code>.
-     *
-     * @param description new value
-     */
-    protected void setDescription(final String description) {
-        this.description = description;
-    }
-
 }

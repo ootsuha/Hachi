@@ -1,10 +1,11 @@
 package io.github.ootsuha.hachi.command;
 
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
-public abstract class HachiStringCommand extends HachiCommandImpl {
+public abstract class HachiEmbedCommand extends HachiCommandImpl {
     /**
      * @param name        The command name, 1-32 lowercase alphanumeric characters
      * @param description The command description, 1-100 characters
@@ -15,13 +16,13 @@ public abstract class HachiStringCommand extends HachiCommandImpl {
      *                                      <li>The description must be 1-100 characters long</li>
      *                                  </ul>
      */
-    public HachiStringCommand(final @NotNull String name, final @NotNull String description) {
+    public HachiEmbedCommand(final @NotNull String name, final @NotNull String description) {
         super(name, description);
     }
 
-    @Nonnull protected abstract String output(HachiCommandRequest r);
+    @Nonnull protected abstract MessageEmbed output(HachiCommandRequest r);
 
     @Override public final void run(final HachiCommandRequest r) {
-        r.reply(output(r));
+        r.replyEmbed(output(r));
     }
 }
