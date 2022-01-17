@@ -1,16 +1,12 @@
 package io.github.ootsuha.hachi.command;
 
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.TextChannel;
-import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
-import net.dv8tion.jda.api.interactions.commands.OptionMapping;
+import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.events.interaction.*;
+import net.dv8tion.jda.api.interactions.commands.*;
+import net.dv8tion.jda.api.interactions.commands.build.*;
 
-import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import javax.annotation.*;
+import java.util.*;
 
 /**
  * Represents a user's request for a command.
@@ -20,6 +16,10 @@ public final class HachiCommandRequest {
      * Name of the command.
      */
     private final String name;
+    /**
+     * HachiCommand associated with the request.
+     */
+    private final HachiCommand command;
     /**
      * Holds the user's options.
      */
@@ -44,21 +44,36 @@ public final class HachiCommandRequest {
     /**
      * Constructor.
      *
-     * @param name    command name
+     * @param c       hachi command
+     * @param options options map
+     */
+    public HachiCommandRequest(final HachiCommand c, final Map<String, Object> options) {
+        this.command = c;
+        this.name = c.getName();
+        this.options = new HashMap<>(options);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param name    string
      * @param options options map
      */
     public HachiCommandRequest(final String name, final Map<String, Object> options) {
         this.name = name;
+        this.command = HachiCommandLoader.getCommand(name);
         this.options = new HashMap<>(options);
     }
 
     /**
      * Convert a <code>SlashCommandEvent</code> into a <code>HachiCommandRequest</code>.
      *
+     * @param c hachi command
      * @param e slash command event
      */
-    public HachiCommandRequest(final SlashCommandEvent e) {
+    public HachiCommandRequest(final HachiCommand c, final SlashCommandEvent e) {
         this.name = e.getName();
+        this.command = c;
         this.options = new HashMap<>();
         this.user = e.getUser();
         this.channel = e.getTextChannel();
@@ -156,59 +171,76 @@ public final class HachiCommandRequest {
     }
 
     /**
-     * Gets the option with name <code>optionName</code> as a String, or null if <code>optionName</code> does not
-     * exist or is not a String.
+     * Checks if the request has a given option.
      *
-     * @param optionName name
-     * @return string, or null of no string option of that name exists
+     * @param optionName option to check for
+     * @return if the option exists
      */
-    @Nullable public String getString(final String optionName) {
-        if (this.options.get(optionName) instanceof String) {
-            return (String) this.options.get(optionName);
-        }
-        return null;
+    public boolean hasOption(final String optionName) {
+        return this.options.containsKey(optionName);
     }
 
     /**
-     * Gets the option with name <code>optionName</code> as a Boolean, or null if <code>optionName</code> does not
-     * exist or is not a Boolean.
+     * Gets the option with the given name.
      *
      * @param optionName name
-     * @return boolean, or null of no string option of that name exists
+     * @return option data
      */
-    @Nullable public Boolean getBoolean(final String optionName) {
-        if (this.options.get(optionName) instanceof Boolean) {
-            return (Boolean) this.options.get(optionName);
-        }
-        return null;
+    public Optional<OptionData> getOption(final String optionName) {
+        return this.command.getCommandData().getOptions().stream().filter(e -> e.getName().equals(optionName))
+                .findAny();
     }
 
     /**
-     * Gets the option with name <code>optionName</code> as a Double, or null if <code>optionName</code> does not
-     * exist or is not a Double.
+     * Gets the option with name <code>optionName</code> as a String.
      *
      * @param optionName name
-     * @return double, or null of no string option of that name exists
+     * @return string, null only if option is not required and is not present
      */
-    @Nullable public Double getNumber(final String optionName) {
-        if (this.options.get(optionName) instanceof Double) {
-            return (Double) this.options.get(optionName);
-        }
-        return null;
+    public String getString(final String optionName) {
+        Optional<OptionData> option = getOption(optionName);
+        assert option.isPresent() && option.get().getType() == OptionType.STRING;
+        assert !option.get().isRequired() || (hasOption(optionName) && this.options.get(optionName) instanceof String);
+        return (String) this.options.get(optionName);
     }
 
     /**
-     * Gets the option with name <code>optionName</code> as an Integer, or null if <code>optionName</code> does not
-     * exist or is not an Integer.
+     * Gets the option with name <code>optionName</code> as an Integer.
      *
      * @param optionName name
-     * @return integer, or null of no string option of that name exists
+     * @return integer, null only if option is not required and is not present
      */
-    @Nullable public Integer getInteger(final String optionName) {
-        if (this.options.get(optionName) instanceof Integer) {
-            return (Integer) this.options.get(optionName);
-        }
-        return null;
+    public Integer getInteger(final String optionName) {
+        Optional<OptionData> option = getOption(optionName);
+        assert option.isPresent() && option.get().getType() == OptionType.INTEGER;
+        assert !option.get().isRequired() || (hasOption(optionName) && this.options.get(optionName) instanceof Integer);
+        return (Integer) this.options.get(optionName);
+    }
+
+    /**
+     * Gets the option with name <code>optionName</code> as a Double.
+     *
+     * @param optionName name
+     * @return double, null only if option is not required and is not present
+     */
+    public Double getNumber(final String optionName) {
+        Optional<OptionData> option = getOption(optionName);
+        assert option.isPresent() && option.get().getType() == OptionType.NUMBER;
+        assert !option.get().isRequired() || (hasOption(optionName) && this.options.get(optionName) instanceof Double);
+        return (Double) this.options.get(optionName);
+    }
+
+    /**
+     * Gets the option with name <code>optionName</code> as a Boolean.
+     *
+     * @param optionName name
+     * @return boolean, null only if option is not required and is not present
+     */
+    public Boolean getBoolean(final String optionName) {
+        Optional<OptionData> option = getOption(optionName);
+        assert option.isPresent() && option.get().getType() == OptionType.BOOLEAN;
+        assert !option.get().isRequired() || (hasOption(optionName) && this.options.get(optionName) instanceof Boolean);
+        return (Boolean) this.options.get(optionName);
     }
 
     @Override public boolean equals(final Object o) {

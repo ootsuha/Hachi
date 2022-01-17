@@ -1,13 +1,9 @@
 package io.github.ootsuha.hachi.command;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.io.*;
+import java.nio.charset.*;
+import java.util.*;
+import java.util.stream.*;
 
 /**
  * Utility class that holds a set of all <code>HachiCommand</code> classes.

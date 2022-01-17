@@ -1,18 +1,13 @@
 package io.github.ootsuha.hachi.command.usable;
 
-import io.github.ootsuha.hachi.command.HachiCommandRequest;
-import io.github.ootsuha.hachi.command.HachiStringCommand;
-import org.jetbrains.annotations.NotNull;
+import io.github.ootsuha.hachi.command.*;
 
 public final class Ping extends HachiStringCommand {
-    /**
-     * Initialize command settings.
-     */
     public Ping() {
-        super("ping", "pong");
+        super("ping", "Pings the user.");
     }
 
-    @Override protected @NotNull String output(final HachiCommandRequest r) {
-        return "pong";
+    @Override protected String output(final HachiCommandRequest r) {
+        return r.getUser().getAsMention();
     }
 }

@@ -1,28 +1,21 @@
 package io.github.ootsuha.hachi.command.usable;
 
-import io.github.ootsuha.hachi.command.HachiCommand;
-import io.github.ootsuha.hachi.command.HachiCommandImpl;
-import io.github.ootsuha.hachi.command.HachiCommandLoader;
-import io.github.ootsuha.hachi.command.HachiCommandRequest;
-import net.dv8tion.jda.api.interactions.commands.OptionType;
+import io.github.ootsuha.hachi.command.*;
+import net.dv8tion.jda.api.interactions.commands.*;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.Objects;
+import java.io.*;
+import java.net.*;
+import java.util.*;
 
 public final class Source extends HachiCommandImpl {
     /**
-     * Link.
+     * Link to source code files.
      */
-    public static final String REPO = "https://raw.githubusercontent.com/ootsuha/Hachi/master/src/main/java/";
+    private static final String REPO = "https://raw.githubusercontent.com/ootsuha/Hachi/master/src/main/java/";
 
-    /**
-     * Initialize command settings.
-     */
     public Source() {
         super("source", "Gets the source code for a command.");
-        addOption(OptionType.STRING, "name", "Name of the command", true);
+        addOption(OptionType.STRING, "name", "Name of the command.", true);
     }
 
     private InputStream getInputStream(final String name) {
@@ -39,7 +32,7 @@ public final class Source extends HachiCommandImpl {
     }
 
     @Override public void run(final HachiCommandRequest r) {
-        String name = Objects.requireNonNull(r.getString("name")).toLowerCase();
+        String name = r.getString("name").toLowerCase();
         InputStream file = getInputStream(name);
         if (file != null) {
             r.reply(String.format("Source code for `%s`:", name));

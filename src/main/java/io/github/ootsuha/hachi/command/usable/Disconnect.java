@@ -1,17 +1,15 @@
 package io.github.ootsuha.hachi.command.usable;
 
-import io.github.ootsuha.hachi.command.HachiCommandImpl;
-import io.github.ootsuha.hachi.command.HachiCommandRequest;
+import edu.umd.cs.findbugs.annotations.*;
+import io.github.ootsuha.hachi.command.*;
 
 public final class Disconnect extends HachiCommandImpl {
-    /**
-     * Initialize command settings.
-     */
     public Disconnect() {
         super("disconnect", "Disconnect Hachi from Discord.");
+        setAliases("dc");
     }
 
-    @Override public void run(final HachiCommandRequest r) {
+    @SuppressFBWarnings("DM_EXIT") @Override public void run(final HachiCommandRequest r) {
         r.reply("cya");
         System.exit(0);
     }

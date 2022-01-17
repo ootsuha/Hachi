@@ -59,7 +59,7 @@
 
     <!-- Checks that a package-info.java file exists for each package.     -->
     <!-- See https://checkstyle.org/config_javadoc.html#JavadocPackage -->
-<!--    <module name="JavadocPackage"/>-->
+    <!--    <module name="JavadocPackage"/>-->
 
     <!-- Checks whether files end with a new line.                        -->
     <!-- See https://checkstyle.org/config_misc.html#NewlineAtEndOfFile -->
@@ -104,11 +104,15 @@
         <!-- Checks for Javadoc comments.                     -->
         <!-- See https://checkstyle.org/config_javadoc.html -->
         <module name="InvalidJavadocPosition"/>
-        <module name="JavadocMethod"/>
+        <module name="JavadocMethod">
+            <property name="tokens" value="METHOD_DEF,ANNOTATION_FIELD_DEF"/>
+        </module>
         <module name="JavadocType"/>
         <module name="JavadocVariable"/>
         <module name="JavadocStyle"/>
-        <module name="MissingJavadocMethod"/>
+        <module name="MissingJavadocMethod">
+            <property name="tokens" value="METHOD_DEF,ANNOTATION_FIELD_DEF"/>
+        </module>
 
         <!-- Checks for Naming Conventions.                  -->
         <!-- See https://checkstyle.org/config_naming.html -->
@@ -124,7 +128,6 @@
 
         <!-- Checks for imports                              -->
         <!-- See https://checkstyle.org/config_imports.html -->
-        <module name="AvoidStarImport"/>
         <module name="IllegalImport"/> <!-- defaults to sun.* packages -->
         <module name="RedundantImport"/>
         <module name="UnusedImports">

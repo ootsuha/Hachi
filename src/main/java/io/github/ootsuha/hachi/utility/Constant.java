@@ -1,7 +1,10 @@
-package io.github.ootsuha.hachi;
+package io.github.ootsuha.hachi.utility;
 
-import io.github.cdimascio.dotenv.Dotenv;
+import io.github.cdimascio.dotenv.*;
 
+/**
+ * Loads constants from <code>.env</code>.
+ */
 public final class Constant {
     /**
      * Discord bot token.
@@ -15,12 +18,17 @@ public final class Constant {
      * Color to use for certain embeds.
      */
     public static final int COLOR;
+    /**
+     * Icon URL to use for certain embeds.
+     */
+    public static final String ICON_URL;
 
     static {
         Dotenv dotenv = Dotenv.load();
         DISCORD_TOKEN = dotenv.get("DISCORD_TOKEN");
         BOT_PREFIX = dotenv.get("BOT_PREFIX");
         COLOR = Integer.parseInt(dotenv.get("COLOR"));
+        ICON_URL = dotenv.get("ICON_URL");
     }
 
     /**

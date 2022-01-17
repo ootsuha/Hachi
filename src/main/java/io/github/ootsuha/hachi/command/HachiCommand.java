@@ -1,6 +1,7 @@
 package io.github.ootsuha.hachi.command;
 
-import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.interactions.commands.build.*;
 
 /**
  * Interface for commands that Hachi has.
@@ -14,11 +15,11 @@ public interface HachiCommand {
     String getName();
 
     /**
-     * Gets the description of the command.
+     * Gets the help embed of the command.
      *
-     * @return description
+     * @return embed
      */
-    String getDescription();
+    MessageEmbed getHelpEmbed();
 
     /**
      * Gets the <code>CommandData</code> of the command.

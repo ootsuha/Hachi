@@ -1,9 +1,10 @@
 package io.github.ootsuha.hachi.command;
 
-import org.jetbrains.annotations.NotNull;
+import javax.annotation.*;
 
-import javax.annotation.Nonnull;
-
+/**
+ * A <code>HachiCommand</code> that replies with a string.
+ */
 public abstract class HachiStringCommand extends HachiCommandImpl {
     /**
      * @param name        The command name, 1-32 lowercase alphanumeric characters
@@ -15,11 +16,11 @@ public abstract class HachiStringCommand extends HachiCommandImpl {
      *                                      <li>The description must be 1-100 characters long</li>
      *                                  </ul>
      */
-    public HachiStringCommand(final @NotNull String name, final @NotNull String description) {
+    public HachiStringCommand(final String name, final String description) {
         super(name, description);
     }
 
-    @Nonnull protected abstract String output(HachiCommandRequest r);
+    protected abstract String output(HachiCommandRequest r);
 
     @Override public final void run(final HachiCommandRequest r) {
         r.reply(output(r));

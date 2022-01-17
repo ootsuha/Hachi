@@ -1,12 +1,9 @@
 package io.github.ootsuha.hachi.command;
 
-import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.*;
 
-import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import javax.annotation.*;
+import java.util.*;
 
 /**
  * Utility class to initialize <code>HachiCommand</code>s.

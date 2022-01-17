@@ -1,15 +1,11 @@
 package io.github.ootsuha.hachi.parser;
 
-import io.github.ootsuha.hachi.Constant;
-import io.github.ootsuha.hachi.command.HachiCommand;
-import io.github.ootsuha.hachi.command.HachiCommandLoader;
-import io.github.ootsuha.hachi.command.HachiCommandRequest;
-import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import io.github.ootsuha.hachi.command.*;
+import io.github.ootsuha.hachi.utility.*;
+import net.dv8tion.jda.api.interactions.commands.build.*;
 
-import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.annotation.*;
+import java.util.*;
 
 public final class Parser {
     /**
@@ -48,7 +44,7 @@ public final class Parser {
         if (!b.isEmpty()) {
             return null;
         }
-        return new HachiCommandRequest(name, options);
+        return new HachiCommandRequest(comm, options);
     }
 
     private static boolean addOption(final Map<String, Object> options, final OptionData optionData, final String s) {
@@ -79,5 +75,4 @@ public final class Parser {
         b.delete(0, i + 1);
         return s;
     }
-
 }

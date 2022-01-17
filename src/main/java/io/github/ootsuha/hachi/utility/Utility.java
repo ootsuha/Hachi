@@ -1,7 +1,10 @@
-package io.github.ootsuha.hachi;
+package io.github.ootsuha.hachi.utility;
 
-import java.util.Random;
+import java.util.*;
 
+/**
+ * Utility class.
+ */
 public final class Utility {
     /**
      * Seed for random numbers.

@@ -1,13 +1,14 @@
 package io.github.ootsuha.hachi.listener;
 
-import io.github.ootsuha.hachi.command.HachiCommand;
-import io.github.ootsuha.hachi.command.HachiCommandLoader;
-import io.github.ootsuha.hachi.command.HachiCommandRequest;
-import io.github.ootsuha.hachi.parser.Parser;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import org.jetbrains.annotations.NotNull;
+import io.github.ootsuha.hachi.command.*;
+import io.github.ootsuha.hachi.parser.*;
+import net.dv8tion.jda.api.events.message.*;
+import net.dv8tion.jda.api.hooks.*;
+import org.jetbrains.annotations.*;
 
+/**
+ * Responds to <code>MessageReceivedEvent</code>s.
+ */
 public final class MessageListener extends ListenerAdapter {
     @Override public void onMessageReceived(@NotNull final MessageReceivedEvent event) {
         if (event.getAuthor().isBot()) {

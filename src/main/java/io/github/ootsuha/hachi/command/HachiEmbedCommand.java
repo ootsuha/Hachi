@@ -1,10 +1,12 @@
 package io.github.ootsuha.hachi.command;
 
-import net.dv8tion.jda.api.entities.MessageEmbed;
-import org.jetbrains.annotations.NotNull;
+import net.dv8tion.jda.api.entities.*;
 
-import javax.annotation.Nonnull;
+import javax.annotation.*;
 
+/**
+ * A <code>HachiCommand</code> that replies with an embed.
+ */
 public abstract class HachiEmbedCommand extends HachiCommandImpl {
     /**
      * @param name        The command name, 1-32 lowercase alphanumeric characters
@@ -16,11 +18,11 @@ public abstract class HachiEmbedCommand extends HachiCommandImpl {
      *                                      <li>The description must be 1-100 characters long</li>
      *                                  </ul>
      */
-    public HachiEmbedCommand(final @NotNull String name, final @NotNull String description) {
+    public HachiEmbedCommand(final String name, final String description) {
         super(name, description);
     }
 
-    @Nonnull protected abstract MessageEmbed output(HachiCommandRequest r);
+    protected abstract MessageEmbed output(HachiCommandRequest r);
 
     @Override public final void run(final HachiCommandRequest r) {
         r.replyEmbed(output(r));
