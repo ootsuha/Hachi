@@ -1,4 +1,15 @@
-package io.github.ootsuha.hachi.command;
+#!/bin/bash
+# creates io.github.ootsuha.hachi.command.HachiCommandClassSet
+
+CLASSES=`ls src/main/java/io/github/ootsuha/hachi/command/usable`
+IMPORT=""
+for CLASS in $CLASSES; do
+  IMPORT+="        SET.add(${CLASS:0:${#CLASS}-5}.class);"$'\n'
+done
+
+PATH="src/main/java/io/github/ootsuha/hachi/command/HachiCommandClassSet.java"
+
+CONTENT="package io.github.ootsuha.hachi.command;
 
 import io.github.ootsuha.hachi.command.usable.*;
 
@@ -15,17 +26,7 @@ public final class HachiCommandClassSet {
 
     static {
         SET = new HashSet<>();
-        SET.add(Disconnect.class);
-        SET.add(Echo.class);
-        SET.add(Flip.class);
-        SET.add(GitHub.class);
-        SET.add(Help.class);
-        SET.add(Invite.class);
-        SET.add(Ping.class);
-        SET.add(Source.class);
-        SET.add(Time.class);
-        SET.add(UpdateCommands.class);
-    }
+$IMPORT    }
 
     /**
      * Private constructor so class cannot be instantiated.
@@ -41,4 +42,6 @@ public final class HachiCommandClassSet {
     public static Set<Class<?>> getSet() {
         return new HashSet<>(SET);
     }
-}
+}"
+
+echo "$CONTENT" > $PATH

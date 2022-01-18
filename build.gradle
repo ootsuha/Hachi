@@ -35,3 +35,9 @@ mainClassName = 'io.github.ootsuha.hachi.Hachi'
 run {
     enableAssertions(true)
 }
+
+task ccs(type: Exec) {
+    commandLine 'bash', './ccs.sh'
+}
+
+assemble.dependsOn ccs
