@@ -54,9 +54,6 @@ public class HachiApplication {
         JDA api = builder.build().awaitReady();
 
         MessageAction.setDefaultMentionRepliedUser(false);
-        // close jda api immediately when closing program
-        Runtime.getRuntime().addShutdownHook(new Thread(api::shutdownNow));
         return api;
     }
-
 }
