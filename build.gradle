@@ -1,10 +1,15 @@
 plugins {
     id 'application'
     id 'java'
+    id 'org.springframework.boot' version '2.6.2'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 }
 
 group 'io.github.ootsuha'
 version '1.0'
+sourceCompatibility = JavaVersion.VERSION_15
+targetCompatibility = JavaVersion.VERSION_15
+mainClassName = 'io.github.ootsuha.hachi.HachiApplication'
 
 compileJava.options.encoding = 'UTF-8'
 
@@ -17,27 +22,22 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.6.2'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools:2.6.2'
+    runtimeOnly 'org.postgresql:postgresql:42.3.1'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor:2.6.2'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.2'
     implementation 'com.github.spotbugs:spotbugs-annotations:4.5.3'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
     implementation 'net.dv8tion:JDA:4.4.0_350'
     implementation 'ch.qos.logback:logback-classic:1.2.10'
-    implementation 'io.github.cdimascio:dotenv-java:2.2.3'
 }
 
 test {
     useJUnitPlatform()
 }
-sourceCompatibility = JavaVersion.VERSION_15
-targetCompatibility = JavaVersion.VERSION_15
-mainClassName = 'io.github.ootsuha.hachi.Hachi'
 
 run {
     enableAssertions(true)
 }
-
-task ccs(type: Exec) {
-    commandLine 'bash', './ccs.sh'
-}
-
-assemble.dependsOn ccs

@@ -1,38 +1,46 @@
 package io.github.ootsuha.hachi.command.usable;
 
+import io.github.ootsuha.hachi.*;
 import io.github.ootsuha.hachi.command.*;
-import io.github.ootsuha.hachi.utility.*;
 import net.dv8tion.jda.api.*;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.interactions.commands.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
 
+@Component
 public final class Help extends HachiEmbedCommand {
     /**
-     * Default help embed.
+     * Default help embed when no command is given.
      */
-    private static final MessageEmbed DEFAULT;
-
-    static {
-        EmbedBuilder b = new EmbedBuilder();
-        b.setTitle("Hachi");
-        b.appendDescription("");
-        b.setColor(Constant.COLOR);
-        b.setThumbnail(Constant.ICON_URL);
-        DEFAULT = b.build();
-    }
+    private MessageEmbed defaultEmbed;
+    private HachiCommandLoader loader;
 
     public Help() {
         super("help", "Shows information about a command.");
         addOption(OptionType.STRING, "command", "Command name.");
     }
 
+    @Autowired private void setLoader(final HachiCommandLoader loader) {
+        this.loader = loader;
+    }
+
+    @Autowired private void setDefaultEmbed(final HachiConfig config) {
+        EmbedBuilder b = new EmbedBuilder();
+        b.setTitle("Hachi");
+        b.appendDescription("");
+        b.setColor(config.getEmbedColor());
+        b.setThumbnail(config.getIconUrl());
+        this.defaultEmbed = b.build();
+    }
+
     @Override protected MessageEmbed output(final HachiCommandRequest r) {
         if (r.hasOption("command")) {
-            HachiCommand c = HachiCommandLoader.getCommand(r.getString("command"));
+            HachiCommand c = this.loader.getCommand(r.getString("command"));
             if (c != null) {
                 return c.getHelpEmbed();
             }
         }
-        return DEFAULT;
+        return this.defaultEmbed;
     }
 }

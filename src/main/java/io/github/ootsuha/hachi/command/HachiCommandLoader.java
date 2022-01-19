@@ -1,74 +1,56 @@
 package io.github.ootsuha.hachi.command;
 
-import net.dv8tion.jda.api.entities.*;
+import org.springframework.stereotype.*;
 
 import javax.annotation.*;
 import java.util.*;
 
 /**
- * Utility class to initialize <code>HachiCommand</code>s.
+ * Holds <code>HachiCommand</code>s and can return commands from a command's name or alias.
  */
+@Component
 public final class HachiCommandLoader {
     /**
-     * Map of command names to <code>HachiCommand</code>s.
+     * Maps command names to <code>HachiCommand</code>s.
      */
-    private static final Map<String, HachiCommand> COMMAND_MAP = new HashMap<>();
-
+    private final Map<String, HachiCommand> hachiCommandMap;
     /**
-     * Private constructor so class cannot be instantiated.
+     * Maps aliases to actual command names.
      */
-    private HachiCommandLoader() {
+    private final Map<String, String> aliasMap;
+
+    public HachiCommandLoader() {
+        this.hachiCommandMap = new HashMap<>();
+        this.aliasMap = new HashMap<>();
     }
 
     /**
-     * Load a set of <code>HachiCommand</code>s.
+     * Load a <code>HachiCommand</code> into the loader.
      *
-     * @param classes set of <code>HachiCommand</code>s
+     * @param command command to add
      */
-    public static void load(final Set<Class<?>> classes) {
-        Set<HachiCommand> commands = new HashSet<>();
-        for (Class<?> c : classes) {
-            assert HachiCommand.class.isAssignableFrom(c) : c.getName() + " is not a HachiCommand";
-            try {
-                HachiCommand comm = (HachiCommand) c.getConstructor().newInstance();
-                commands.add(comm);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        addToCommandMap(commands);
-    }
-
-    /**
-     * Adds commands to <code>COMMAND_MAP</code>.
-     *
-     * @param commands <code>HachiCommand</code>s to add
-     */
-    private static void addToCommandMap(final Set<HachiCommand> commands) {
-        for (HachiCommand c : commands) {
-            assert !COMMAND_MAP.containsKey(c.getName()) : "Duplicate HachiCommand: " + c.getName();
-            COMMAND_MAP.put(c.getName(), c);
+    public void loadCommand(final HachiCommand command) {
+        assert !this.hachiCommandMap.containsKey(command.getName()) : "Duplicate HachiCommand name: "
+                + command.getName();
+        this.hachiCommandMap.put(command.getName(), command);
+        this.aliasMap.put(command.getName(), command.getName());
+        for (String alias : command.getAliases()) {
+            assert !this.aliasMap.containsKey(alias) : "Duplicate HachiCommand alias: " + alias;
+            this.aliasMap.put(alias, command.getName());
         }
     }
 
     /**
-     * Creates slash commands in a guild for all commands in <code>COMMAND_MAP</code>.
+     * Gets a <code>HachiCommand</code>.
      *
-     * @param g guild to add slash commands to
-     */
-    public static void createGuildCommands(final Guild g) {
-        for (HachiCommand c : COMMAND_MAP.values()) {
-            g.upsertCommand(c.getCommandData()).queue();
-        }
-    }
-
-    /**
-     * Gets a <code>HachiCommand</code> from <code>COMMAND_MAP</code>.
-     *
-     * @param name name of command
+     * @param name name or alias or command
      * @return HachiCommand, or null
      */
-    @Nullable public static HachiCommand getCommand(final String name) {
-        return COMMAND_MAP.get(name);
+    @Nullable public HachiCommand getCommand(final String name) {
+        String converted = this.aliasMap.get(name);
+        if (converted == null) {
+            return null;
+        }
+        return this.hachiCommandMap.get(converted);
     }
 }

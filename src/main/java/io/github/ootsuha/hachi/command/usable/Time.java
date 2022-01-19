@@ -1,10 +1,12 @@
 package io.github.ootsuha.hachi.command.usable;
 
 import io.github.ootsuha.hachi.command.*;
+import org.springframework.stereotype.*;
 
 import java.text.*;
 import java.util.*;
 
+@Component
 public final class Time extends HachiStringCommand {
     /**
      * Formatter.

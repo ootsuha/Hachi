@@ -3,6 +3,8 @@ package io.github.ootsuha.hachi.command;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.interactions.commands.build.*;
 
+import java.util.*;
+
 /**
  * Interface for commands that Hachi has.
  */
@@ -13,6 +15,13 @@ public interface HachiCommand {
      * @return name
      */
     String getName();
+
+    /**
+     * Gets the aliases of the command.
+     *
+     * @return list of string
+     */
+    List<String> getAliases();
 
     /**
      * Gets the help embed of the command.

@@ -2,24 +2,31 @@ package io.github.ootsuha.hachi.command.usable;
 
 import io.github.ootsuha.hachi.command.*;
 import net.dv8tion.jda.api.interactions.commands.*;
+import org.springframework.beans.factory.annotation.*;
+import org.springframework.stereotype.*;
 
 import java.io.*;
 import java.net.*;
-import java.util.*;
 
+@Component
 public final class Source extends HachiCommandImpl {
     /**
      * Link to source code files.
      */
     private static final String REPO = "https://raw.githubusercontent.com/ootsuha/Hachi/master/src/main/java/";
+    private HachiCommandLoader loader;
 
     public Source() {
         super("source", "Gets the source code for a command.");
         addOption(OptionType.STRING, "name", "Name of the command.", true);
     }
 
+    @Autowired private void setLoader(final HachiCommandLoader loader) {
+        this.loader = loader;
+    }
+
     private InputStream getInputStream(final String name) {
-        HachiCommand c = HachiCommandLoader.getCommand(name);
+        HachiCommand c = this.loader.getCommand(name);
         if (c == null) {
             return null;
         }

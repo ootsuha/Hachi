@@ -59,9 +59,9 @@ public final class HachiCommandRequest {
      * @param name    string
      * @param options options map
      */
-    public HachiCommandRequest(final String name, final Map<String, Object> options) {
+    public HachiCommandRequest(final HachiCommandLoader loader, final String name, final Map<String, Object> options) {
         this.name = name;
-        this.command = HachiCommandLoader.getCommand(name);
+        this.command = loader.getCommand(name);
         this.options = new HashMap<>(options);
     }
 
