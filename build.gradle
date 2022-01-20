@@ -38,6 +38,10 @@ test {
     useJUnitPlatform()
 }
 
+jar {
+    enabled = false
+}
+
 run {
     enableAssertions(true)
 }
