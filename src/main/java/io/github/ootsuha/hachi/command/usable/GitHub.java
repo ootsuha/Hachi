@@ -2,6 +2,7 @@ package io.github.ootsuha.hachi.command.usable;
 
 import io.github.ootsuha.hachi.*;
 import io.github.ootsuha.hachi.command.*;
+import io.github.ootsuha.hachi.command.request.*;
 import net.dv8tion.jda.api.*;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.interactions.commands.*;
@@ -59,8 +60,9 @@ public final class GitHub extends HachiEmbedCommand {
     }
 
     @Override protected MessageEmbed output(final HachiCommandRequest r) {
-        if (r.hasOption("class")) {
-            Class<?> clazz = getClass(r.getString("class"));
+        HachiCommandOptions o = r.getOptions();
+        if (o.hasOption("class")) {
+            Class<?> clazz = getClass(r.getOptions().getString("class"));
             if (clazz != null) {
                 String url = this.config.getGithubRepo() + "/blob/master/src/main/java/" + clazz.getName()
                         .replaceAll("\\.", "/") + ".java";

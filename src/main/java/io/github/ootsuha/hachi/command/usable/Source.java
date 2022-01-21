@@ -1,6 +1,7 @@
 package io.github.ootsuha.hachi.command.usable;
 
 import io.github.ootsuha.hachi.command.*;
+import io.github.ootsuha.hachi.command.request.*;
 import net.dv8tion.jda.api.interactions.commands.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
@@ -39,13 +40,14 @@ public final class Source extends HachiCommandImpl {
     }
 
     @Override public void run(final HachiCommandRequest r) {
-        String name = r.getString("name").toLowerCase();
+        HachiCommandOptions o = r.getOptions();
+        String name = o.getString("name").toLowerCase();
         InputStream file = getInputStream(name);
         if (file != null) {
-            r.reply(String.format("Source code for `%s`:", name));
+            r.reply(String.format("Source code for `%s`:", name)).complete();
             r.getChannel().sendFile(file, name + ".java").queue();
         } else {
-            r.replyEphemeral(String.format("Command `%s` does not exist.", name));
+            r.reply(String.format("Command `%s` does not exist.", name)).setEphemeral().queue();
         }
     }
 }

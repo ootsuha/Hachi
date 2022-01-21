@@ -2,6 +2,7 @@ package io.github.ootsuha.hachi.command.usable;
 
 import io.github.ootsuha.hachi.*;
 import io.github.ootsuha.hachi.command.*;
+import io.github.ootsuha.hachi.command.request.*;
 import net.dv8tion.jda.api.*;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.interactions.commands.*;
@@ -35,8 +36,9 @@ public final class Help extends HachiEmbedCommand {
     }
 
     @Override protected MessageEmbed output(final HachiCommandRequest r) {
-        if (r.hasOption("command")) {
-            HachiCommand c = this.loader.getCommand(r.getString("command"));
+        HachiCommandOptions o = r.getOptions();
+        if (o.hasOption("command")) {
+            HachiCommand c = this.loader.getCommand(o.getString("command"));
             if (c != null) {
                 return c.getHelpEmbed();
             }

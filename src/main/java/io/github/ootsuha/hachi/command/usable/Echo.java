@@ -1,6 +1,7 @@
 package io.github.ootsuha.hachi.command.usable;
 
 import io.github.ootsuha.hachi.command.*;
+import io.github.ootsuha.hachi.command.request.*;
 import net.dv8tion.jda.api.interactions.commands.*;
 import org.springframework.stereotype.*;
 
@@ -12,6 +13,6 @@ public final class Echo extends HachiStringCommand {
     }
 
     @Override protected String output(final HachiCommandRequest r) {
-        return r.getString("text");
+        return r.getOptions().getString("text");
     }
 }

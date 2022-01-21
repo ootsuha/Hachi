@@ -1,6 +1,7 @@
 package io.github.ootsuha.hachi.command.usable;
 
 import io.github.ootsuha.hachi.command.*;
+import io.github.ootsuha.hachi.command.request.*;
 import org.springframework.stereotype.*;
 
 @Component

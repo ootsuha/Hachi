@@ -1,5 +1,6 @@
 package io.github.ootsuha.hachi.command;
 
+import io.github.ootsuha.hachi.command.request.*;
 import net.dv8tion.jda.api.entities.*;
 
 /**
@@ -13,6 +14,6 @@ public abstract class HachiEmbedCommand extends HachiCommandImpl {
     protected abstract MessageEmbed output(HachiCommandRequest r);
 
     @Override public final void run(final HachiCommandRequest r) {
-        r.replyEmbed(output(r));
+        r.replyEmbed(output(r)).queue();
     }
 }

@@ -1,6 +1,9 @@
 package io.github.ootsuha.hachi.parser;
 
 import io.github.ootsuha.hachi.command.*;
+import io.github.ootsuha.hachi.command.request.*;
+import io.github.ootsuha.hachi.command.request.message.*;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.interactions.commands.build.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
@@ -21,12 +24,13 @@ public final class Parser {
     }
 
     /**
-     * Parse a string for a <code>HachiCommandRequest</code>.
+     * Parse a message for a <code>HachiCommandRequest</code>.
      *
-     * @param input input string
+     * @param message message to be parsed
      * @return hachi command request, or null if invalid
      */
-    @Nullable public HachiCommandRequest parse(final String input) {
+    @Nullable public HachiCommandRequest parse(final Message message) {
+        String input = message.getContentRaw();
         if (!input.startsWith(this.prefix)) {
             return null;
         }
@@ -38,19 +42,20 @@ public final class Parser {
             return null;
         }
         List<OptionData> op = comm.getCommandData().getOptions();
-        Map<String, Object> options = new HashMap<>();
+        Map<String, Object> optionsMap = new HashMap<>();
         for (OptionData optionData : op) {
             if (b.isEmpty()) {
                 return null;
             }
-            if (!addOption(options, optionData, getToken(b))) {
+            if (!addOption(optionsMap, optionData, getToken(b))) {
                 return null;
             }
         }
         if (!b.isEmpty()) {
             return null;
         }
-        return new HachiCommandRequest(comm, options);
+        HachiCommandOptions options = new HachiCommandOptionsImpl(optionsMap, comm.getCommandData());
+        return new HachiMessageCommandRequest(message, comm, options);
     }
 
     /**

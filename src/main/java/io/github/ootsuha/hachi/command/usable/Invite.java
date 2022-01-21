@@ -2,6 +2,7 @@ package io.github.ootsuha.hachi.command.usable;
 
 import io.github.ootsuha.hachi.*;
 import io.github.ootsuha.hachi.command.*;
+import io.github.ootsuha.hachi.command.request.*;
 import net.dv8tion.jda.api.*;
 import net.dv8tion.jda.api.entities.*;
 import org.springframework.beans.factory.annotation.*;

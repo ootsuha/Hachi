@@ -1,6 +1,7 @@
 package io.github.ootsuha.hachi.listener;
 
 import io.github.ootsuha.hachi.command.*;
+import io.github.ootsuha.hachi.command.request.slash.*;
 import net.dv8tion.jda.api.events.interaction.*;
 import net.dv8tion.jda.api.hooks.*;
 import org.jetbrains.annotations.*;
@@ -21,7 +22,7 @@ public final class SlashCommandListener extends ListenerAdapter {
     @Override public void onSlashCommand(@NotNull final SlashCommandEvent event) {
         HachiCommand command = this.loader.getCommand(event.getName());
         if (command != null) {
-            command.run(new HachiCommandRequest(command, event));
+            command.run(new HachiSlashCommandRequest(event, command));
         } else {
             event.reply(String.format("Command `%s` does not exist...", event.getName())).setEphemeral(true).queue();
         }
