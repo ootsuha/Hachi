@@ -22,4 +22,8 @@ public abstract class HachiCommandRequestAbstract implements HachiCommandRequest
     @Override public final HachiCommandOptions getOptions() {
         return this.options;
     }
+
+    @Override public final String toString() {
+        return "HCR{" + "command=" + this.command + ", options=" + this.options + '}';
+    }
 }

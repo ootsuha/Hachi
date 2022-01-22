@@ -59,4 +59,22 @@ public final class HachiCommandOptionsImpl implements HachiCommandOptions {
         assert !option.get().isRequired() || (hasOption(optionName) && this.options.get(optionName) instanceof Boolean);
         return (Boolean) this.options.get(optionName);
     }
+
+    @Override public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof HachiCommandOptionsImpl that)) {
+            return false;
+        }
+        return Objects.equals(this.options, that.options) && Objects.equals(this.commandData, that.commandData);
+    }
+
+    @Override public int hashCode() {
+        return Objects.hash(this.options, this.commandData);
+    }
+
+    @Override public String toString() {
+        return "HCO{" + "options=" + this.options + '}';
+    }
 }

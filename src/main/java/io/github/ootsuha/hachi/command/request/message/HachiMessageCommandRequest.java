@@ -4,6 +4,8 @@ import io.github.ootsuha.hachi.command.*;
 import io.github.ootsuha.hachi.command.request.*;
 import net.dv8tion.jda.api.entities.*;
 
+import java.util.*;
+
 /**
  * Represents user command requests that come from a message.
  */
@@ -42,4 +44,18 @@ public final class HachiMessageCommandRequest extends HachiCommandRequestAbstrac
         return new HachiMessageCommandReplyAction(this.message, embed);
     }
 
+    @Override public boolean equals(final Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof HachiMessageCommandRequest that)) {
+            return false;
+        }
+        return Objects.equals(this.message, that.message) && Objects.equals(this.getRequestedCommand(),
+                that.getRequestedCommand()) && Objects.equals(this.getOptions(), that.getOptions());
+    }
+
+    @Override public int hashCode() {
+        return Objects.hash(this.message, this.getRequestedCommand(), this.getOptions());
+    }
 }
