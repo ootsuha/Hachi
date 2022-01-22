@@ -15,14 +15,11 @@ public final class Source extends HachiCommandImpl {
      * Link to source code files.
      */
     private static final String REPO = "https://raw.githubusercontent.com/ootsuha/Hachi/master/src/main/java/";
-    private HachiCommandLoader loader;
+    private final HachiCommandLoader loader;
 
-    public Source() {
+    @Autowired public Source(final HachiCommandLoader loader) {
         super("source", "Gets the source code for a command.");
         addOption(OptionType.STRING, "name", "Name of the command.", true);
-    }
-
-    @Autowired private void setLoader(final HachiCommandLoader loader) {
         this.loader = loader;
     }
 

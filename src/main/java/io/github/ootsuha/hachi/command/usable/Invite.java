@@ -12,11 +12,9 @@ import org.springframework.stereotype.*;
 public final class Invite extends HachiEmbedCommand {
     private MessageEmbed embed;
 
-    public Invite() {
+    @Autowired public Invite(final HachiConfig config) {
         super("invite", "Gets Hachi's invite link.");
-    }
 
-    @Autowired private void setEmbed(final HachiConfig config) {
         String url = config.getInviteLink();
         EmbedBuilder b = new EmbedBuilder();
         b.setTitle("Invite", url);

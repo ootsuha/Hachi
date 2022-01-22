@@ -16,11 +16,20 @@ import java.util.*;
  */
 @Component
 public final class Parser {
-    @Value("${hachi.prefix}") private String prefix;
-    private HachiCommandLoader loader;
+    private final HachiCommandLoader loader;
+    private final String prefix;
 
-    @Autowired private void setLoader(final HachiCommandLoader loader) {
+    @Autowired public Parser(final HachiCommandLoader loader, @Value("${hachi.prefix}") final String prefix) {
         this.loader = loader;
+        this.prefix = prefix;
+    }
+
+    private boolean parseBoolean(final String s) {
+        return switch (s.toLowerCase()) {
+            case "true" -> true;
+            case "false" -> false;
+            default -> throw new NumberFormatException();
+        };
     }
 
     /**
@@ -30,7 +39,7 @@ public final class Parser {
      * @return hachi command request, or null if invalid
      */
     @Nullable public HachiCommandRequest parse(final Message message) {
-        String input = message.getContentRaw();
+        String input = message.getContentRaw().trim();
         if (!input.startsWith(this.prefix)) {
             return null;
         }
@@ -41,21 +50,56 @@ public final class Parser {
         if (comm == null) {
             return null;
         }
-        List<OptionData> op = comm.getCommandData().getOptions();
-        Map<String, Object> optionsMap = new HashMap<>();
-        for (OptionData optionData : op) {
-            if (b.isEmpty()) {
-                return null;
-            }
-            if (!addOption(optionsMap, optionData, getToken(b))) {
+        HachiCommandOptions options = parseOptions(b, comm.getCommandData());
+        if (options == null) {
+            return null;
+        }
+        return new HachiMessageCommandRequest(message, comm, options);
+    }
+
+    /**
+     * Parses options.
+     *
+     * @param b    input
+     * @param data command data
+     * @return hachi command option, or null if invalid options for the given command data
+     */
+    @Nullable public HachiCommandOptions parseOptions(final StringBuilder b, final CommandData data) {
+        return parseOptions(b, 0, new HashMap<>(), data);
+    }
+
+    /**
+     * Parses options recursively.
+     *
+     * @param b          string
+     * @param ind        index to start at for list of option data
+     * @param optionsMap map of current options
+     * @param data       command data
+     * @return hachi command option, or null if invalid options for the given command data
+     */
+    @Nullable public HachiCommandOptions parseOptions(final StringBuilder b, final int ind,
+            final Map<String, Object> optionsMap, final CommandData data) {
+        List<OptionData> options = data.getOptions();
+        for (int i = ind; i < options.size(); i++) {
+            OptionData option = options.get(i);
+            String token = getToken(b);
+            boolean success = addOption(optionsMap, option, token);
+            if (!success) {
+                // if option is not required, reset b and try to parse again by skipping current option
+                if (!option.isRequired()) {
+                    if (!b.isEmpty()) {
+                        b.insert(0, ' ');
+                    }
+                    b.insert(0, token);
+                    return parseOptions(b, i + 1, optionsMap, data);
+                }
                 return null;
             }
         }
         if (!b.isEmpty()) {
             return null;
         }
-        HachiCommandOptions options = new HachiCommandOptionsImpl(optionsMap, comm.getCommandData());
-        return new HachiMessageCommandRequest(message, comm, options);
+        return new HachiCommandOptionsImpl(optionsMap, data);
     }
 
     /**
@@ -68,10 +112,13 @@ public final class Parser {
      */
     private boolean addOption(final Map<String, Object> options, final OptionData optionData, final String s) {
         try {
+            if (s.isBlank()) {
+                return false;
+            }
             Object o = switch (optionData.getType()) {
                 case STRING -> s;
                 case NUMBER -> Double.parseDouble(s);
-                case BOOLEAN -> Boolean.parseBoolean(s);
+                case BOOLEAN -> parseBoolean(s);
                 case INTEGER -> Integer.parseInt(s);
                 default -> null;
             };
@@ -96,7 +143,7 @@ public final class Parser {
         if (i == -1) {
             i = b.length();
         }
-        String s = b.substring(0, i);
+        String s = b.substring(0, i).trim();
         b.delete(0, i + 1);
         return s;
     }

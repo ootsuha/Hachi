@@ -24,11 +24,8 @@ public final class GitHub extends HachiEmbedCommand {
         addOption(OptionType.STRING, "class", "Link to a specific class. (case sensitive)");
     }
 
-    @Autowired private void setConfig(final HachiConfig config) {
-        this.config = config;
-    }
-
     @Autowired private void setDefaultEmbed(final HachiConfig config) {
+        this.config = config;
         EmbedBuilder b = new EmbedBuilder();
         b.setTitle("Hachi", config.getGithubRepo());
         b.setDescription("View Hachi's GitHub repository.");

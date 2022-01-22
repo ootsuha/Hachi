@@ -33,6 +33,45 @@ public abstract class HachiCommandImpl extends CommandData implements HachiComma
         this.example = new ArrayList<>();
     }
 
+    /**
+     * Turns an <code>OptionData</code> into a string for help embeds.
+     *
+     * @param data option data
+     * @return string
+     */
+    private static String optionToString(final OptionData data) {
+        return String.format("<%s%s>", data.getName(), data.isRequired() ? "" : '?');
+    }
+
+    /**
+     * Adds spaces to the left of an option until it reaches the specified length.
+     *
+     * @param s      string to align
+     * @param length end length
+     * @return left-aligned string
+     */
+    private static String alignOption(final String s, final int length) {
+        StringBuilder spaces = new StringBuilder();
+        while (spaces.length() <= length - s.length()) {
+            spaces.append(' ');
+        }
+        return spaces.toString() + '<' + s + '>';
+    }
+
+    /**
+     * Returns a description of a command's options.
+     *
+     * @param data command data
+     * @return string
+     */
+    private static String commandOptionDescription(final CommandData data) {
+        int maxLen = Collections.max(
+                data.getOptions().stream().map(OptionData::getName).map(String::length).collect(Collectors.toList()));
+        Stream<String> mapped = data.getOptions().stream()
+                .map(e -> String.format("`%s` - %s", alignOption(e.getName(), maxLen), e.getDescription()));
+        return mapped.collect(Collectors.joining("\n"));
+    }
+
     @Override @Nonnull public final List<String> getAliases() {
         return new ArrayList<>(this.aliases);
     }
@@ -68,6 +107,12 @@ public abstract class HachiCommandImpl extends CommandData implements HachiComma
         EmbedBuilder b = new EmbedBuilder();
         b.setTitle(String.format("Help: `%s`", this.name));
         b.setDescription(this.description);
+        if (getOptions().size() > 0) {
+            Stream<String> m = getOptions().stream().map(HachiCommandImpl::optionToString);
+            String syntax =
+                    String.format("```%s%s %s```", config.getPrefix(), this.name, m.collect(Collectors.joining(" ")));
+            b.addField("Usage", syntax + commandOptionDescription(this), false);
+        }
         if (this.aliases.size() > 0) {
             StringBuilder value = new StringBuilder();
             for (String alias : this.aliases) {

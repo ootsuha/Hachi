@@ -14,19 +14,18 @@ public final class UpdateCommands extends HachiCommandImpl {
     /**
      * List of all commands.
      */
-    private List<HachiCommand> commands;
+    private final HachiCommandLoader loader;
 
-    public UpdateCommands() {
+    @Autowired public UpdateCommands(final HachiCommandLoader loader) {
         super("updatecommands", "Updates guild commands.");
         setAliases("uc");
-    }
 
-    @Autowired private void setCommands(final List<HachiCommand> commands) {
-        this.commands = commands;
+        this.loader = loader;
     }
 
     @Override public void run(final HachiCommandRequest r) {
-        List<CommandData> data = this.commands.stream().map(HachiCommand::getCommandData).collect(Collectors.toList());
+        List<CommandData> data =
+                this.loader.getCommands().stream().map(HachiCommand::getCommandData).collect(Collectors.toList());
         r.getChannel().getGuild().updateCommands().addCommands(data).queue();
         r.reply("Updated commands.").setEphemeral().queue();
     }

@@ -53,4 +53,13 @@ public final class HachiCommandLoader {
         }
         return this.hachiCommandMap.get(converted);
     }
+
+    /**
+     * Gets all commands loaded.
+     *
+     * @return collection of hachi commands
+     */
+    public Collection<HachiCommand> getCommands() {
+        return this.hachiCommandMap.values();
+    }
 }
