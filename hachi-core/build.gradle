@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+}
+
+group 'io.github.ootsuha'
+version '1.0'
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+repositories {
+    mavenCentral()
+    maven {
+        name 'm2-dv8tion'
+        url 'https://m2.dv8tion.net/releases'
+    }
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.2'
+    testImplementation 'org.mockito:mockito-core:4.2.0'
+    implementation 'net.dv8tion:JDA:4.4.0_350'
+}
+
+test {
+    useJUnitPlatform()
+}

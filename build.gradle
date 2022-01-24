@@ -22,6 +22,7 @@ repositories {
 }
 
 dependencies {
+    implementation project(':hachi-core')
     implementation 'org.springframework.boot:spring-boot-starter-web:2.6.2'
     developmentOnly 'org.springframework.boot:spring-boot-devtools:2.6.2'
     runtimeOnly 'org.postgresql:postgresql:42.3.1'

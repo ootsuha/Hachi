@@ -1,9 +1,8 @@
 package io.github.ootsuha.hachi;
 
-import io.github.ootsuha.hachi.command.*;
-import net.dv8tion.jda.api.*;
-import net.dv8tion.jda.api.hooks.EventListener;
-import net.dv8tion.jda.api.requests.restaction.*;
+import io.github.ootsuha.hachi.core.*;
+import io.github.ootsuha.hachi.core.command.*;
+import io.github.ootsuha.hachi.core.parser.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
@@ -27,33 +26,44 @@ public class HachiApplication {
     }
 
     /**
-     * Load all commands.
+     * Creates a Hachi instance and logs into Discord.
      *
-     * @param loader   command loader
-     * @param commands list of commands
+     * @param config   hachi config
+     * @param loader   hachi command loader
+     * @param parser   parser
+     * @param commands list of commands to add
+     * @return hachi instance
+     * @throws LoginException       invalid token in config
+     * @throws InterruptedException method was interrupted
      */
-    @Autowired public void loadCommands(final HachiCommandLoader loader, final List<HachiCommand> commands) {
+    @Bean @Autowired public Hachi getHachi(final HachiConfig config, final HachiCommandLoader loader,
+            final Parser parser, final List<HachiCommand> commands) throws LoginException, InterruptedException {
         for (HachiCommand command : commands) {
+            command.setHelpEmbed(config);
             loader.loadCommand(command);
         }
+        Hachi hachi = new Hachi(config, loader, parser);
+        hachi.login();
+        return hachi;
     }
 
     /**
-     * Creates the JDA instance.
+     * Creates a new HachiCommandLoader.
      *
-     * @param config    bot config
-     * @param listeners event listeners to add
-     * @return jda instance
+     * @return hachi command loader
      */
-    @Bean @Autowired public JDA login(final HachiConfig config, final List<EventListener> listeners)
-            throws LoginException, InterruptedException {
-        JDABuilder builder = JDABuilder.createDefault(config.getToken());
-        for (EventListener listener : listeners) {
-            builder.addEventListeners(listener);
-        }
-        JDA api = builder.build().awaitReady();
+    @Bean public HachiCommandLoader getLoader() {
+        return new HachiCommandLoader();
+    }
 
-        MessageAction.setDefaultMentionRepliedUser(false);
-        return api;
+    /**
+     * Creates a Parser.
+     *
+     * @param loader hachi command loader
+     * @param config hachi config
+     * @return parser
+     */
+    @Bean @Autowired public Parser getParser(final HachiCommandLoader loader, final HachiConfig config) {
+        return new Parser(loader, config.getPrefix());
     }
 }
