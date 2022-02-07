@@ -16,11 +16,11 @@ public abstract class HachiCommandImpl extends CommandData implements HachiComma
     /**
      * List of aliases for the command.
      */
-    @Nonnull private List<String> aliases;
+    private List<String> aliases;
     /**
      * List of examples for the command.
      */
-    @Nonnull private List<String> example;
+    private List<String> example;
     /**
      * Caches the embed created in <code>createHelpEmbed()</code>.
      */

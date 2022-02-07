@@ -1,7 +1,6 @@
-package hachi.command.request.message;
+package io.github.ootsuha.hachi.core.command.request.message;
 
 import io.github.ootsuha.hachi.core.command.request.*;
-import io.github.ootsuha.hachi.core.command.request.message.*;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.requests.restaction.*;
 import org.junit.jupiter.api.*;

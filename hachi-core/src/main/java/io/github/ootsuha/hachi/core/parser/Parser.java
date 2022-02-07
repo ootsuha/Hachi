@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.interactions.commands.build.*;
 
 import javax.annotation.*;
 import java.util.*;
+import java.util.function.*;
 
 /**
  * Parses text into <code>HachiCommandRequest</code>s.
@@ -15,10 +16,19 @@ import java.util.*;
 public final class Parser {
     private final HachiCommandLoader loader;
     private final String prefix;
+    private final Function<Message, String> contentExtractor;
 
     public Parser(final HachiCommandLoader loader, final String prefix) {
         this.loader = loader;
         this.prefix = prefix;
+        this.contentExtractor = m -> m.getContentRaw().trim();
+    }
+
+    public Parser(final HachiCommandLoader loader, final String prefix,
+            final Function<Message, String> contentExtractor) {
+        this.loader = loader;
+        this.prefix = prefix;
+        this.contentExtractor = contentExtractor;
     }
 
     private boolean parseBoolean(final String s) {
@@ -36,7 +46,7 @@ public final class Parser {
      * @return hachi command request, or null if invalid
      */
     @Nullable public HachiCommandRequest parse(final Message message) {
-        String input = message.getContentRaw().trim();
+        String input = this.contentExtractor.apply(message);
         if (!input.startsWith(this.prefix)) {
             return null;
         }

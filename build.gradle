@@ -23,11 +23,12 @@ repositories {
 
 dependencies {
     implementation project(':hachi-core')
-    implementation 'org.springframework.boot:spring-boot-starter-web:2.6.2'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools:2.6.2'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.6.3'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools:2.6.3'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.3'
     runtimeOnly 'org.postgresql:postgresql:42.3.1'
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor:2.6.2'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.2'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor:2.6.3'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.3'
     implementation 'com.github.spotbugs:spotbugs-annotations:4.5.3'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'

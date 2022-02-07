@@ -1,9 +1,8 @@
-package hachi.parser;
+package io.github.ootsuha.hachi.core.parser;
 
 import io.github.ootsuha.hachi.core.command.*;
 import io.github.ootsuha.hachi.core.command.request.*;
 import io.github.ootsuha.hachi.core.command.request.message.*;
-import io.github.ootsuha.hachi.core.parser.*;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.interactions.commands.*;
 import org.junit.jupiter.api.*;
@@ -396,6 +395,94 @@ public class TestParser {
             assertEquals(rExpected, r, "Error parsing single optional option.");
         }
 
+    }
+
+    // tests content extractor
+    @Nested
+    class ContentExtractor {
+        private static Parser parser;
+        private static HachiCommandLoader loader;
+
+        @BeforeAll public static void loadCommands() {
+            loader = new HachiCommandLoader();
+            List<Template> commands = List.of(new Template("command_with_suffix") {
+            }, new Template("string") {
+                @Override public void setup() {
+                    addOption(OptionType.STRING, "string", "description", true);
+                }
+            });
+            for (Template command : commands) {
+                command.setup();
+                loader.loadCommand(command);
+            }
+            parser = new Parser(loader, prefix, m -> m.getContentRaw() + "suffix");
+        }
+
+        private static HachiCommandRequest createRequest(final Message message, final String commandName,
+                final Map<String, Object> map) {
+            HachiCommand command = loader.getCommand(commandName);
+            assert command != null;
+            HachiCommandOptions options = new HachiCommandOptionsImpl(map, command.getCommandData());
+            return new HachiMessageCommandRequest(message, command, options);
+        }
+
+        @Test public void valid() {
+            String content = prefix("command_with_");
+            Message m = mock(Message.class);
+            when(m.getContentRaw()).thenReturn(content);
+            Map<String, Object> options = new HashMap<>();
+
+            HachiCommandRequest r = parser.parse(m);
+            HachiCommandRequest rExpected = createRequest(m, "command_with_suffix", options);
+
+            assertEquals(rExpected, r, "Error with content extractor.");
+        }
+
+        @Test public void valid2() {
+            String content = prefix("string ");
+            Message m = mock(Message.class);
+            when(m.getContentRaw()).thenReturn(content);
+            Map<String, Object> options = new HashMap<>();
+            options.put("string", "suffix");
+
+            HachiCommandRequest r = parser.parse(m);
+            HachiCommandRequest rExpected = createRequest(m, "string", options);
+
+            assertEquals(rExpected, r, "Error with content extractor.");
+        }
+
+        @Test public void valid3() {
+            String content = prefix("string 123");
+            Message m = mock(Message.class);
+            when(m.getContentRaw()).thenReturn(content);
+            Map<String, Object> options = new HashMap<>();
+            options.put("string", "123suffix");
+
+            HachiCommandRequest r = parser.parse(m);
+            HachiCommandRequest rExpected = createRequest(m, "string", options);
+
+            assertEquals(rExpected, r, "Error with content extractor.");
+        }
+
+        @Test public void invalid() {
+            String content = prefix("command_with_suffix");
+            Message m = mock(Message.class);
+            when(m.getContentRaw()).thenReturn(content);
+
+            HachiCommandRequest r = parser.parse(m);
+
+            assertNull(r, "Error with content extractor.");
+        }
+
+        @Test public void invalid2() {
+            String content = prefix("string hey ");
+            Message m = mock(Message.class);
+            when(m.getContentRaw()).thenReturn(content);
+
+            HachiCommandRequest r = parser.parse(m);
+
+            assertNull(r, "Error with content extractor.");
+        }
     }
 
 }

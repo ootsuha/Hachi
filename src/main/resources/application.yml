@@ -6,5 +6,25 @@ hachi:
   invite-link: 'https://discord.com/oauth2/authorize?client_id=893332267844390912&scope=applications.commands+bot&permissions=8'
   github-repo: 'https://github.com/ootsuha/Hachi'
 spring:
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: ${JDBC_DATABASE_URL}
+    username: ${JDBC_DATABASE_USERNAME}
+    password: ${JDBC_DATABASE_PASSWORD}
+  sql:
+    init:
+      platform: postgres
   main:
     banner-mode: off
+

@@ -1,6 +1,5 @@
-package hachi.command.request.slash;
+package io.github.ootsuha.hachi.core.command.request.slash;
 
-import io.github.ootsuha.hachi.core.command.request.slash.*;
 import net.dv8tion.jda.api.events.interaction.*;
 import net.dv8tion.jda.api.interactions.commands.*;
 import org.junit.jupiter.api.*;
