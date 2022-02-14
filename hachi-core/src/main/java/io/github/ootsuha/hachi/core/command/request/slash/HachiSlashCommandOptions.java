@@ -1,19 +1,19 @@
 package io.github.ootsuha.hachi.core.command.request.slash;
 
 import io.github.ootsuha.hachi.core.command.request.*;
+import lombok.*;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.interaction.*;
 import net.dv8tion.jda.api.interactions.commands.*;
 
-import java.util.*;
-
 /**
  * Implementation of <code>HachiCommandOptions</code> using a <code>SlashCommandEvent</code>.
- * *
- * Constructor.
- *
- * @param event slash command event
  */
-public record HachiSlashCommandOptions(SlashCommandEvent event) implements HachiCommandOptions {
+@AllArgsConstructor
+@EqualsAndHashCode
+public final class HachiSlashCommandOptions implements HachiCommandOptions {
+    private final SlashCommandEvent event;
+
     @Override public boolean hasOption(final String optionName) {
         return this.event.getOption(optionName) != null;
     }
@@ -50,17 +50,19 @@ public record HachiSlashCommandOptions(SlashCommandEvent event) implements Hachi
         return m.getAsBoolean();
     }
 
-    @Override public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
+    @Override public User getUser(final String optionName) {
+        OptionMapping m = this.event.getOption(optionName);
+        if (m == null) {
+            return null;
         }
-        if (!(o instanceof HachiSlashCommandOptions that)) {
-            return false;
-        }
-        return Objects.equals(this.event, that.event);
+        return m.getAsUser();
     }
 
-    @Override public int hashCode() {
-        return Objects.hash(this.event);
+    @Override public Role getRole(final String optionName) {
+        OptionMapping m = this.event.getOption(optionName);
+        if (m == null) {
+            return null;
+        }
+        return m.getAsRole();
     }
 }

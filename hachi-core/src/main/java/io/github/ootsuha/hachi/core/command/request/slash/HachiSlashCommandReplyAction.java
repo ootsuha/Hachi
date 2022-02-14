@@ -1,15 +1,15 @@
 package io.github.ootsuha.hachi.core.command.request.slash;
 
 import io.github.ootsuha.hachi.core.command.request.*;
+import lombok.*;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.interaction.*;
 import net.dv8tion.jda.api.requests.restaction.interactions.*;
 
-import java.util.*;
-
 /**
  * Represents reply actions for commands requested from a slash command.
  */
+@EqualsAndHashCode
 public final class HachiSlashCommandReplyAction implements HachiCommandReplyAction {
     private final SlashCommandEvent event;
     private final boolean isEmbed;
@@ -61,20 +61,5 @@ public final class HachiSlashCommandReplyAction implements HachiCommandReplyActi
     @Override public HachiCommandReplyAction setEphemeral() {
         this.ephemeral = true;
         return this;
-    }
-
-    @Override public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof HachiSlashCommandReplyAction that)) {
-            return false;
-        }
-        return this.isEmbed == that.isEmbed && this.ephemeral == that.ephemeral && Objects.equals(this.event,
-                that.event) && Objects.equals(this.content, that.content) && Objects.equals(this.embed, that.embed);
-    }
-
-    @Override public int hashCode() {
-        return Objects.hash(this.event, this.isEmbed, this.content, this.embed, this.ephemeral);
     }
 }

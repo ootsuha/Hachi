@@ -16,7 +16,7 @@ public class TestHachiSlashCommandRequest {
         HachiCommand cExpected = mock(HachiCommand.class);
         HachiCommandRequest r = new HachiSlashCommandRequest(e, cExpected);
 
-        HachiCommand c = r.getRequestedCommand();
+        HachiCommand c = r.getCommand();
 
         assertEquals(cExpected, c);
     }
@@ -35,9 +35,9 @@ public class TestHachiSlashCommandRequest {
     @Test public void getUser() {
         SlashCommandEvent e = mock(SlashCommandEvent.class);
         HachiCommand c = mock(HachiCommand.class);
-        HachiCommandRequest r = new HachiSlashCommandRequest(e, c);
         User userExpected = mock(User.class);
         when(e.getUser()).thenReturn(userExpected);
+        HachiCommandRequest r = new HachiSlashCommandRequest(e, c);
 
         User user = r.getUser();
 
@@ -48,9 +48,9 @@ public class TestHachiSlashCommandRequest {
     @Test public void getChannel() {
         SlashCommandEvent e = mock(SlashCommandEvent.class);
         HachiCommand c = mock(HachiCommand.class);
-        HachiCommandRequest r = new HachiSlashCommandRequest(e, c);
         TextChannel channelExpected = mock(TextChannel.class);
         when(e.getTextChannel()).thenReturn(channelExpected);
+        HachiCommandRequest r = new HachiSlashCommandRequest(e, c);
 
         TextChannel channel = r.getChannel();
 

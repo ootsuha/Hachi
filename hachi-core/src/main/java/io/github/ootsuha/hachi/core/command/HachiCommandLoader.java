@@ -10,16 +10,11 @@ public final class HachiCommandLoader {
     /**
      * Maps command names to <code>HachiCommand</code>s.
      */
-    private final Map<String, HachiCommand> hachiCommandMap;
+    private final Map<String, HachiCommand> hachiCommandMap = new HashMap<>();
     /**
      * Maps aliases to actual command names.
      */
-    private final Map<String, String> aliasMap;
-
-    public HachiCommandLoader() {
-        this.hachiCommandMap = new HashMap<>();
-        this.aliasMap = new HashMap<>();
-    }
+    private final Map<String, String> aliasMap = new HashMap<>();
 
     /**
      * Load a <code>HachiCommand</code> into the loader.

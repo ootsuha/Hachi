@@ -1,6 +1,8 @@
 package io.github.ootsuha.hachi.core.command.request.message;
 
 import io.github.ootsuha.hachi.core.command.request.*;
+import lombok.*;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.interactions.commands.*;
 import net.dv8tion.jda.api.interactions.commands.build.*;
 
@@ -9,14 +11,11 @@ import java.util.*;
 /**
  * Implementation of <code>HachiCommandOptions</code> using a map.
  */
+@AllArgsConstructor
+@EqualsAndHashCode
 public final class HachiCommandOptionsImpl implements HachiCommandOptions {
     private final Map<String, Object> options;
     private final CommandData commandData;
-
-    public HachiCommandOptionsImpl(final Map<String, Object> options, final CommandData data) {
-        this.options = new HashMap<>(options);
-        this.commandData = data;
-    }
 
     @Override public boolean hasOption(final String optionName) {
         return this.options.containsKey(optionName);
@@ -60,21 +59,17 @@ public final class HachiCommandOptionsImpl implements HachiCommandOptions {
         return (Boolean) this.options.get(optionName);
     }
 
-    @Override public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof HachiCommandOptionsImpl that)) {
-            return false;
-        }
-        return Objects.equals(this.options, that.options) && Objects.equals(this.commandData, that.commandData);
+    @Override public User getUser(final String optionName) {
+        Optional<OptionData> option = getOption(optionName);
+        assert option.isPresent() && option.get().getType() == OptionType.USER;
+        assert !option.get().isRequired() || (hasOption(optionName) && this.options.get(optionName) instanceof User);
+        return (User) this.options.get(optionName);
     }
 
-    @Override public int hashCode() {
-        return Objects.hash(this.options, this.commandData);
-    }
-
-    @Override public String toString() {
-        return "HCO{" + "options=" + this.options + '}';
+    @Override public Role getRole(final String optionName) {
+        Optional<OptionData> option = getOption(optionName);
+        assert option.isPresent() && option.get().getType() == OptionType.ROLE;
+        assert !option.get().isRequired() || (hasOption(optionName) && this.options.get(optionName) instanceof Role);
+        return (Role) this.options.get(optionName);
     }
 }

@@ -18,28 +18,13 @@ import java.util.*;
  * Main class.
  */
 @SpringBootApplication
+@SuppressWarnings("checkstyle:DesignForExtension")
 public class HachiApplication {
-    /**
-     * Main method.
-     *
-     * @param args command line args
-     */
     public static void main(final String[] args) {
         SpringApplication.run(HachiApplication.class, args);
     }
 
-    /**
-     * Creates a Hachi instance and logs into Discord.
-     *
-     * @param config   hachi config
-     * @param loader   hachi command loader
-     * @param parser   parser
-     * @param commands list of commands to add
-     * @return hachi instance
-     * @throws LoginException       invalid token in config
-     * @throws InterruptedException method was interrupted
-     */
-    @Bean @Autowired public Hachi getHachi(final HachiConfig config, final HachiCommandLoader loader,
+     @Bean @Autowired public Hachi getHachi(final HachiConfig config, final HachiCommandLoader loader,
             final Parser parser, final List<HachiCommand> commands) throws LoginException, InterruptedException {
         for (HachiCommand command : commands) {
             command.setHelpEmbed(config);
@@ -47,26 +32,14 @@ public class HachiApplication {
         }
         Hachi hachi = new Hachi(config, loader, parser);
         hachi.login();
+        parser.setJda(hachi.getJda());
         return hachi;
     }
 
-    /**
-     * Creates a new HachiCommandLoader.
-     *
-     * @return hachi command loader
-     */
     @Bean public HachiCommandLoader getLoader() {
         return new HachiCommandLoader();
     }
 
-    /**
-     * Creates a Parser.
-     *
-     * @param loader      hachi command loader
-     * @param config      hachi config
-     * @param userService user service
-     * @return parser
-     */
     @Bean @Autowired public Parser getParser(final HachiCommandLoader loader, final HachiConfig config,
             final UserService userService) {
         return new Parser(loader, config.getPrefix(), e -> {

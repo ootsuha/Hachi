@@ -10,11 +10,18 @@ import javax.annotation.*;
  */
 public interface HachiCommandRequest {
     /**
+     * Respond to the request.
+     */
+    default void fulfill() {
+        getCommand().run(this);
+    }
+
+    /**
      * Get the <code>HachiCommand</code> that the request is associated with.
      *
      * @return hachi command
      */
-    HachiCommand getRequestedCommand();
+    HachiCommand getCommand();
 
     /**
      * Get the options given by the user.

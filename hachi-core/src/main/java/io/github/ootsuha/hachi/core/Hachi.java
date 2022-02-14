@@ -3,6 +3,7 @@ package io.github.ootsuha.hachi.core;
 import io.github.ootsuha.hachi.core.command.*;
 import io.github.ootsuha.hachi.core.listener.*;
 import io.github.ootsuha.hachi.core.parser.*;
+import lombok.*;
 import net.dv8tion.jda.api.*;
 import net.dv8tion.jda.api.hooks.EventListener;
 import net.dv8tion.jda.api.requests.restaction.*;
@@ -13,26 +14,13 @@ import java.util.*;
 /**
  * Handles the setup of JDA.
  */
+@RequiredArgsConstructor
 public class Hachi {
     private final HachiConfig config;
     private final HachiCommandLoader loader;
     private final Parser parser;
-    private JDA api;
-
-    public Hachi(final HachiConfig config, final HachiCommandLoader loader, final Parser parser) {
-        this.config = config;
-        this.loader = loader;
-        this.parser = parser;
-    }
-
-    /**
-     * Returns <code>this.api</code>.
-     *
-     * @return this.api
-     */
-    public JDA getApi() {
-        return api;
-    }
+    @Getter
+    private JDA jda;
 
     /**
      * Creates the JDA instance and connects to Discord.
@@ -44,7 +32,7 @@ public class Hachi {
         for (EventListener listener : listeners) {
             builder.addEventListeners(listener);
         }
-        this.api = builder.build().awaitReady();
+        this.jda = builder.build().awaitReady();
 
         MessageAction.setDefaultMentionRepliedUser(false);
     }

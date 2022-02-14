@@ -3,40 +3,31 @@ package io.github.ootsuha.hachi.core.parser;
 import io.github.ootsuha.hachi.core.command.*;
 import io.github.ootsuha.hachi.core.command.request.*;
 import io.github.ootsuha.hachi.core.command.request.message.*;
+import lombok.*;
+import net.dv8tion.jda.api.*;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.interactions.commands.build.*;
 
 import javax.annotation.*;
 import java.util.*;
 import java.util.function.*;
+import java.util.regex.*;
 
 /**
  * Parses text into <code>HachiCommandRequest</code>s.
  */
+@RequiredArgsConstructor
 public final class Parser {
+    public static final Pattern USER_MENTION_PATTERN = Pattern.compile("(?<=<@!)\\d+(?=>)");
+    public static final Pattern ROLE_MENTION_PATTERN = Pattern.compile("(?<=<@&)\\d+(?=>)");
     private final HachiCommandLoader loader;
     private final String prefix;
     private final Function<Message, String> contentExtractor;
+    @Setter
+    private JDA jda;
 
     public Parser(final HachiCommandLoader loader, final String prefix) {
-        this.loader = loader;
-        this.prefix = prefix;
-        this.contentExtractor = m -> m.getContentRaw().trim();
-    }
-
-    public Parser(final HachiCommandLoader loader, final String prefix,
-            final Function<Message, String> contentExtractor) {
-        this.loader = loader;
-        this.prefix = prefix;
-        this.contentExtractor = contentExtractor;
-    }
-
-    private boolean parseBoolean(final String s) {
-        return switch (s.toLowerCase()) {
-            case "true" -> true;
-            case "false" -> false;
-            default -> throw new NumberFormatException();
-        };
+        this(loader, prefix, m -> m.getContentRaw().trim());
     }
 
     /**
@@ -47,6 +38,21 @@ public final class Parser {
      */
     @Nullable public HachiCommandRequest parse(final Message message) {
         String input = this.contentExtractor.apply(message);
+        var result = parse(input, message.getGuild());
+        if (result != null) {
+            return new HachiMessageCommandRequest(message, result.left(), result.right());
+        }
+        return null;
+    }
+
+    /**
+     * Parse a string.
+     *
+     * @param input string to parse
+     * @param guild guild
+     * @return immutable pair of hachi command and options, or null if invalid
+     */
+    @Nullable public Pair<HachiCommand, HachiCommandOptions> parse(final String input, final Guild guild) {
         if (!input.startsWith(this.prefix)) {
             return null;
         }
@@ -57,22 +63,24 @@ public final class Parser {
         if (comm == null) {
             return null;
         }
-        HachiCommandOptions options = parseOptions(b, comm.getCommandData());
+        HachiCommandOptions options = parseOptions(b, comm.getCommandData(), guild);
         if (options == null) {
             return null;
         }
-        return new HachiMessageCommandRequest(message, comm, options);
+        return new Pair<>(comm, options);
     }
 
     /**
      * Parses options.
      *
-     * @param b    input
-     * @param data command data
+     * @param b     input
+     * @param data  command data
+     * @param guild guild
      * @return hachi command option, or null if invalid options for the given command data
      */
-    @Nullable public HachiCommandOptions parseOptions(final StringBuilder b, final CommandData data) {
-        return parseOptions(b, 0, new HashMap<>(), data);
+    @Nullable private HachiCommandOptions parseOptions(final StringBuilder b, final CommandData data,
+            final Guild guild) {
+        return parseOptions(b, 0, new HashMap<>(), data, guild);
     }
 
     /**
@@ -82,15 +90,16 @@ public final class Parser {
      * @param ind        index to start at for list of option data
      * @param optionsMap map of current options
      * @param data       command data
+     * @param guild      guild
      * @return hachi command option, or null if invalid options for the given command data
      */
-    @Nullable public HachiCommandOptions parseOptions(final StringBuilder b, final int ind,
-            final Map<String, Object> optionsMap, final CommandData data) {
+    @Nullable private HachiCommandOptions parseOptions(final StringBuilder b, final int ind,
+            final Map<String, Object> optionsMap, final CommandData data, final Guild guild) {
         List<OptionData> options = data.getOptions();
         for (int i = ind; i < options.size(); i++) {
             OptionData option = options.get(i);
             String token = getToken(b);
-            boolean success = addOption(optionsMap, option, token);
+            boolean success = addOption(optionsMap, option, token, guild);
             if (!success) {
                 // if option is not required, reset b and try to parse again by skipping current option
                 if (!option.isRequired()) {
@@ -98,7 +107,7 @@ public final class Parser {
                         b.insert(0, ' ');
                     }
                     b.insert(0, token);
-                    return parseOptions(b, i + 1, optionsMap, data);
+                    return parseOptions(b, i + 1, optionsMap, data, guild);
                 }
                 return null;
             }
@@ -115,9 +124,11 @@ public final class Parser {
      * @param options    map to add option to
      * @param optionData option data for the option being added
      * @param s          token from message
+     * @param guild      guild
      * @return whether the command succeeded or not
      */
-    private boolean addOption(final Map<String, Object> options, final OptionData optionData, final String s) {
+    private boolean addOption(final Map<String, Object> options, final OptionData optionData, final String s,
+            final Guild guild) {
         try {
             if (s.isBlank()) {
                 return false;
@@ -127,6 +138,8 @@ public final class Parser {
                 case NUMBER -> Double.parseDouble(s);
                 case BOOLEAN -> parseBoolean(s);
                 case INTEGER -> Integer.parseInt(s);
+                case USER -> parseUser(s, guild);
+                case ROLE -> parseRole(s, guild);
                 default -> null;
             };
             if (o == null) {
@@ -153,5 +166,57 @@ public final class Parser {
         String s = b.substring(0, i).trim();
         b.delete(0, i + 1);
         return s;
+    }
+
+    private boolean parseBoolean(final String s) {
+        return switch (s.toLowerCase()) {
+            case "true" -> true;
+            case "false" -> false;
+            default -> throw new NumberFormatException();
+        };
+    }
+
+    private User parseUser(final String s, final Guild guild) {
+        String id = s;
+        Matcher matcher = USER_MENTION_PATTERN.matcher(s);
+        if (matcher.matches()) {
+            id = matcher.group();
+        }
+        try {
+            var member = guild.getMemberById(id);
+            if (member != null) {
+                return member.getUser();
+            }
+            member = guild.retrieveMemberById(id).complete();
+            if (member != null) {
+                return member.getUser();
+            }
+        } catch (Exception ignored) {
+        }
+        var user = this.jda.getUserByTag(s);
+        if (user != null) {
+            return user;
+        }
+        throw new NumberFormatException();
+    }
+
+    private Role parseRole(final String s, final Guild guild) {
+        String id = s;
+        Matcher matcher = ROLE_MENTION_PATTERN.matcher(s);
+        if (matcher.matches()) {
+            id = matcher.group();
+        }
+        try {
+            var role = guild.getRoleById(id);
+            if (role != null) {
+                return role;
+            }
+        } catch (Exception ignored) {
+        }
+        var role = this.jda.getRolesByName(s, true);
+        if (role.size() > 0) {
+            return role.get(0);
+        }
+        throw new NumberFormatException();
     }
 }

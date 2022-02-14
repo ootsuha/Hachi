@@ -1,14 +1,14 @@
 package io.github.ootsuha.hachi.core.command.request.message;
 
 import io.github.ootsuha.hachi.core.command.request.*;
+import lombok.*;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.requests.restaction.*;
-
-import java.util.*;
 
 /**
  * Represents reply actions for commands requested from a message.
  */
+@EqualsAndHashCode
 public final class HachiMessageCommandReplyAction implements HachiCommandReplyAction {
     private final Message message;
     private final boolean isEmbed;
@@ -60,20 +60,5 @@ public final class HachiMessageCommandReplyAction implements HachiCommandReplyAc
     @Override public HachiCommandReplyAction setEphemeral() {
         this.ephemeral = true;
         return this;
-    }
-
-    @Override public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof HachiMessageCommandReplyAction that)) {
-            return false;
-        }
-        return this.isEmbed == that.isEmbed && this.ephemeral == that.ephemeral && Objects.equals(this.message,
-                that.message) && Objects.equals(this.content, that.content) && Objects.equals(this.embed, that.embed);
-    }
-
-    @Override public int hashCode() {
-        return Objects.hash(this.message, this.isEmbed, this.content, this.embed, this.ephemeral);
     }
 }

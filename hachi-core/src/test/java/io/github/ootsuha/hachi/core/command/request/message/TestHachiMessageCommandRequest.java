@@ -16,7 +16,7 @@ public class TestHachiMessageCommandRequest {
         HachiCommandOptions o = mock(HachiCommandOptions.class);
         HachiCommandRequest r = new HachiMessageCommandRequest(m, cExpected, o);
 
-        HachiCommand c = r.getRequestedCommand();
+        HachiCommand c = r.getCommand();
 
         assertEquals(cExpected, c);
     }
@@ -34,11 +34,11 @@ public class TestHachiMessageCommandRequest {
 
     @Test public void getUser() {
         Message m = mock(Message.class);
+        User userExpected = mock(User.class);
+        when(m.getAuthor()).thenReturn(userExpected);
         HachiCommand c = mock(HachiCommand.class);
         HachiCommandOptions o = mock(HachiCommandOptions.class);
         HachiCommandRequest r = new HachiMessageCommandRequest(m, c, o);
-        User userExpected = mock(User.class);
-        when(m.getAuthor()).thenReturn(userExpected);
 
         User user = r.getUser();
 
@@ -48,11 +48,11 @@ public class TestHachiMessageCommandRequest {
 
     @Test public void getChannel() {
         Message m = mock(Message.class);
+        TextChannel channelExpected = mock(TextChannel.class);
+        when(m.getTextChannel()).thenReturn(channelExpected);
         HachiCommand c = mock(HachiCommand.class);
         HachiCommandOptions o = mock(HachiCommandOptions.class);
         HachiCommandRequest r = new HachiMessageCommandRequest(m, c, o);
-        TextChannel channelExpected = mock(TextChannel.class);
-        when(m.getTextChannel()).thenReturn(channelExpected);
 
         TextChannel channel = r.getChannel();
 

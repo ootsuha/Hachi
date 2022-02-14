@@ -1,11 +1,11 @@
 package io.github.ootsuha.hachi.core.command;
 
 import io.github.ootsuha.hachi.core.*;
+import lombok.*;
 import net.dv8tion.jda.api.*;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.interactions.commands.build.*;
 
-import javax.annotation.*;
 import java.util.*;
 import java.util.stream.*;
 
@@ -13,17 +13,11 @@ import java.util.stream.*;
  * Implements the methods in <code>HachiCommand</code>.
  */
 public abstract class HachiCommandImpl extends CommandData implements HachiCommand {
-    /**
-     * List of aliases for the command.
-     */
+    @Getter
     private List<String> aliases;
-    /**
-     * List of examples for the command.
-     */
+    @Getter
     private List<String> example;
-    /**
-     * Caches the embed created in <code>createHelpEmbed()</code>.
-     */
+    @Getter
     private MessageEmbed helpEmbed;
 
     public HachiCommandImpl(final String name, final String description) {
@@ -71,30 +65,12 @@ public abstract class HachiCommandImpl extends CommandData implements HachiComma
         return mapped.collect(Collectors.joining("\n"));
     }
 
-    @Override @Nonnull public final List<String> getAliases() {
-        return new ArrayList<>(this.aliases);
+    public final void setAliases(final String... aliases) {
+        this.aliases = Arrays.stream(aliases).toList();
     }
 
-    /**
-     * Sets <code>this.aliases</code>.
-     *
-     * @param aliases string var args
-     */
-    public void setAliases(final String... aliases) {
-        this.aliases = Arrays.stream(aliases).collect(Collectors.toList());
-    }
-
-    /**
-     * Sets <code>this.example</code>.
-     *
-     * @param example string var args
-     */
-    public void setExample(final String... example) {
-        this.example = Arrays.stream(example).collect(Collectors.toList());
-    }
-
-    @Override public final MessageEmbed getHelpEmbed() {
-        return this.helpEmbed;
+    public final void setExample(final String... example) {
+        this.example = Arrays.stream(example).toList();
     }
 
     @Override public final void setHelpEmbed(final HachiConfig config) {
@@ -134,9 +110,5 @@ public abstract class HachiCommandImpl extends CommandData implements HachiComma
 
     @Override public final CommandData getCommandData() {
         return this;
-    }
-
-    @Override public final String toString() {
-        return "HachiCommandImpl{" + "name='" + name + '\'' + '}';
     }
 }
