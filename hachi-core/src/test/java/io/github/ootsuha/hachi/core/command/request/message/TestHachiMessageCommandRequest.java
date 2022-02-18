@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class TestHachiMessageCommandRequest {
-    @Test public void getRequestedCommand() {
+    @Test
+    public void getRequestedCommand() {
         Message m = mock(Message.class);
         HachiCommand cExpected = mock(HachiCommand.class);
         HachiCommandOptions o = mock(HachiCommandOptions.class);
@@ -21,7 +22,8 @@ public class TestHachiMessageCommandRequest {
         assertEquals(cExpected, c);
     }
 
-    @Test public void getOptions() {
+    @Test
+    public void getOptions() {
         Message m = mock(Message.class);
         HachiCommand c = mock(HachiCommand.class);
         HachiCommandOptions oExpected = mock(HachiCommandOptions.class);
@@ -32,7 +34,8 @@ public class TestHachiMessageCommandRequest {
         assertEquals(oExpected, o);
     }
 
-    @Test public void getUser() {
+    @Test
+    public void getUser() {
         Message m = mock(Message.class);
         User userExpected = mock(User.class);
         when(m.getAuthor()).thenReturn(userExpected);
@@ -46,7 +49,8 @@ public class TestHachiMessageCommandRequest {
         assertEquals(userExpected, user);
     }
 
-    @Test public void getChannel() {
+    @Test
+    public void getChannel() {
         Message m = mock(Message.class);
         TextChannel channelExpected = mock(TextChannel.class);
         when(m.getTextChannel()).thenReturn(channelExpected);
@@ -60,7 +64,9 @@ public class TestHachiMessageCommandRequest {
         assertEquals(channelExpected, channel);
     }
 
-    @SuppressWarnings("unchecked") @Test public void deferReply() {
+    @SuppressWarnings("unchecked")
+    @Test
+    public void deferReply() {
         Message m = mock(Message.class);
         HachiCommand c = mock(HachiCommand.class);
         HachiCommandOptions o = mock(HachiCommandOptions.class);
@@ -76,7 +82,8 @@ public class TestHachiMessageCommandRequest {
         verify(ra).queue();
     }
 
-    @Test public void reply() {
+    @Test
+    public void reply() {
         String content = "reply content";
         Message m = mock(Message.class);
         HachiCommand c = mock(HachiCommand.class);
@@ -89,7 +96,8 @@ public class TestHachiMessageCommandRequest {
         assertEquals(raExpected, ra);
     }
 
-    @Test public void replyEmbed() {
+    @Test
+    public void replyEmbed() {
         MessageEmbed em = mock(MessageEmbed.class);
         Message m = mock(Message.class);
         HachiCommand c = mock(HachiCommand.class);
@@ -102,7 +110,8 @@ public class TestHachiMessageCommandRequest {
         assertEquals(raExpected, ra);
     }
 
-    @Test public void equals() {
+    @Test
+    public void equals() {
         Message m = mock(Message.class);
         HachiCommand c = mock(HachiCommand.class);
         HachiCommandOptions o = mock(HachiCommandOptions.class);

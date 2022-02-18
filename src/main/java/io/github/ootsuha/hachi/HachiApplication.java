@@ -25,7 +25,8 @@ public class HachiApplication {
         SpringApplication.run(HachiApplication.class, args);
     }
 
-    @Bean @Autowired
+    @Bean
+    @Autowired
     public Hachi getHachi(final HachiConfig config, final HachiCommandLoader loader, final Parser parser,
             final List<HachiCommand> commands, final HelpEmbedGenerator generator)
             throws LoginException, InterruptedException {
@@ -39,11 +40,13 @@ public class HachiApplication {
         return hachi;
     }
 
-    @Bean public HachiCommandLoader getLoader() {
+    @Bean
+    public HachiCommandLoader getLoader() {
         return new HachiCommandLoader();
     }
 
-    @Bean @Autowired
+    @Bean
+    @Autowired
     public Parser getParser(final HachiCommandLoader loader, final HachiConfig config, final UserService userService) {
         return new Parser(loader, config.getPrefix(), e -> {
             String content = e.getContentRaw().trim();
@@ -56,11 +59,13 @@ public class HachiApplication {
         });
     }
 
-    @Bean public RestTemplate restTemplate(final RestTemplateBuilder builder) {
+    @Bean
+    public RestTemplate restTemplate(final RestTemplateBuilder builder) {
         return builder.build();
     }
 
-    @Bean public HelpEmbedGenerator getGenerator() {
+    @Bean
+    public HelpEmbedGenerator getGenerator() {
         return new HelpEmbedGeneratorImpl();
     }
 }

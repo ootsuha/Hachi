@@ -14,7 +14,8 @@ import org.jetbrains.annotations.*;
 public final class SlashCommandListener extends ListenerAdapter {
     private final HachiCommandLoader loader;
 
-    @Override public void onSlashCommand(@NotNull final SlashCommandEvent event) {
+    @Override
+    public void onSlashCommand(@NotNull final SlashCommandEvent event) {
         HachiCommand command = this.loader.getCommand(event.getName());
         if (command != null) {
             new HachiSlashCommandRequest(event, command).fulfill();

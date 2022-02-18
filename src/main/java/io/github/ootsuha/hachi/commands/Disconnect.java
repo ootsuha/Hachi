@@ -12,7 +12,9 @@ public final class Disconnect extends HachiCommandImpl {
         setAliases("dc");
     }
 
-    @SuppressFBWarnings("DM_EXIT") @Override public void run(final HachiCommandRequest r) {
+    @SuppressFBWarnings("DM_EXIT")
+    @Override
+    public void run(final HachiCommandRequest r) {
         r.reply("cya").complete();
         System.exit(0);
     }

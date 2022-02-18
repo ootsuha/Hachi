@@ -10,7 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class TestHachiSlashCommandReplyAction {
-    @Test public void queueString() {
+    @Test
+    public void queueString() {
         String content = "";
         SlashCommandEvent event = mock(SlashCommandEvent.class);
         ReplyAction replyAction = mock(ReplyAction.class);
@@ -23,7 +24,8 @@ public class TestHachiSlashCommandReplyAction {
         verify(replyAction).queue();
     }
 
-    @Test public void queueEmbed() {
+    @Test
+    public void queueEmbed() {
         MessageEmbed embed = mock(MessageEmbed.class);
         SlashCommandEvent event = mock(SlashCommandEvent.class);
         ReplyAction replyAction = mock(ReplyAction.class);
@@ -36,7 +38,8 @@ public class TestHachiSlashCommandReplyAction {
         verify(replyAction).queue();
     }
 
-    @Test public void completeString() {
+    @Test
+    public void completeString() {
         String content = "";
         SlashCommandEvent event = mock(SlashCommandEvent.class);
         ReplyAction replyAction = mock(ReplyAction.class);
@@ -49,7 +52,8 @@ public class TestHachiSlashCommandReplyAction {
         verify(replyAction).complete();
     }
 
-    @Test public void completeEmbed() {
+    @Test
+    public void completeEmbed() {
         MessageEmbed embed = mock(MessageEmbed.class);
         SlashCommandEvent event = mock(SlashCommandEvent.class);
         ReplyAction replyAction = mock(ReplyAction.class);
@@ -62,7 +66,8 @@ public class TestHachiSlashCommandReplyAction {
         verify(replyAction).complete();
     }
 
-    @Test public void ephemeral() {
+    @Test
+    public void ephemeral() {
         MessageEmbed embed = mock(MessageEmbed.class);
         SlashCommandEvent event = mock(SlashCommandEvent.class);
         ReplyAction replyAction = mock(ReplyAction.class);
@@ -76,7 +81,8 @@ public class TestHachiSlashCommandReplyAction {
         verify(replyAction).complete();
     }
 
-    @Test public void equals() {
+    @Test
+    public void equals() {
         String content = "";
         MessageEmbed embed = mock(MessageEmbed.class);
         SlashCommandEvent event = mock(SlashCommandEvent.class);

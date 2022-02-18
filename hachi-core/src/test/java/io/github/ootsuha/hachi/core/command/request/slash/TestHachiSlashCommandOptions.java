@@ -8,7 +8,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class TestHachiSlashCommandOptions {
-    @Test public void hasOption() {
+    @Test
+    public void hasOption() {
         SlashCommandEvent e = mock(SlashCommandEvent.class);
         OptionMapping m = mock(OptionMapping.class);
         when(e.getOption("opt")).thenReturn(m);
@@ -21,7 +22,8 @@ public class TestHachiSlashCommandOptions {
         assertFalse(doesNotHave);
     }
 
-    @Test public void getString() {
+    @Test
+    public void getString() {
         SlashCommandEvent e = mock(SlashCommandEvent.class);
         OptionMapping m = mock(OptionMapping.class);
         String sExpected = "value";
@@ -34,7 +36,8 @@ public class TestHachiSlashCommandOptions {
         assertEquals(sExpected, s);
     }
 
-    @Test public void getInteger() {
+    @Test
+    public void getInteger() {
         SlashCommandEvent e = mock(SlashCommandEvent.class);
         OptionMapping m = mock(OptionMapping.class);
         int lExpected = 8620;
@@ -47,7 +50,8 @@ public class TestHachiSlashCommandOptions {
         assertEquals(lExpected, l);
     }
 
-    @Test public void getDouble() {
+    @Test
+    public void getDouble() {
         SlashCommandEvent e = mock(SlashCommandEvent.class);
         OptionMapping m = mock(OptionMapping.class);
         double dExpected = 8.6;
@@ -60,7 +64,8 @@ public class TestHachiSlashCommandOptions {
         assertEquals(dExpected, d);
     }
 
-    @Test public void getBoolean() {
+    @Test
+    public void getBoolean() {
         SlashCommandEvent e = mock(SlashCommandEvent.class);
         OptionMapping m = mock(OptionMapping.class);
         when(m.getAsBoolean()).thenReturn(false);
@@ -72,7 +77,8 @@ public class TestHachiSlashCommandOptions {
         assertEquals(false, b);
     }
 
-    @Test public void equals() {
+    @Test
+    public void equals() {
         SlashCommandEvent e = mock(SlashCommandEvent.class);
         OptionMapping m = mock(OptionMapping.class);
         when(m.getAsBoolean()).thenReturn(false);

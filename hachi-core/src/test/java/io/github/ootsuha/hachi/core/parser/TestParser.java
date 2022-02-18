@@ -30,7 +30,8 @@ public class TestParser {
         public void setup() {
         }
 
-        @Override public void run(final HachiCommandRequest r) {
+        @Override
+        public void run(final HachiCommandRequest r) {
         }
     }
 
@@ -40,23 +41,28 @@ public class TestParser {
         private static Parser parser;
         private static HachiCommandLoader loader;
 
-        @BeforeAll public static void loadCommands() {
+        @BeforeAll
+        public static void loadCommands() {
             loader = new HachiCommandLoader();
             List<Template> commands = List.of(new Template("no_option") {
             }, new Template("string") {
-                @Override public void setup() {
+                @Override
+                public void setup() {
                     addOption(OptionType.STRING, "string", "description", true);
                 }
             }, new Template("int") {
-                @Override public void setup() {
+                @Override
+                public void setup() {
                     addOption(OptionType.INTEGER, "int", "description", true);
                 }
             }, new Template("double") {
-                @Override public void setup() {
+                @Override
+                public void setup() {
                     addOption(OptionType.NUMBER, "double", "description", true);
                 }
             }, new Template("boolean") {
-                @Override public void setup() {
+                @Override
+                public void setup() {
                     addOption(OptionType.BOOLEAN, "boolean", "description", true);
                 }
             });
@@ -113,7 +119,9 @@ public class TestParser {
             return new HachiMessageCommandRequest(message, command, options);
         }
 
-        @ParameterizedTest @MethodSource(value = "causesNull") public void invalid(final String content) {
+        @ParameterizedTest
+        @MethodSource(value = "causesNull")
+        public void invalid(final String content) {
             Message m = mock(Message.class);
             when(m.getContentRaw()).thenReturn(content);
 
@@ -122,7 +130,8 @@ public class TestParser {
             assertNull(r, "Invalid message does not cause parse failure.");
         }
 
-        @ParameterizedTest @MethodSource(value = "commandNames")
+        @ParameterizedTest
+        @MethodSource(value = "commandNames")
         public void singleOptionNotEnoughOptions(final String comm) {
             String content = prefix(comm);
             Message m = mock(Message.class);
@@ -133,7 +142,9 @@ public class TestParser {
             assertNull(r, "Missing required argument does not cause parse failure.");
         }
 
-        @ParameterizedTest @MethodSource(value = "wrongTypes") public void singleOptionWrongType(final String s) {
+        @ParameterizedTest
+        @MethodSource(value = "wrongTypes")
+        public void singleOptionWrongType(final String s) {
             String content = prefix(s);
             Message m = mock(Message.class);
             when(m.getContentRaw()).thenReturn(content);
@@ -143,7 +154,9 @@ public class TestParser {
             assertNull(r, "Wrong option type does not cause parse failure.");
         }
 
-        @ParameterizedTest @ValueSource(ints = { 0, 1, 2, 3 }) public void singleOptionExtraOption(final int i) {
+        @ParameterizedTest
+        @ValueSource(ints = { 0, 1, 2, 3 })
+        public void singleOptionExtraOption(final int i) {
             String comm = commandNames().get(i);
             Object opt = validOptions().get(i);
             String content = prefix(comm + ' ' + opt + ' ' + opt);
@@ -155,7 +168,9 @@ public class TestParser {
             assertNull(r, "Extra option does not cause parse failure.");
         }
 
-        @ParameterizedTest @MethodSource(value = "noOption") public void validNoOption(final String content) {
+        @ParameterizedTest
+        @MethodSource(value = "noOption")
+        public void validNoOption(final String content) {
             Message m = mock(Message.class);
             when(m.getContentRaw()).thenReturn(content);
             Map<String, Object> options = new HashMap<>();
@@ -166,7 +181,9 @@ public class TestParser {
             assertEquals(rExpected, r, "Error parsing no option command.");
         }
 
-        @ParameterizedTest @ValueSource(ints = { 0, 1, 2, 3 }) public void validSingleOption(final int i) {
+        @ParameterizedTest
+        @ValueSource(ints = { 0, 1, 2, 3 })
+        public void validSingleOption(final int i) {
             String comm = commandNames().get(i);
             Object opt = validOptions().get(i);
             String content = prefix(comm + ' ' + opt);
@@ -181,7 +198,9 @@ public class TestParser {
             assertEquals(rExpected, r, "Error parsing single option.");
         }
 
-        @ParameterizedTest @MethodSource(value = "stringOptions") public void validStringOption(final String s) {
+        @ParameterizedTest
+        @MethodSource(value = "stringOptions")
+        public void validStringOption(final String s) {
             String content = prefix("string " + s);
             Message m = mock(Message.class);
             when(m.getContentRaw()).thenReturn(content);
@@ -194,7 +213,9 @@ public class TestParser {
             assertEquals(rExpected, r, "Error parsing single string option.");
         }
 
-        @ParameterizedTest @MethodSource(value = "intOptions") public void validIntOption(final int n) {
+        @ParameterizedTest
+        @MethodSource(value = "intOptions")
+        public void validIntOption(final int n) {
             String content = prefix("int " + n);
             Message m = mock(Message.class);
             when(m.getContentRaw()).thenReturn(content);
@@ -207,7 +228,9 @@ public class TestParser {
             assertEquals(rExpected, r, "Error parsing single int option.");
         }
 
-        @ParameterizedTest @MethodSource(value = "doubleOptions") public void validDoubleOption(final double n) {
+        @ParameterizedTest
+        @MethodSource(value = "doubleOptions")
+        public void validDoubleOption(final double n) {
             String content = prefix("double " + n);
             Message m = mock(Message.class);
             when(m.getContentRaw()).thenReturn(content);
@@ -220,7 +243,9 @@ public class TestParser {
             assertEquals(rExpected, r, "Error parsing single double option.");
         }
 
-        @ParameterizedTest @MethodSource(value = "booleanOptions") public void validBooleanOption(final boolean b) {
+        @ParameterizedTest
+        @MethodSource(value = "booleanOptions")
+        public void validBooleanOption(final boolean b) {
             String content = prefix("boolean " + b);
             Message m = mock(Message.class);
             when(m.getContentRaw()).thenReturn(content);
@@ -240,54 +265,64 @@ public class TestParser {
         private static Parser parser;
         private static HachiCommandLoader loader;
 
-        @BeforeAll public static void loadCommands() {
+        @BeforeAll
+        public static void loadCommands() {
             loader = new HachiCommandLoader();
             List<Template> commands = List.of(new Template("optional_string") {
-                @Override public void setup() {
+                @Override
+                public void setup() {
                     addOption(OptionType.STRING, "opt", "description", false);
                 }
             }, new Template("optional_int") {
-                @Override public void setup() {
+                @Override
+                public void setup() {
                     addOption(OptionType.INTEGER, "opt", "description", false);
                 }
             }, new Template("optional_double") {
-                @Override public void setup() {
+                @Override
+                public void setup() {
                     addOption(OptionType.NUMBER, "opt", "description", false);
                 }
             }, new Template("optional_boolean") {
-                @Override public void setup() {
+                @Override
+                public void setup() {
                     addOption(OptionType.BOOLEAN, "opt", "description", false);
                 }
             }, new Template("4") {
-                @Override public void setup() {
+                @Override
+                public void setup() {
                     addOption(OptionType.STRING, "string", "description", true);
                     addOption(OptionType.INTEGER, "integer", "description", true);
                     addOption(OptionType.NUMBER, "double", "description", true);
                     addOption(OptionType.BOOLEAN, "boolean", "description", true);
                 }
             }, new Template("3") {
-                @Override public void setup() {
+                @Override
+                public void setup() {
                     addOption(OptionType.STRING, "string", "description", true);
                     addOption(OptionType.INTEGER, "integer", "description", true);
                     addOption(OptionType.NUMBER, "double", "description", true);
                     addOption(OptionType.BOOLEAN, "boolean", "description", false);
                 }
             }, new Template("2") {
-                @Override public void setup() {
+                @Override
+                public void setup() {
                     addOption(OptionType.STRING, "string", "description", true);
                     addOption(OptionType.INTEGER, "integer", "description", true);
                     addOption(OptionType.NUMBER, "double", "description", false);
                     addOption(OptionType.BOOLEAN, "boolean", "description", false);
                 }
             }, new Template("1") {
-                @Override public void setup() {
+                @Override
+                public void setup() {
                     addOption(OptionType.STRING, "string", "description", true);
                     addOption(OptionType.INTEGER, "integer", "description", false);
                     addOption(OptionType.NUMBER, "double", "description", false);
                     addOption(OptionType.BOOLEAN, "boolean", "description", false);
                 }
             }, new Template("0") {
-                @Override public void setup() {
+                @Override
+                public void setup() {
                     addOption(OptionType.STRING, "string", "description", false);
                     addOption(OptionType.INTEGER, "integer", "description", false);
                     addOption(OptionType.NUMBER, "double", "description", false);
@@ -326,7 +361,9 @@ public class TestParser {
                     "optional_double -", "optional_boolean 0", "optional_boolean a", "optional_boolean -");
         }
 
-        @ParameterizedTest @MethodSource(value = "indexes") public void extraOptionalOption(final int i) {
+        @ParameterizedTest
+        @MethodSource(value = "indexes")
+        public void extraOptionalOption(final int i) {
             if (i >= optionalCommandNames().size()) {
                 return;
             }
@@ -341,7 +378,9 @@ public class TestParser {
             assertNull(r, "Extra optional option does not cause parse failure.");
         }
 
-        @ParameterizedTest @MethodSource(value = "wrongTypes") public void wrongTypeOptionalOption(final String s) {
+        @ParameterizedTest
+        @MethodSource(value = "wrongTypes")
+        public void wrongTypeOptionalOption(final String s) {
             String content = prefix(s);
             Message m = mock(Message.class);
             when(m.getContentRaw()).thenReturn(content);
@@ -351,7 +390,9 @@ public class TestParser {
             assertNull(r, "Wrong option type does not cause parse failure.");
         }
 
-        @ParameterizedTest @MethodSource(value = "indexes") public void validOptionalMultiOption(final int i) {
+        @ParameterizedTest
+        @MethodSource(value = "indexes")
+        public void validOptionalMultiOption(final int i) {
             if (i > 4) {
                 return;
             }
@@ -374,7 +415,9 @@ public class TestParser {
             }
         }
 
-        @ParameterizedTest @MethodSource(value = "indexes") public void validOptionalOption(final int i) {
+        @ParameterizedTest
+        @MethodSource(value = "indexes")
+        public void validOptionalOption(final int i) {
             String comm = optionalCommandNames().get(i / 2);
             Object option = options().get(i / 2);
             boolean addOption = i % 2 == 0;
@@ -403,11 +446,13 @@ public class TestParser {
         private static Parser parser;
         private static HachiCommandLoader loader;
 
-        @BeforeAll public static void loadCommands() {
+        @BeforeAll
+        public static void loadCommands() {
             loader = new HachiCommandLoader();
             List<Template> commands = List.of(new Template("command_with_suffix") {
             }, new Template("string") {
-                @Override public void setup() {
+                @Override
+                public void setup() {
                     addOption(OptionType.STRING, "string", "description", true);
                 }
             });
@@ -426,7 +471,8 @@ public class TestParser {
             return new HachiMessageCommandRequest(message, command, options);
         }
 
-        @Test public void valid() {
+        @Test
+        public void valid() {
             String content = prefix("command_with_");
             Message m = mock(Message.class);
             when(m.getContentRaw()).thenReturn(content);
@@ -438,7 +484,8 @@ public class TestParser {
             assertEquals(rExpected, r, "Error with content extractor.");
         }
 
-        @Test public void valid2() {
+        @Test
+        public void valid2() {
             String content = prefix("string ");
             Message m = mock(Message.class);
             when(m.getContentRaw()).thenReturn(content);
@@ -451,7 +498,8 @@ public class TestParser {
             assertEquals(rExpected, r, "Error with content extractor.");
         }
 
-        @Test public void valid3() {
+        @Test
+        public void valid3() {
             String content = prefix("string 123");
             Message m = mock(Message.class);
             when(m.getContentRaw()).thenReturn(content);
@@ -464,7 +512,8 @@ public class TestParser {
             assertEquals(rExpected, r, "Error with content extractor.");
         }
 
-        @Test public void invalid() {
+        @Test
+        public void invalid() {
             String content = prefix("command_with_suffix");
             Message m = mock(Message.class);
             when(m.getContentRaw()).thenReturn(content);
@@ -474,7 +523,8 @@ public class TestParser {
             assertNull(r, "Error with content extractor.");
         }
 
-        @Test public void invalid2() {
+        @Test
+        public void invalid2() {
             String content = prefix("string hey ");
             Message m = mock(Message.class);
             when(m.getContentRaw()).thenReturn(content);

@@ -55,7 +55,8 @@ public interface HachiCommandRequest {
      * @param content message
      * @return reply action
      */
-    @CheckReturnValue HachiCommandReplyAction reply(String content);
+    @CheckReturnValue
+    HachiCommandReplyAction reply(String content);
 
     /**
      * Respond to the request with an embed.
@@ -63,5 +64,6 @@ public interface HachiCommandRequest {
      * @param embed message embed
      * @return reply action
      */
-    @CheckReturnValue HachiCommandReplyAction replyEmbed(MessageEmbed embed);
+    @CheckReturnValue
+    HachiCommandReplyAction replyEmbed(MessageEmbed embed);
 }

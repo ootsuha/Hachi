@@ -36,7 +36,8 @@ public final class Parser {
      * @param message message to be parsed
      * @return hachi command request, or null if invalid
      */
-    @Nullable public HachiCommandRequest parse(final Message message) {
+    @Nullable
+    public HachiCommandRequest parse(final Message message) {
         String input = this.contentExtractor.apply(message);
         var result = parse(input, message.getGuild());
         if (result != null) {
@@ -52,7 +53,8 @@ public final class Parser {
      * @param guild guild
      * @return immutable pair of hachi command and options, or null if invalid
      */
-    @Nullable public Pair<HachiCommand, HachiCommandOptions> parse(final String input, final Guild guild) {
+    @Nullable
+    public Pair<HachiCommand, HachiCommandOptions> parse(final String input, final Guild guild) {
         if (!input.startsWith(this.prefix)) {
             return null;
         }
@@ -78,8 +80,8 @@ public final class Parser {
      * @param guild guild
      * @return hachi command option, or null if invalid options for the given command data
      */
-    @Nullable private HachiCommandOptions parseOptions(final StringBuilder b, final CommandData data,
-            final Guild guild) {
+    @Nullable
+    private HachiCommandOptions parseOptions(final StringBuilder b, final CommandData data, final Guild guild) {
         return parseOptions(b, 0, new HashMap<>(), data, guild);
     }
 
@@ -93,8 +95,9 @@ public final class Parser {
      * @param guild      guild
      * @return hachi command option, or null if invalid options for the given command data
      */
-    @Nullable private HachiCommandOptions parseOptions(final StringBuilder b, final int ind,
-            final Map<String, Object> optionsMap, final CommandData data, final Guild guild) {
+    @Nullable
+    private HachiCommandOptions parseOptions(final StringBuilder b, final int ind, final Map<String, Object> optionsMap,
+            final CommandData data, final Guild guild) {
         List<OptionData> options = data.getOptions();
         for (int i = ind; i < options.size(); i++) {
             OptionData option = options.get(i);

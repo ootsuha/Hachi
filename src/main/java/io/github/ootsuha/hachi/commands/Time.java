@@ -21,7 +21,8 @@ public final class Time extends HachiCommandImpl implements HachiStringCommand {
         this.formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
     }
 
-    @Override public String output(final HachiCommandRequest r) {
+    @Override
+    public String output(final HachiCommandRequest r) {
         return this.formatter.format(new Date());
     }
 }

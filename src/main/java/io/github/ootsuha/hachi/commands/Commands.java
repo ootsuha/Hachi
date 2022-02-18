@@ -11,12 +11,14 @@ import java.util.stream.*;
 public final class Commands extends HachiCommandImpl implements HachiStringCommand {
     private final HachiCommandLoader loader;
 
-    @Autowired public Commands(final HachiCommandLoader loader) {
+    @Autowired
+    public Commands(final HachiCommandLoader loader) {
         super("commands", "Lists all commands.");
         this.loader = loader;
     }
 
-    @Override public String output(final HachiCommandRequest r) {
+    @Override
+    public String output(final HachiCommandRequest r) {
         return this.loader.getCommands().stream().map(e -> '`' + e.getName() + '`').collect(Collectors.joining(", "));
     }
 }

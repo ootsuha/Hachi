@@ -49,15 +49,18 @@ public final class HachiMessageCommandReplyAction implements HachiCommandReplyAc
         return this.message.reply(this.content);
     }
 
-    @Override public void queue() {
+    @Override
+    public void queue() {
         reply().queue();
     }
 
-    @Override public void complete() {
+    @Override
+    public void complete() {
         reply().complete();
     }
 
-    @Override public HachiCommandReplyAction setEphemeral() {
+    @Override
+    public HachiCommandReplyAction setEphemeral() {
         this.ephemeral = true;
         return this;
     }

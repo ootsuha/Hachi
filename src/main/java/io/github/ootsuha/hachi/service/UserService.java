@@ -20,7 +20,8 @@ public final class UserService {
     private final UserRepository userRepository;
     private final Map<User, UserData> cache;
 
-    @Autowired public UserService(final UserRepository userRepository) {
+    @Autowired
+    public UserService(final UserRepository userRepository) {
         this.userRepository = userRepository;
         this.cache = new HashMap<>();
     }

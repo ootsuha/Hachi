@@ -41,7 +41,8 @@ public final class HachiCommandLoader {
      * @param name name or alias or command
      * @return HachiCommand, or null
      */
-    @Nullable public HachiCommand getCommand(final String name) {
+    @Nullable
+    public HachiCommand getCommand(final String name) {
         String converted = this.aliasMap.get(name);
         if (converted == null) {
             return null;

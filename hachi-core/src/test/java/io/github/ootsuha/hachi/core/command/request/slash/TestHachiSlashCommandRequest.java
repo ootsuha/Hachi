@@ -11,7 +11,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class TestHachiSlashCommandRequest {
-    @Test public void getRequestedCommand() {
+    @Test
+    public void getRequestedCommand() {
         SlashCommandEvent e = mock(SlashCommandEvent.class);
         HachiCommand cExpected = mock(HachiCommand.class);
         HachiCommandRequest r = new HachiSlashCommandRequest(e, cExpected);
@@ -21,7 +22,8 @@ public class TestHachiSlashCommandRequest {
         assertEquals(cExpected, c);
     }
 
-    @Test public void getOptions() {
+    @Test
+    public void getOptions() {
         SlashCommandEvent e = mock(SlashCommandEvent.class);
         HachiCommand c = mock(HachiCommand.class);
         HachiCommandRequest r = new HachiSlashCommandRequest(e, c);
@@ -32,7 +34,8 @@ public class TestHachiSlashCommandRequest {
         assertEquals(oExpected, o);
     }
 
-    @Test public void getUser() {
+    @Test
+    public void getUser() {
         SlashCommandEvent e = mock(SlashCommandEvent.class);
         HachiCommand c = mock(HachiCommand.class);
         User userExpected = mock(User.class);
@@ -45,7 +48,8 @@ public class TestHachiSlashCommandRequest {
         assertEquals(userExpected, user);
     }
 
-    @Test public void getChannel() {
+    @Test
+    public void getChannel() {
         SlashCommandEvent e = mock(SlashCommandEvent.class);
         HachiCommand c = mock(HachiCommand.class);
         TextChannel channelExpected = mock(TextChannel.class);
@@ -58,7 +62,8 @@ public class TestHachiSlashCommandRequest {
         assertEquals(channelExpected, channel);
     }
 
-    @Test public void deferReply() {
+    @Test
+    public void deferReply() {
         SlashCommandEvent e = mock(SlashCommandEvent.class);
         HachiCommand c = mock(HachiCommand.class);
         HachiCommandRequest r = new HachiSlashCommandRequest(e, c);
@@ -71,7 +76,8 @@ public class TestHachiSlashCommandRequest {
         verify(ra).queue();
     }
 
-    @Test public void reply() {
+    @Test
+    public void reply() {
         String content = "reply content";
         SlashCommandEvent e = mock(SlashCommandEvent.class);
         HachiCommand c = mock(HachiCommand.class);
@@ -83,7 +89,8 @@ public class TestHachiSlashCommandRequest {
         assertEquals(raExpected, ra);
     }
 
-    @Test public void replyEmbed() {
+    @Test
+    public void replyEmbed() {
         MessageEmbed em = mock(MessageEmbed.class);
         SlashCommandEvent e = mock(SlashCommandEvent.class);
         HachiCommand c = mock(HachiCommand.class);
@@ -95,7 +102,8 @@ public class TestHachiSlashCommandRequest {
         assertEquals(raExpected, ra);
     }
 
-    @Test public void equals() {
+    @Test
+    public void equals() {
         SlashCommandEvent e = mock(SlashCommandEvent.class);
         HachiCommand c = mock(HachiCommand.class);
         HachiCommandRequest r = new HachiSlashCommandRequest(e, c);

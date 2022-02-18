@@ -24,7 +24,8 @@ public final class GitHub extends HachiCommandImpl implements HachiEmbedCommand 
         addOption(OptionType.STRING, "class", "Link to a specific class. (case sensitive)");
     }
 
-    @Autowired private void setDefaultEmbed(final HachiConfig config) {
+    @Autowired
+    private void setDefaultEmbed(final HachiConfig config) {
         this.config = config;
         EmbedBuilder b = new EmbedBuilder();
         b.setTitle("Hachi", config.getGithubRepo());
@@ -55,7 +56,8 @@ public final class GitHub extends HachiCommandImpl implements HachiEmbedCommand 
         return null;
     }
 
-    @Override public MessageEmbed output(final HachiCommandRequest r) {
+    @Override
+    public MessageEmbed output(final HachiCommandRequest r) {
         HachiCommandOptions o = r.getOptions();
         if (o.hasOption("class")) {
             Class<?> clazz = getClass(r.getOptions().getString("class"));

@@ -10,7 +10,9 @@ public final class Flip extends HachiCommandImpl implements HachiStringCommand {
         super("flip", "Flips a coin.");
     }
 
-    @SuppressWarnings("checkstyle:MagicNumber") @Override public String output(final HachiCommandRequest r) {
+    @SuppressWarnings("checkstyle:MagicNumber")
+    @Override
+    public String output(final HachiCommandRequest r) {
         return Math.random() >= 0.5 ? "Heads" : "Tails";
     }
 }

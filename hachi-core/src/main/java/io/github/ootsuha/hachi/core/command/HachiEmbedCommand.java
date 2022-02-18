@@ -9,7 +9,8 @@ import net.dv8tion.jda.api.entities.*;
 public interface HachiEmbedCommand extends HachiCommand {
     MessageEmbed output(HachiCommandRequest r);
 
-    @Override default void run(final HachiCommandRequest r) {
+    @Override
+    default void run(final HachiCommandRequest r) {
         r.replyEmbed(output(r)).queue();
     }
 }

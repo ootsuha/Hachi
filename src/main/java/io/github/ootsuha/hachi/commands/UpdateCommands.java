@@ -16,14 +16,16 @@ public final class UpdateCommands extends HachiCommandImpl {
      */
     private final HachiCommandLoader loader;
 
-    @Autowired public UpdateCommands(final HachiCommandLoader loader) {
+    @Autowired
+    public UpdateCommands(final HachiCommandLoader loader) {
         super("updatecommands", "Updates guild commands.");
         setAliases("uc");
 
         this.loader = loader;
     }
 
-    @Override public void run(final HachiCommandRequest r) {
+    @Override
+    public void run(final HachiCommandRequest r) {
         List<CommandData> data =
                 this.loader.getCommands().stream().map(HachiCommand::getCommandData).collect(Collectors.toList());
         r.getChannel().getGuild().updateCommands().addCommands(data).queue();

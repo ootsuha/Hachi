@@ -20,7 +20,8 @@ public final class HachiRoleService {
     private final HachiRoleRepository hachiRoleRepository;
     private final Map<String, HachiRole> cache;
 
-    @Autowired public HachiRoleService(final HachiRoleRepository hachiRoleRepository) {
+    @Autowired
+    public HachiRoleService(final HachiRoleRepository hachiRoleRepository) {
         this.hachiRoleRepository = hachiRoleRepository;
         this.cache = new HashMap<>();
     }

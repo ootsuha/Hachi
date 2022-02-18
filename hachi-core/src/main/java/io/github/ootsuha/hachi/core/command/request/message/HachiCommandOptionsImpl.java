@@ -17,7 +17,8 @@ public final class HachiCommandOptionsImpl implements HachiCommandOptions {
     private final Map<String, Object> options;
     private final CommandData commandData;
 
-    @Override public boolean hasOption(final String optionName) {
+    @Override
+    public boolean hasOption(final String optionName) {
         return this.options.containsKey(optionName);
     }
 
@@ -31,42 +32,48 @@ public final class HachiCommandOptionsImpl implements HachiCommandOptions {
         return this.commandData.getOptions().stream().filter(e -> e.getName().equals(optionName)).findAny();
     }
 
-    @Override public String getString(final String optionName) {
+    @Override
+    public String getString(final String optionName) {
         Optional<OptionData> option = getOption(optionName);
         assert option.isPresent() && option.get().getType() == OptionType.STRING;
         assert !option.get().isRequired() || (hasOption(optionName) && this.options.get(optionName) instanceof String);
         return (String) this.options.get(optionName);
     }
 
-    @Override public Integer getInteger(final String optionName) {
+    @Override
+    public Integer getInteger(final String optionName) {
         Optional<OptionData> option = getOption(optionName);
         assert option.isPresent() && option.get().getType() == OptionType.INTEGER;
         assert !option.get().isRequired() || (hasOption(optionName) && this.options.get(optionName) instanceof Integer);
         return (Integer) this.options.get(optionName);
     }
 
-    @Override public Double getDouble(final String optionName) {
+    @Override
+    public Double getDouble(final String optionName) {
         Optional<OptionData> option = getOption(optionName);
         assert option.isPresent() && option.get().getType() == OptionType.NUMBER;
         assert !option.get().isRequired() || (hasOption(optionName) && this.options.get(optionName) instanceof Double);
         return (Double) this.options.get(optionName);
     }
 
-    @Override public Boolean getBoolean(final String optionName) {
+    @Override
+    public Boolean getBoolean(final String optionName) {
         Optional<OptionData> option = getOption(optionName);
         assert option.isPresent() && option.get().getType() == OptionType.BOOLEAN;
         assert !option.get().isRequired() || (hasOption(optionName) && this.options.get(optionName) instanceof Boolean);
         return (Boolean) this.options.get(optionName);
     }
 
-    @Override public User getUser(final String optionName) {
+    @Override
+    public User getUser(final String optionName) {
         Optional<OptionData> option = getOption(optionName);
         assert option.isPresent() && option.get().getType() == OptionType.USER;
         assert !option.get().isRequired() || (hasOption(optionName) && this.options.get(optionName) instanceof User);
         return (User) this.options.get(optionName);
     }
 
-    @Override public Role getRole(final String optionName) {
+    @Override
+    public Role getRole(final String optionName) {
         Optional<OptionData> option = getOption(optionName);
         assert option.isPresent() && option.get().getType() == OptionType.ROLE;
         assert !option.get().isRequired() || (hasOption(optionName) && this.options.get(optionName) instanceof Role);

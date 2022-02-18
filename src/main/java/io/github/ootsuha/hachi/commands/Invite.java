@@ -12,7 +12,8 @@ import org.springframework.stereotype.*;
 public final class Invite extends HachiCommandImpl implements HachiEmbedCommand {
     private final MessageEmbed embed;
 
-    @Autowired public Invite(final HachiConfig config) {
+    @Autowired
+    public Invite(final HachiConfig config) {
         super("invite", "Gets Hachi's invite link.");
 
         String url = config.getInviteLink();
@@ -24,7 +25,8 @@ public final class Invite extends HachiCommandImpl implements HachiEmbedCommand 
         this.embed = b.build();
     }
 
-    @Override public MessageEmbed output(final HachiCommandRequest r) {
+    @Override
+    public MessageEmbed output(final HachiCommandRequest r) {
         return this.embed;
     }
 }

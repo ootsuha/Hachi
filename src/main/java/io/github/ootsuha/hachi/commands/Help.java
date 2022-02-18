@@ -18,14 +18,16 @@ public final class Help extends HachiCommandImpl implements HachiEmbedCommand {
      */
     private MessageEmbed defaultEmbed;
 
-    @Autowired public Help(final HachiCommandLoader loader) {
+    @Autowired
+    public Help(final HachiCommandLoader loader) {
         super("help", "Shows information about a command.");
         addOption(OptionType.STRING, "command", "Command name.");
 
         this.loader = loader;
     }
 
-    @SuppressFBWarnings("VA_FORMAT_STRING_USES_NEWLINE") @Autowired
+    @SuppressFBWarnings("VA_FORMAT_STRING_USES_NEWLINE")
+    @Autowired
     private void setDefaultEmbed(final HachiConfig config) {
         EmbedBuilder b = new EmbedBuilder();
         b.setTitle("Hachi");
@@ -48,7 +50,8 @@ public final class Help extends HachiCommandImpl implements HachiEmbedCommand {
         this.defaultEmbed = b.build();
     }
 
-    @Override public MessageEmbed output(final HachiCommandRequest r) {
+    @Override
+    public MessageEmbed output(final HachiCommandRequest r) {
         HachiCommandOptions o = r.getOptions();
         if (o.hasOption("command")) {
             HachiCommand c = this.loader.getCommand(o.getString("command"));

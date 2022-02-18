@@ -20,7 +20,8 @@ public final class Color extends HachiCommandImpl implements HachiEmbedCommand {
     private final GuildService guildService;
     private final HachiRoleService hachiRoleService;
 
-    @Autowired public Color(final GuildService guildService, final HachiRoleService hachiRoleService) {
+    @Autowired
+    public Color(final GuildService guildService, final HachiRoleService hachiRoleService) {
         super("color", "Sets user color.");
         addOption(OptionType.STRING, "hex", "Hex color code.");
 
@@ -54,7 +55,8 @@ public final class Color extends HachiCommandImpl implements HachiEmbedCommand {
         }
     }
 
-    @Override public MessageEmbed output(final HachiCommandRequest r) {
+    @Override
+    public MessageEmbed output(final HachiCommandRequest r) {
         Guild guild = r.getChannel().getGuild();
         var guildData = this.guildService.findByRequest(r);
         var b = new EmbedBuilder();

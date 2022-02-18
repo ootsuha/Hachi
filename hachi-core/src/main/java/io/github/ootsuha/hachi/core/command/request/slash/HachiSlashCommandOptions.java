@@ -14,11 +14,13 @@ import net.dv8tion.jda.api.interactions.commands.*;
 public final class HachiSlashCommandOptions implements HachiCommandOptions {
     private final SlashCommandEvent event;
 
-    @Override public boolean hasOption(final String optionName) {
+    @Override
+    public boolean hasOption(final String optionName) {
         return this.event.getOption(optionName) != null;
     }
 
-    @Override public String getString(final String optionName) {
+    @Override
+    public String getString(final String optionName) {
         OptionMapping m = this.event.getOption(optionName);
         if (m == null) {
             return null;
@@ -26,7 +28,8 @@ public final class HachiSlashCommandOptions implements HachiCommandOptions {
         return m.getAsString();
     }
 
-    @Override public Integer getInteger(final String optionName) {
+    @Override
+    public Integer getInteger(final String optionName) {
         OptionMapping m = this.event.getOption(optionName);
         if (m == null) {
             return null;
@@ -34,7 +37,8 @@ public final class HachiSlashCommandOptions implements HachiCommandOptions {
         return (int) (m.getAsLong());
     }
 
-    @Override public Double getDouble(final String optionName) {
+    @Override
+    public Double getDouble(final String optionName) {
         OptionMapping m = this.event.getOption(optionName);
         if (m == null) {
             return null;
@@ -42,7 +46,8 @@ public final class HachiSlashCommandOptions implements HachiCommandOptions {
         return m.getAsDouble();
     }
 
-    @Override public Boolean getBoolean(final String optionName) {
+    @Override
+    public Boolean getBoolean(final String optionName) {
         OptionMapping m = this.event.getOption(optionName);
         if (m == null) {
             return null;
@@ -50,7 +55,8 @@ public final class HachiSlashCommandOptions implements HachiCommandOptions {
         return m.getAsBoolean();
     }
 
-    @Override public User getUser(final String optionName) {
+    @Override
+    public User getUser(final String optionName) {
         OptionMapping m = this.event.getOption(optionName);
         if (m == null) {
             return null;
@@ -58,7 +64,8 @@ public final class HachiSlashCommandOptions implements HachiCommandOptions {
         return m.getAsUser();
     }
 
-    @Override public Role getRole(final String optionName) {
+    @Override
+    public Role getRole(final String optionName) {
         OptionMapping m = this.event.getOption(optionName);
         if (m == null) {
             return null;

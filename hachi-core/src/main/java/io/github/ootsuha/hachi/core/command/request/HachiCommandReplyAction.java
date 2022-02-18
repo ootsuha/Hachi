@@ -22,5 +22,6 @@ public interface HachiCommandReplyAction {
      *
      * @return this
      */
-    @CheckReturnValue HachiCommandReplyAction setEphemeral();
+    @CheckReturnValue
+    HachiCommandReplyAction setEphemeral();
 }

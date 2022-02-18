@@ -9,7 +9,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class TestHachiMessageCommandReplyAction {
-    @Test public void queueString() {
+    @Test
+    public void queueString() {
         String content = "";
         Message message = mock(Message.class);
         MessageAction messageAction = mock(MessageAction.class);
@@ -20,7 +21,8 @@ public class TestHachiMessageCommandReplyAction {
         verify(messageAction).queue();
     }
 
-    @Test public void queueEmbed() {
+    @Test
+    public void queueEmbed() {
         MessageEmbed embed = mock(MessageEmbed.class);
         Message message = mock(Message.class);
         MessageAction messageAction = mock(MessageAction.class);
@@ -31,7 +33,8 @@ public class TestHachiMessageCommandReplyAction {
         verify(messageAction).queue();
     }
 
-    @Test public void completeString() {
+    @Test
+    public void completeString() {
         String content = "";
         Message message = mock(Message.class);
         MessageAction messageAction = mock(MessageAction.class);
@@ -42,7 +45,8 @@ public class TestHachiMessageCommandReplyAction {
         verify(messageAction).complete();
     }
 
-    @Test public void completeEmbed() {
+    @Test
+    public void completeEmbed() {
         MessageEmbed embed = mock(MessageEmbed.class);
         Message message = mock(Message.class);
         MessageAction messageAction = mock(MessageAction.class);
@@ -53,7 +57,8 @@ public class TestHachiMessageCommandReplyAction {
         verify(messageAction).complete();
     }
 
-    @Test public void equals() {
+    @Test
+    public void equals() {
         String content = "";
         MessageEmbed embed = mock(MessageEmbed.class);
         Message message = mock(Message.class);

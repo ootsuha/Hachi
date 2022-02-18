@@ -50,15 +50,18 @@ public final class HachiSlashCommandReplyAction implements HachiCommandReplyActi
         return this.event.reply(this.content).setEphemeral(this.ephemeral);
     }
 
-    @Override public void queue() {
+    @Override
+    public void queue() {
         reply().queue();
     }
 
-    @Override public void complete() {
+    @Override
+    public void complete() {
         reply().complete();
     }
 
-    @Override public HachiCommandReplyAction setEphemeral() {
+    @Override
+    public HachiCommandReplyAction setEphemeral() {
         this.ephemeral = true;
         return this;
     }

@@ -20,7 +20,8 @@ public final class GuildService {
     private final GuildRepository guildRepository;
     private final Map<Guild, GuildData> cache;
 
-    @Autowired public GuildService(final GuildRepository guildRepository) {
+    @Autowired
+    public GuildService(final GuildRepository guildRepository) {
         this.guildRepository = guildRepository;
         this.cache = new HashMap<>();
     }

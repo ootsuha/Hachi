@@ -32,7 +32,8 @@ public abstract class HachiCommandImpl extends CommandData implements HachiComma
         this.examples = Arrays.stream(examples).toList();
     }
 
-    @Override public final CommandData getCommandData() {
+    @Override
+    public final CommandData getCommandData() {
         return this;
     }
 }

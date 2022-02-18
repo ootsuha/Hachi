@@ -37,7 +37,8 @@ public class TestHachiCommandOptionsImpl {
         return data;
     }
 
-    @Test public void getString() {
+    @Test
+    public void getString() {
         Map<String, Object> m = new HashMap<>();
         m.put("a", "b");
 
@@ -50,7 +51,8 @@ public class TestHachiCommandOptionsImpl {
         assertEquals(valueExpected, value);
     }
 
-    @Test public void getInteger() {
+    @Test
+    public void getInteger() {
         Map<String, Object> m = new HashMap<>();
         m.put("a", 1);
 
@@ -63,7 +65,8 @@ public class TestHachiCommandOptionsImpl {
         assertEquals(valueExpected, value);
     }
 
-    @Test public void getDouble() {
+    @Test
+    public void getDouble() {
         Map<String, Object> m = new HashMap<>();
         m.put("a", 1.23);
 
@@ -76,7 +79,8 @@ public class TestHachiCommandOptionsImpl {
         assertEquals(valueExpected, value);
     }
 
-    @Test public void getBoolean() {
+    @Test
+    public void getBoolean() {
         Map<String, Object> m = new HashMap<>();
         m.put("a", false);
         m.put("b", true);
@@ -91,7 +95,8 @@ public class TestHachiCommandOptionsImpl {
         assertTrue(value2);
     }
 
-    @Test public void allTypes() {
+    @Test
+    public void allTypes() {
         Map<String, Object> m = new HashMap<>();
         m.put("string", "hachiroku");
         m.put("int", -8620);
@@ -115,7 +120,8 @@ public class TestHachiCommandOptionsImpl {
         assertTrue(b);
     }
 
-    @Test public void hasOption() {
+    @Test
+    public void hasOption() {
         Map<String, Object> m = new HashMap<>();
         m.put("a", "");
         m.put("b", 0);
@@ -136,7 +142,8 @@ public class TestHachiCommandOptionsImpl {
         assertFalse(o.hasOption(null));
     }
 
-    @Test public void missingOptionThrows() {
+    @Test
+    public void missingOptionThrows() {
         Map<String, Object> m = new HashMap<>();
 
         CommandData data = createCommandData(m);
@@ -148,7 +155,8 @@ public class TestHachiCommandOptionsImpl {
         assertThrows(AssertionError.class, () -> o.getBoolean("a"));
     }
 
-    @Test public void missingOptionOptional() {
+    @Test
+    public void missingOptionOptional() {
         Map<String, Object> m = new HashMap<>();
         m.put("a", "");
         m.put("b", 0);
@@ -165,7 +173,8 @@ public class TestHachiCommandOptionsImpl {
         assertNull(o.getBoolean("d"));
     }
 
-    @Test public void incorrectTypeThrows() {
+    @Test
+    public void incorrectTypeThrows() {
         Map<String, Object> m = new HashMap<>();
         m.put("a", "");
         m.put("b", 0);
@@ -196,7 +205,8 @@ public class TestHachiCommandOptionsImpl {
         assertDoesNotThrow(() -> o.getBoolean("d"));
     }
 
-    @Test public void missingOptionDataThrows() {
+    @Test
+    public void missingOptionDataThrows() {
         Map<String, Object> m = new HashMap<>();
         m.put("a", "");
         m.put("b", 0);
@@ -213,7 +223,8 @@ public class TestHachiCommandOptionsImpl {
         assertThrows(AssertionError.class, () -> o.getBoolean("d"));
     }
 
-    @Test public void equals() {
+    @Test
+    public void equals() {
         Map<String, Object> m = new HashMap<>();
         m.put("a", "");
         m.put("b", 0);

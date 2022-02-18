@@ -18,15 +18,18 @@ public final class HachiMessageCommandRequest extends HachiCommandRequestAbstrac
         this.message = m;
     }
 
-    @Override public void deferReply() {
+    @Override
+    public void deferReply() {
         this.message.getTextChannel().sendTyping().queue();
     }
 
-    @Override public HachiCommandReplyAction reply(final String content) {
+    @Override
+    public HachiCommandReplyAction reply(final String content) {
         return new HachiMessageCommandReplyAction(this.message, content);
     }
 
-    @Override public HachiCommandReplyAction replyEmbed(final MessageEmbed embed) {
+    @Override
+    public HachiCommandReplyAction replyEmbed(final MessageEmbed embed) {
         return new HachiMessageCommandReplyAction(this.message, embed);
     }
 }

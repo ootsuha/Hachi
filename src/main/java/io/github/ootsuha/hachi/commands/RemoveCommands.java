@@ -11,7 +11,8 @@ public final class RemoveCommands extends HachiCommandImpl {
         setAliases("rc");
     }
 
-    @Override public void run(final HachiCommandRequest r) {
+    @Override
+    public void run(final HachiCommandRequest r) {
         r.getChannel().getGuild().updateCommands().queue();
         r.reply("Removed commands.").setEphemeral().queue();
     }

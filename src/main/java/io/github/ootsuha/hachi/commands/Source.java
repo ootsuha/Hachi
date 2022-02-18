@@ -17,7 +17,8 @@ public final class Source extends HachiCommandImpl {
     private static final String REPO = "https://raw.githubusercontent.com/ootsuha/Hachi/master/src/main/java/";
     private final HachiCommandLoader loader;
 
-    @Autowired public Source(final HachiCommandLoader loader) {
+    @Autowired
+    public Source(final HachiCommandLoader loader) {
         super("source", "Gets the source code for a command.");
         addOption(OptionType.STRING, "name", "Name of the command.", true);
         this.loader = loader;
@@ -36,7 +37,8 @@ public final class Source extends HachiCommandImpl {
         }
     }
 
-    @Override public void run(final HachiCommandRequest r) {
+    @Override
+    public void run(final HachiCommandRequest r) {
         HachiCommandOptions o = r.getOptions();
         String name = o.getString("name").toLowerCase();
         InputStream file = getInputStream(name);

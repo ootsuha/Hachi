@@ -13,7 +13,8 @@ import org.springframework.stereotype.*;
 public final class Alias extends HachiCommandImpl implements HachiEmbedCommand {
     private final UserService userService;
 
-    @Autowired public Alias(final UserService userService) {
+    @Autowired
+    public Alias(final UserService userService) {
         super("alias", "Set an alias for a command.");
         addOption(OptionType.STRING, "alias", "The text to be aliased.", true);
         addOption(OptionType.STRING, "replacement", "The text to replace the alias. Ignore to remove alias.", false);
@@ -21,7 +22,8 @@ public final class Alias extends HachiCommandImpl implements HachiEmbedCommand {
         this.userService = userService;
     }
 
-    @Override public MessageEmbed output(final HachiCommandRequest r) {
+    @Override
+    public MessageEmbed output(final HachiCommandRequest r) {
         var options = r.getOptions();
         var userData = this.userService.findByRequest(r);
         var b = new EmbedBuilder();

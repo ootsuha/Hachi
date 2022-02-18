@@ -8,7 +8,8 @@ import io.github.ootsuha.hachi.core.command.request.*;
 public interface HachiStringCommand extends HachiCommand {
     String output(HachiCommandRequest r);
 
-    @Override default void run(final HachiCommandRequest r) {
+    @Override
+    default void run(final HachiCommandRequest r) {
         r.reply(output(r)).queue();
     }
 }

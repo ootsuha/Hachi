@@ -10,7 +10,8 @@ public final class Ping extends HachiCommandImpl implements HachiStringCommand {
         super("ping", "Pings the user.");
     }
 
-    @Override public String output(final HachiCommandRequest r) {
+    @Override
+    public String output(final HachiCommandRequest r) {
         return r.getUser().getAsMention();
     }
 }

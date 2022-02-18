@@ -12,7 +12,8 @@ public final class Echo extends HachiCommandImpl implements HachiStringCommand {
         addOption(OptionType.STRING, "text", "Message to say.", true);
     }
 
-    @Override public String output(final HachiCommandRequest r) {
+    @Override
+    public String output(final HachiCommandRequest r) {
         return r.getOptions().getString("text");
     }
 }

@@ -14,7 +14,8 @@ import org.jetbrains.annotations.*;
 public final class MessageListener extends ListenerAdapter {
     private final Parser parser;
 
-    @Override public void onMessageReceived(@NotNull final MessageReceivedEvent event) {
+    @Override
+    public void onMessageReceived(@NotNull final MessageReceivedEvent event) {
         if (event.getAuthor().isBot()) {
             return;
         }
