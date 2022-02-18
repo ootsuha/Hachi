@@ -8,7 +8,7 @@ import org.springframework.stereotype.*;
 import java.util.stream.*;
 
 @Component
-public final class Commands extends HachiStringCommand {
+public final class Commands extends HachiCommandImpl implements HachiStringCommand {
     private final HachiCommandLoader loader;
 
     @Autowired public Commands(final HachiCommandLoader loader) {

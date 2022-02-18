@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
 @Component
-public final class Invite extends HachiEmbedCommand {
+public final class Invite extends HachiCommandImpl implements HachiEmbedCommand {
     private final MessageEmbed embed;
 
     @Autowired public Invite(final HachiConfig config) {
@@ -24,7 +24,7 @@ public final class Invite extends HachiEmbedCommand {
         this.embed = b.build();
     }
 
-    @Override protected MessageEmbed output(final HachiCommandRequest r) {
+    @Override public MessageEmbed output(final HachiCommandRequest r) {
         return this.embed;
     }
 }

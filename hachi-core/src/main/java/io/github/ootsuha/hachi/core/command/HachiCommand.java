@@ -1,6 +1,5 @@
 package io.github.ootsuha.hachi.core.command;
 
-import io.github.ootsuha.hachi.core.*;
 import io.github.ootsuha.hachi.core.command.request.*;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.interactions.commands.build.*;
@@ -19,11 +18,25 @@ public interface HachiCommand {
     String getName();
 
     /**
+     * Gets the description of the command.
+     *
+     * @return description
+     */
+    String getDescription();
+
+    /**
      * Gets the aliases of the command.
      *
      * @return list of string
      */
     List<String> getAliases();
+
+    /**
+     * Gets examples of the command.
+     *
+     * @return list of string
+     */
+    List<String> getExamples();
 
     /**
      * Gets the help embed of the command.
@@ -35,9 +48,9 @@ public interface HachiCommand {
     /**
      * Sets the help embed of the command.
      *
-     * @param config hachi config
+     * @param embed help embed
      */
-    void setHelpEmbed(HachiConfig config);
+    void setHelpEmbed(MessageEmbed embed);
 
     /**
      * Gets the <code>CommandData</code> of the command.

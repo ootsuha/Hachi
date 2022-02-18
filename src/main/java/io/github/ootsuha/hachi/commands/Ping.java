@@ -5,12 +5,12 @@ import io.github.ootsuha.hachi.core.command.request.*;
 import org.springframework.stereotype.*;
 
 @Component
-public final class Ping extends HachiStringCommand {
+public final class Ping extends HachiCommandImpl implements HachiStringCommand {
     public Ping() {
         super("ping", "Pings the user.");
     }
 
-    @Override protected String output(final HachiCommandRequest r) {
+    @Override public String output(final HachiCommandRequest r) {
         return r.getUser().getAsMention();
     }
 }

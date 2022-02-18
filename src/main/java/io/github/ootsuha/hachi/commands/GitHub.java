@@ -12,7 +12,7 @@ import org.springframework.stereotype.*;
 import java.util.*;
 
 @Component
-public final class GitHub extends HachiEmbedCommand {
+public final class GitHub extends HachiCommandImpl implements HachiEmbedCommand {
     /**
      * Embed to use when no class option given.
      */
@@ -55,7 +55,7 @@ public final class GitHub extends HachiEmbedCommand {
         return null;
     }
 
-    @Override protected MessageEmbed output(final HachiCommandRequest r) {
+    @Override public MessageEmbed output(final HachiCommandRequest r) {
         HachiCommandOptions o = r.getOptions();
         if (o.hasOption("class")) {
             Class<?> clazz = getClass(r.getOptions().getString("class"));

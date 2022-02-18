@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
 @Component
-public final class Alias extends HachiEmbedCommand {
+public final class Alias extends HachiCommandImpl implements HachiEmbedCommand {
     private final UserService userService;
 
     @Autowired public Alias(final UserService userService) {

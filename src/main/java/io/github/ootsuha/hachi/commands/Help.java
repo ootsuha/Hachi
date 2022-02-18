@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
 @Component
-public final class Help extends HachiEmbedCommand {
+public final class Help extends HachiCommandImpl implements HachiEmbedCommand {
     private final HachiCommandLoader loader;
     /**
      * Default help embed when no command is given.
@@ -48,7 +48,7 @@ public final class Help extends HachiEmbedCommand {
         this.defaultEmbed = b.build();
     }
 
-    @Override protected MessageEmbed output(final HachiCommandRequest r) {
+    @Override public MessageEmbed output(final HachiCommandRequest r) {
         HachiCommandOptions o = r.getOptions();
         if (o.hasOption("command")) {
             HachiCommand c = this.loader.getCommand(o.getString("command"));

@@ -6,14 +6,10 @@ import net.dv8tion.jda.api.entities.*;
 /**
  * A <code>HachiCommand</code> that replies with an embed.
  */
-public abstract class HachiEmbedCommand extends HachiCommandImpl {
-    public HachiEmbedCommand(final String name, final String description) {
-        super(name, description);
-    }
+public interface HachiEmbedCommand extends HachiCommand {
+    MessageEmbed output(HachiCommandRequest r);
 
-    protected abstract MessageEmbed output(HachiCommandRequest r);
-
-    @Override public final void run(final HachiCommandRequest r) {
+    @Override default void run(final HachiCommandRequest r) {
         r.replyEmbed(output(r)).queue();
     }
 }

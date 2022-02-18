@@ -5,14 +5,10 @@ import io.github.ootsuha.hachi.core.command.request.*;
 /**
  * A <code>HachiCommand</code> that replies with a string.
  */
-public abstract class HachiStringCommand extends HachiCommandImpl {
-    public HachiStringCommand(final String name, final String description) {
-        super(name, description);
-    }
+public interface HachiStringCommand extends HachiCommand {
+    String output(HachiCommandRequest r);
 
-    protected abstract String output(HachiCommandRequest r);
-
-    @Override public final void run(final HachiCommandRequest r) {
+    @Override default void run(final HachiCommandRequest r) {
         r.reply(output(r)).queue();
     }
 }

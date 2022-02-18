@@ -8,7 +8,7 @@ import java.text.*;
 import java.util.*;
 
 @Component
-public final class Time extends HachiStringCommand {
+public final class Time extends HachiCommandImpl implements HachiStringCommand {
     /**
      * Formatter.
      */
@@ -21,7 +21,7 @@ public final class Time extends HachiStringCommand {
         this.formatter.setTimeZone(TimeZone.getTimeZone("GMT"));
     }
 
-    @Override protected String output(final HachiCommandRequest r) {
+    @Override public String output(final HachiCommandRequest r) {
         return this.formatter.format(new Date());
     }
 }

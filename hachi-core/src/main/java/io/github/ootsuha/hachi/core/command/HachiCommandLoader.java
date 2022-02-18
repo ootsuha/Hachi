@@ -1,5 +1,8 @@
 package io.github.ootsuha.hachi.core.command;
 
+import io.github.ootsuha.hachi.core.*;
+import io.github.ootsuha.hachi.core.command.help.*;
+
 import javax.annotation.*;
 import java.util.*;
 
@@ -53,5 +56,17 @@ public final class HachiCommandLoader {
      */
     public Collection<HachiCommand> getCommands() {
         return this.hachiCommandMap.values();
+    }
+
+    /**
+     * Generates help embeds for all loaded commands.
+     *
+     * @param generator help embed generator
+     * @param config    config
+     */
+    public void generateHelpEmbeds(final HelpEmbedGenerator generator, final HachiConfig config) {
+        for (HachiCommand c : this.hachiCommandMap.values()) {
+            generator.setHelpEmbed(c, config);
+        }
     }
 }

@@ -13,7 +13,7 @@ import org.springframework.stereotype.*;
 import java.util.*;
 
 @Component
-public final class Color extends HachiEmbedCommand {
+public final class Color extends HachiCommandImpl implements HachiEmbedCommand {
     private static final int HEX_RADIX = 16;
     private static final int HEX_CODE_LENGTH = 7;
     private static final String ROLE_TYPE = "color";

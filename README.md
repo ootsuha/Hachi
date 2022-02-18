@@ -1,6 +1,6 @@
 # Hachi
 
-Java Discord bot
+Java Discord bot using JDA
 
 Doesn't do anything interesting yet. 😔
 
@@ -17,8 +17,15 @@ git clone https://github.com/ootsuha/Hachi.git
 cd Hachi
 ```
 
+Add your bot token as an environment variable
+
 ```shell
 export HACHI_TOKEN="put bot token here"
+```
+
+Run Hachi
+
+```
 ./gradlew run
 ```
 
@@ -41,11 +48,13 @@ public final class Foo extends HachiCommandImpl {
         // Add command options here
     }
 
-    @Override public void run(final HachiCommandRequest r) {
+    @Override
+    public void run(final HachiCommandRequest r) {
         // Do stuff here
     }
 }
 ```
 
-Alternatively, you can extend `HachiStringCommand` or `HachiEmbedCommand` if the
-command results in a `String` or `MessageEmbed` response from the bot respectively.
+Additionally, you can implement `HachiStringCommand` or `HachiEmbedCommand` if
+the command results in a `String` or `MessageEmbed` response from the bot
+respectively.
