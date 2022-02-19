@@ -15,7 +15,7 @@ import java.util.*;
 @EqualsAndHashCode
 public final class HachiCommandOptionsImpl implements HachiCommandOptions {
     private final Map<String, Object> options;
-    private final CommandData commandData;
+    private final SlashCommandData commandData;
 
     @Override
     public boolean hasOption(final String optionName) {

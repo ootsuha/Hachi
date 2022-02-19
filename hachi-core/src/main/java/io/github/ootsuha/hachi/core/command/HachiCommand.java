@@ -57,7 +57,7 @@ public interface HachiCommand {
      *
      * @return command data
      */
-    CommandData getCommandData();
+    SlashCommandData getCommandData();
 
     /**
      * Runs the command.
@@ -66,6 +66,11 @@ public interface HachiCommand {
      */
     void run(HachiCommandRequest r);
 
+    /**
+     * Gets the <code>SlashCommandData</code> of the command as <code>SubcommandData</code>.
+     *
+     * @return subcommand data
+     */
     default SubcommandData getSubcommandData() {
         return SubcommandData.fromData(getCommandData().toData());
     }

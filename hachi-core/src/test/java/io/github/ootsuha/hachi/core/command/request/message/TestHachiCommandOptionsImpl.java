@@ -3,6 +3,7 @@ package io.github.ootsuha.hachi.core.command.request.message;
 import io.github.ootsuha.hachi.core.command.request.*;
 import net.dv8tion.jda.api.interactions.commands.*;
 import net.dv8tion.jda.api.interactions.commands.build.*;
+import net.dv8tion.jda.internal.interactions.*;
 import org.junit.jupiter.api.*;
 
 import java.util.*;
@@ -24,12 +25,12 @@ public class TestHachiCommandOptionsImpl {
         throw new IllegalArgumentException();
     }
 
-    private CommandData createCommandData(final Map<String, Object> map) {
+    private SlashCommandData createCommandData(final Map<String, Object> map) {
         return createCommandData(map, true);
     }
 
-    private CommandData createCommandData(final Map<String, Object> map, final boolean required) {
-        CommandData data = new CommandData("command", "description");
+    private SlashCommandData createCommandData(final Map<String, Object> map, final boolean required) {
+        SlashCommandData data = new CommandDataImpl("command", "description");
         for (Map.Entry<String, Object> entry : map.entrySet()) {
             OptionType type = getOptionType(entry.getValue());
             data.addOption(type, entry.getKey(), "description", required);
@@ -42,7 +43,7 @@ public class TestHachiCommandOptionsImpl {
         Map<String, Object> m = new HashMap<>();
         m.put("a", "b");
 
-        CommandData data = createCommandData(m);
+        SlashCommandData data = createCommandData(m);
         HachiCommandOptions o = new HachiCommandOptionsImpl(m, data);
 
         String value = o.getString("a");
@@ -56,7 +57,7 @@ public class TestHachiCommandOptionsImpl {
         Map<String, Object> m = new HashMap<>();
         m.put("a", 1);
 
-        CommandData data = createCommandData(m);
+        SlashCommandData data = createCommandData(m);
         HachiCommandOptions o = new HachiCommandOptionsImpl(m, data);
 
         int value = o.getInteger("a");
@@ -70,7 +71,7 @@ public class TestHachiCommandOptionsImpl {
         Map<String, Object> m = new HashMap<>();
         m.put("a", 1.23);
 
-        CommandData data = createCommandData(m);
+        SlashCommandData data = createCommandData(m);
         HachiCommandOptions o = new HachiCommandOptionsImpl(m, data);
 
         double value = o.getDouble("a");
@@ -85,7 +86,7 @@ public class TestHachiCommandOptionsImpl {
         m.put("a", false);
         m.put("b", true);
 
-        CommandData data = createCommandData(m);
+        SlashCommandData data = createCommandData(m);
         HachiCommandOptions o = new HachiCommandOptionsImpl(m, data);
 
         boolean value = o.getBoolean("a");
@@ -103,7 +104,7 @@ public class TestHachiCommandOptionsImpl {
         m.put("double", 100000.0000000000000000000000000000000); // yeah
         m.put("bool", true);
 
-        CommandData data = createCommandData(m);
+        SlashCommandData data = createCommandData(m);
         HachiCommandOptions o = new HachiCommandOptionsImpl(m, data);
 
         String s = o.getString("string");
@@ -128,7 +129,7 @@ public class TestHachiCommandOptionsImpl {
         m.put("c", 0.0);
         m.put("d", false);
 
-        CommandData data = createCommandData(m);
+        SlashCommandData data = createCommandData(m);
         HachiCommandOptions o = new HachiCommandOptionsImpl(m, data);
 
         assertTrue(o.hasOption("a"));
@@ -146,7 +147,7 @@ public class TestHachiCommandOptionsImpl {
     public void missingOptionThrows() {
         Map<String, Object> m = new HashMap<>();
 
-        CommandData data = createCommandData(m);
+        SlashCommandData data = createCommandData(m);
         HachiCommandOptions o = new HachiCommandOptionsImpl(m, data);
 
         assertThrows(AssertionError.class, () -> o.getString("a"));
@@ -163,7 +164,7 @@ public class TestHachiCommandOptionsImpl {
         m.put("c", 0.0);
         m.put("d", false);
 
-        CommandData data = createCommandData(m, false);
+        SlashCommandData data = createCommandData(m, false);
         Map<String, Object> empty = new HashMap<>();
         HachiCommandOptions o = new HachiCommandOptionsImpl(empty, data);
 
@@ -181,7 +182,7 @@ public class TestHachiCommandOptionsImpl {
         m.put("c", 0.0);
         m.put("d", false);
 
-        CommandData data = createCommandData(m);
+        SlashCommandData data = createCommandData(m);
         HachiCommandOptions o = new HachiCommandOptionsImpl(m, data);
 
         assertDoesNotThrow(() -> o.getString("a"));
@@ -214,7 +215,7 @@ public class TestHachiCommandOptionsImpl {
         m.put("d", false);
 
         Map<String, Object> empty = new HashMap<>();
-        CommandData data = createCommandData(empty, false);
+        SlashCommandData data = createCommandData(empty, false);
         HachiCommandOptions o = new HachiCommandOptionsImpl(m, data);
 
         assertThrows(AssertionError.class, () -> o.getString("a"));
@@ -230,7 +231,7 @@ public class TestHachiCommandOptionsImpl {
         m.put("b", 0);
         m.put("c", 0.0);
         m.put("d", false);
-        CommandData data = createCommandData(m, false);
+        SlashCommandData data = createCommandData(m, false);
         HachiCommandOptions o = new HachiCommandOptionsImpl(m, data);
         HachiCommandOptions oExpected = new HachiCommandOptionsImpl(new HashMap<>(m), data);
 

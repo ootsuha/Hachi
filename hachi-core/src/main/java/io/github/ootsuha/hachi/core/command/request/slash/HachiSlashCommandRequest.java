@@ -4,7 +4,7 @@ import io.github.ootsuha.hachi.core.command.*;
 import io.github.ootsuha.hachi.core.command.request.*;
 import lombok.*;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.interaction.*;
+import net.dv8tion.jda.api.events.interaction.command.*;
 
 /**
  * Represents user command requests that come from a slash command.
@@ -12,9 +12,9 @@ import net.dv8tion.jda.api.events.interaction.*;
 @EqualsAndHashCode(callSuper = true)
 public final class HachiSlashCommandRequest extends HachiCommandRequestAbstract {
     @Getter
-    private final SlashCommandEvent event;
+    private final SlashCommandInteractionEvent event;
 
-    public HachiSlashCommandRequest(final SlashCommandEvent e, final HachiCommand c) {
+    public HachiSlashCommandRequest(final SlashCommandInteractionEvent e, final HachiCommand c) {
         super(c, new HachiSlashCommandOptions(e), e.getUser(), e.getTextChannel());
         this.event = e;
     }

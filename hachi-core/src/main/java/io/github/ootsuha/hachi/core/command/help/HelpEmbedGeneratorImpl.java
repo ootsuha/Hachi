@@ -43,7 +43,7 @@ public final class HelpEmbedGeneratorImpl implements HelpEmbedGenerator {
      * @param data command data
      * @return string
      */
-    private String commandOptionDescription(final CommandData data) {
+    private String commandOptionDescription(final SlashCommandData data) {
         int maxLen = Collections.max(
                 data.getOptions().stream().map(OptionData::getName).map(String::length).collect(Collectors.toList()));
         Stream<String> mapped = data.getOptions().stream()
@@ -53,7 +53,7 @@ public final class HelpEmbedGeneratorImpl implements HelpEmbedGenerator {
 
     @Override
     public void setHelpEmbed(final HachiCommand command, final HachiConfig config) {
-        CommandData data = command.getCommandData();
+        SlashCommandData data = command.getCommandData();
         EmbedBuilder b = new EmbedBuilder();
         b.setTitle(String.format("Help: `%s`", data.getName()));
         b.setDescription(data.getDescription());

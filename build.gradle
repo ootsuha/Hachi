@@ -15,15 +15,11 @@ compileJava.options.encoding = 'UTF-8'
 
 repositories {
     mavenCentral()
-    maven {
-        name 'm2-dv8tion'
-        url 'https://m2.dv8tion.net/releases'
-    }
 }
 
 dependencies {
     implementation project(':hachi-core')
-    implementation 'net.dv8tion:JDA:4.4.0_350'
+    implementation 'net.dv8tion:JDA:5.0.0-alpha.5'
     implementation 'ch.qos.logback:logback-classic:1.2.10'
 
     implementation 'org.springframework.boot:spring-boot-starter-web:2.6.3'
@@ -31,7 +27,7 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools:2.6.3'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor:2.6.3'
     testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.3'
-    runtimeOnly 'org.postgresql:postgresql:42.3.1'
+    runtimeOnly 'org.postgresql:postgresql:42.3.2'
 
     compileOnly 'org.projectlombok:lombok:1.18.22'
     annotationProcessor 'org.projectlombok:lombok:1.18.22'

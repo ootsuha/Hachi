@@ -1,6 +1,6 @@
 package io.github.ootsuha.hachi.core.command.request.slash;
 
-import net.dv8tion.jda.api.events.interaction.*;
+import net.dv8tion.jda.api.events.interaction.command.*;
 import net.dv8tion.jda.api.interactions.commands.*;
 import org.junit.jupiter.api.*;
 
@@ -10,7 +10,7 @@ import static org.mockito.Mockito.*;
 public class TestHachiSlashCommandOptions {
     @Test
     public void hasOption() {
-        SlashCommandEvent e = mock(SlashCommandEvent.class);
+        SlashCommandInteractionEvent e = mock(SlashCommandInteractionEvent.class);
         OptionMapping m = mock(OptionMapping.class);
         when(e.getOption("opt")).thenReturn(m);
         HachiSlashCommandOptions o = new HachiSlashCommandOptions(e);
@@ -24,7 +24,7 @@ public class TestHachiSlashCommandOptions {
 
     @Test
     public void getString() {
-        SlashCommandEvent e = mock(SlashCommandEvent.class);
+        SlashCommandInteractionEvent e = mock(SlashCommandInteractionEvent.class);
         OptionMapping m = mock(OptionMapping.class);
         String sExpected = "value";
         when(m.getAsString()).thenReturn(sExpected);
@@ -38,7 +38,7 @@ public class TestHachiSlashCommandOptions {
 
     @Test
     public void getInteger() {
-        SlashCommandEvent e = mock(SlashCommandEvent.class);
+        SlashCommandInteractionEvent e = mock(SlashCommandInteractionEvent.class);
         OptionMapping m = mock(OptionMapping.class);
         int lExpected = 8620;
         when(m.getAsLong()).thenReturn((long) lExpected);
@@ -52,7 +52,7 @@ public class TestHachiSlashCommandOptions {
 
     @Test
     public void getDouble() {
-        SlashCommandEvent e = mock(SlashCommandEvent.class);
+        SlashCommandInteractionEvent e = mock(SlashCommandInteractionEvent.class);
         OptionMapping m = mock(OptionMapping.class);
         double dExpected = 8.6;
         when(m.getAsDouble()).thenReturn(dExpected);
@@ -66,7 +66,7 @@ public class TestHachiSlashCommandOptions {
 
     @Test
     public void getBoolean() {
-        SlashCommandEvent e = mock(SlashCommandEvent.class);
+        SlashCommandInteractionEvent e = mock(SlashCommandInteractionEvent.class);
         OptionMapping m = mock(OptionMapping.class);
         when(m.getAsBoolean()).thenReturn(false);
         when(e.getOption("opt")).thenReturn(m);
@@ -79,7 +79,7 @@ public class TestHachiSlashCommandOptions {
 
     @Test
     public void equals() {
-        SlashCommandEvent e = mock(SlashCommandEvent.class);
+        SlashCommandInteractionEvent e = mock(SlashCommandInteractionEvent.class);
         OptionMapping m = mock(OptionMapping.class);
         when(m.getAsBoolean()).thenReturn(false);
         when(e.getOption("opt")).thenReturn(m);

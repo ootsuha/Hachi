@@ -2,7 +2,7 @@ package io.github.ootsuha.hachi.core.command;
 
 import io.github.ootsuha.hachi.core.*;
 import io.github.ootsuha.hachi.core.command.help.*;
-import net.dv8tion.jda.api.events.interaction.*;
+import net.dv8tion.jda.api.events.interaction.command.*;
 
 import javax.annotation.*;
 import java.util.*;
@@ -73,7 +73,7 @@ public final class HachiCommandLoader {
      * @return HachiCommand, or null
      */
     @Nullable
-    public HachiCommand getCommand(final SlashCommandEvent event) {
+    public HachiCommand getCommand(final SlashCommandInteractionEvent event) {
         if (event.getSubcommandGroup() != null) {
             return getSubcommand(event.getName(), event.getSubcommandGroup(), event.getSubcommandName());
         } else if (event.getSubcommandName() != null) {

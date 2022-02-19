@@ -3,7 +3,7 @@ package io.github.ootsuha.hachi.core.command.request.slash;
 import io.github.ootsuha.hachi.core.command.*;
 import io.github.ootsuha.hachi.core.command.request.*;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.interaction.*;
+import net.dv8tion.jda.api.events.interaction.command.*;
 import net.dv8tion.jda.api.requests.restaction.interactions.*;
 import org.junit.jupiter.api.*;
 
@@ -13,7 +13,7 @@ import static org.mockito.Mockito.*;
 public class TestHachiSlashCommandRequest {
     @Test
     public void getRequestedCommand() {
-        SlashCommandEvent e = mock(SlashCommandEvent.class);
+        SlashCommandInteractionEvent e = mock(SlashCommandInteractionEvent.class);
         HachiCommand cExpected = mock(HachiCommand.class);
         HachiCommandRequest r = new HachiSlashCommandRequest(e, cExpected);
 
@@ -24,7 +24,7 @@ public class TestHachiSlashCommandRequest {
 
     @Test
     public void getOptions() {
-        SlashCommandEvent e = mock(SlashCommandEvent.class);
+        SlashCommandInteractionEvent e = mock(SlashCommandInteractionEvent.class);
         HachiCommand c = mock(HachiCommand.class);
         HachiCommandRequest r = new HachiSlashCommandRequest(e, c);
 
@@ -36,7 +36,7 @@ public class TestHachiSlashCommandRequest {
 
     @Test
     public void getUser() {
-        SlashCommandEvent e = mock(SlashCommandEvent.class);
+        SlashCommandInteractionEvent e = mock(SlashCommandInteractionEvent.class);
         HachiCommand c = mock(HachiCommand.class);
         User userExpected = mock(User.class);
         when(e.getUser()).thenReturn(userExpected);
@@ -50,7 +50,7 @@ public class TestHachiSlashCommandRequest {
 
     @Test
     public void getChannel() {
-        SlashCommandEvent e = mock(SlashCommandEvent.class);
+        SlashCommandInteractionEvent e = mock(SlashCommandInteractionEvent.class);
         HachiCommand c = mock(HachiCommand.class);
         TextChannel channelExpected = mock(TextChannel.class);
         when(e.getTextChannel()).thenReturn(channelExpected);
@@ -64,10 +64,10 @@ public class TestHachiSlashCommandRequest {
 
     @Test
     public void deferReply() {
-        SlashCommandEvent e = mock(SlashCommandEvent.class);
+        SlashCommandInteractionEvent e = mock(SlashCommandInteractionEvent.class);
         HachiCommand c = mock(HachiCommand.class);
         HachiCommandRequest r = new HachiSlashCommandRequest(e, c);
-        ReplyAction ra = mock(ReplyAction.class);
+        ReplyCallbackAction ra = mock(ReplyCallbackAction.class);
         when(e.deferReply()).thenReturn(ra);
 
         r.deferReply();
@@ -79,7 +79,7 @@ public class TestHachiSlashCommandRequest {
     @Test
     public void reply() {
         String content = "reply content";
-        SlashCommandEvent e = mock(SlashCommandEvent.class);
+        SlashCommandInteractionEvent e = mock(SlashCommandInteractionEvent.class);
         HachiCommand c = mock(HachiCommand.class);
         HachiCommandRequest r = new HachiSlashCommandRequest(e, c);
 
@@ -92,7 +92,7 @@ public class TestHachiSlashCommandRequest {
     @Test
     public void replyEmbed() {
         MessageEmbed em = mock(MessageEmbed.class);
-        SlashCommandEvent e = mock(SlashCommandEvent.class);
+        SlashCommandInteractionEvent e = mock(SlashCommandInteractionEvent.class);
         HachiCommand c = mock(HachiCommand.class);
         HachiCommandRequest r = new HachiSlashCommandRequest(e, c);
 
@@ -104,7 +104,7 @@ public class TestHachiSlashCommandRequest {
 
     @Test
     public void equals() {
-        SlashCommandEvent e = mock(SlashCommandEvent.class);
+        SlashCommandInteractionEvent e = mock(SlashCommandInteractionEvent.class);
         HachiCommand c = mock(HachiCommand.class);
         HachiCommandRequest r = new HachiSlashCommandRequest(e, c);
         HachiCommandRequest rExpected = new HachiSlashCommandRequest(e, c);

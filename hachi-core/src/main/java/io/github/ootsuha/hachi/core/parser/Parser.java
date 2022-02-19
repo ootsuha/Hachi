@@ -91,7 +91,7 @@ public final class Parser {
      * @return hachi command option, or null if invalid options for the given command data
      */
     @Nullable
-    private HachiCommandOptions parseOptions(final StringBuilder b, final CommandData data, final Guild guild) {
+    private HachiCommandOptions parseOptions(final StringBuilder b, final SlashCommandData data, final Guild guild) {
         return parseOptions(b, 0, new HashMap<>(), data, guild);
     }
 
@@ -107,7 +107,7 @@ public final class Parser {
      */
     @Nullable
     private HachiCommandOptions parseOptions(final StringBuilder b, final int ind, final Map<String, Object> optionsMap,
-            final CommandData data, final Guild guild) {
+            final SlashCommandData data, final Guild guild) {
         List<OptionData> options = data.getOptions();
         for (int i = ind; i < options.size(); i++) {
             OptionData option = options.get(i);

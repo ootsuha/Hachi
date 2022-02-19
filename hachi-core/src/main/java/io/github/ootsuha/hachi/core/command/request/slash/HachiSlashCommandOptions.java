@@ -3,16 +3,16 @@ package io.github.ootsuha.hachi.core.command.request.slash;
 import io.github.ootsuha.hachi.core.command.request.*;
 import lombok.*;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.interaction.*;
+import net.dv8tion.jda.api.events.interaction.command.*;
 import net.dv8tion.jda.api.interactions.commands.*;
 
 /**
- * Implementation of <code>HachiCommandOptions</code> using a <code>SlashCommandEvent</code>.
+ * Implementation of <code>HachiCommandOptions</code> using a <code>SlashCommandInteractionEvent</code>.
  */
 @AllArgsConstructor
 @EqualsAndHashCode
 public final class HachiSlashCommandOptions implements HachiCommandOptions {
-    private final SlashCommandEvent event;
+    private final SlashCommandInteractionEvent event;
 
     @Override
     public boolean hasOption(final String optionName) {

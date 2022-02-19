@@ -2,7 +2,7 @@ package io.github.ootsuha.hachi.core.command.request.slash;
 
 import io.github.ootsuha.hachi.core.command.request.*;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.interaction.*;
+import net.dv8tion.jda.api.events.interaction.command.*;
 import net.dv8tion.jda.api.requests.restaction.interactions.*;
 import org.junit.jupiter.api.*;
 
@@ -13,8 +13,8 @@ public class TestHachiSlashCommandReplyAction {
     @Test
     public void queueString() {
         String content = "";
-        SlashCommandEvent event = mock(SlashCommandEvent.class);
-        ReplyAction replyAction = mock(ReplyAction.class);
+        SlashCommandInteractionEvent event = mock(SlashCommandInteractionEvent.class);
+        ReplyCallbackAction replyAction = mock(ReplyCallbackAction.class);
         when(event.reply(content)).thenReturn(replyAction);
         when(replyAction.setEphemeral(false)).thenReturn(replyAction);
         HachiCommandReplyAction ra = new HachiSlashCommandReplyAction(event, content);
@@ -27,8 +27,8 @@ public class TestHachiSlashCommandReplyAction {
     @Test
     public void queueEmbed() {
         MessageEmbed embed = mock(MessageEmbed.class);
-        SlashCommandEvent event = mock(SlashCommandEvent.class);
-        ReplyAction replyAction = mock(ReplyAction.class);
+        SlashCommandInteractionEvent event = mock(SlashCommandInteractionEvent.class);
+        ReplyCallbackAction replyAction = mock(ReplyCallbackAction.class);
         when(event.replyEmbeds(embed)).thenReturn(replyAction);
         when(replyAction.setEphemeral(false)).thenReturn(replyAction);
         HachiCommandReplyAction ra = new HachiSlashCommandReplyAction(event, embed);
@@ -41,8 +41,8 @@ public class TestHachiSlashCommandReplyAction {
     @Test
     public void completeString() {
         String content = "";
-        SlashCommandEvent event = mock(SlashCommandEvent.class);
-        ReplyAction replyAction = mock(ReplyAction.class);
+        SlashCommandInteractionEvent event = mock(SlashCommandInteractionEvent.class);
+        ReplyCallbackAction replyAction = mock(ReplyCallbackAction.class);
         when(event.reply(content)).thenReturn(replyAction);
         when(replyAction.setEphemeral(false)).thenReturn(replyAction);
         HachiCommandReplyAction ra = new HachiSlashCommandReplyAction(event, content);
@@ -55,8 +55,8 @@ public class TestHachiSlashCommandReplyAction {
     @Test
     public void completeEmbed() {
         MessageEmbed embed = mock(MessageEmbed.class);
-        SlashCommandEvent event = mock(SlashCommandEvent.class);
-        ReplyAction replyAction = mock(ReplyAction.class);
+        SlashCommandInteractionEvent event = mock(SlashCommandInteractionEvent.class);
+        ReplyCallbackAction replyAction = mock(ReplyCallbackAction.class);
         when(event.replyEmbeds(embed)).thenReturn(replyAction);
         when(replyAction.setEphemeral(false)).thenReturn(replyAction);
         HachiCommandReplyAction ra = new HachiSlashCommandReplyAction(event, embed);
@@ -69,8 +69,8 @@ public class TestHachiSlashCommandReplyAction {
     @Test
     public void ephemeral() {
         MessageEmbed embed = mock(MessageEmbed.class);
-        SlashCommandEvent event = mock(SlashCommandEvent.class);
-        ReplyAction replyAction = mock(ReplyAction.class);
+        SlashCommandInteractionEvent event = mock(SlashCommandInteractionEvent.class);
+        ReplyCallbackAction replyAction = mock(ReplyCallbackAction.class);
         when(event.replyEmbeds(embed)).thenReturn(replyAction);
         when(replyAction.setEphemeral(true)).thenReturn(replyAction);
         HachiCommandReplyAction ra = new HachiSlashCommandReplyAction(event, embed);
@@ -85,7 +85,7 @@ public class TestHachiSlashCommandReplyAction {
     public void equals() {
         String content = "";
         MessageEmbed embed = mock(MessageEmbed.class);
-        SlashCommandEvent event = mock(SlashCommandEvent.class);
+        SlashCommandInteractionEvent event = mock(SlashCommandInteractionEvent.class);
         HachiCommandReplyAction ra = new HachiSlashCommandReplyAction(event, content);
         HachiCommandReplyAction raExpected = new HachiSlashCommandReplyAction(event, content);
         HachiCommandReplyAction ra2 = new HachiSlashCommandReplyAction(event, embed);
