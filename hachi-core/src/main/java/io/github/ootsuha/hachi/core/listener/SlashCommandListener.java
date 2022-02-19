@@ -16,7 +16,7 @@ public final class SlashCommandListener extends ListenerAdapter {
 
     @Override
     public void onSlashCommand(@NotNull final SlashCommandEvent event) {
-        HachiCommand command = this.loader.getCommand(event.getName());
+        HachiCommand command = this.loader.getCommand(event);
         if (command != null) {
             new HachiSlashCommandRequest(event, command).fulfill();
         } else {

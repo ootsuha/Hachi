@@ -22,6 +22,10 @@ public final class Parser {
     public static final Pattern ROLE_MENTION_PATTERN = Pattern.compile("(?<=<@&)\\d+(?=>)");
     private final HachiCommandLoader loader;
     private final String prefix;
+    /**
+     * Function that takes a message as an argument and returns a string to parse. Defaults to just returning <code>
+     * message.getContentRaw().trim()</code>.
+     */
     private final Function<Message, String> contentExtractor;
     @Setter
     private JDA jda;
@@ -53,6 +57,7 @@ public final class Parser {
      * @param guild guild
      * @return immutable pair of hachi command and options, or null if invalid
      */
+    @SuppressWarnings("checkstyle:MagicNumber")
     @Nullable
     public Pair<HachiCommand, HachiCommandOptions> parse(final String input, final Guild guild) {
         if (!input.startsWith(this.prefix)) {
@@ -60,8 +65,13 @@ public final class Parser {
         }
         StringBuilder b = new StringBuilder(input);
         b.delete(0, this.prefix.length());
-        String name = getToken(b);
-        HachiCommand comm = this.loader.getCommand(name);
+        String[] name = getToken(b).split("\\.");
+        HachiCommand comm = switch (name.length) {
+            case 1 -> this.loader.getCommand(name[0]);
+            case 2 -> this.loader.getSubcommand(name[0], name[1]);
+            case 3 -> this.loader.getSubcommand(name[0], name[1], name[2]);
+            default -> null;
+        };
         if (comm == null) {
             return null;
         }
@@ -171,6 +181,12 @@ public final class Parser {
         return s;
     }
 
+    /**
+     * Parses a boolean from a string.
+     *
+     * @param s string
+     * @return true if "true", false if "false", otherwise throw an exception
+     */
     private boolean parseBoolean(final String s) {
         return switch (s.toLowerCase()) {
             case "true" -> true;
@@ -179,6 +195,13 @@ public final class Parser {
         };
     }
 
+    /**
+     * Parses a user from a string.
+     *
+     * @param s     string
+     * @param guild guild to check in
+     * @return user if found, otherwise throw exception
+     */
     private User parseUser(final String s, final Guild guild) {
         String id = s;
         Matcher matcher = USER_MENTION_PATTERN.matcher(s);
@@ -203,6 +226,13 @@ public final class Parser {
         throw new NumberFormatException();
     }
 
+    /**
+     * Parses a string for a role.
+     *
+     * @param s     string
+     * @param guild guild to check
+     * @return role if found, otherwise throw exception
+     */
     private Role parseRole(final String s, final Guild guild) {
         String id = s;
         Matcher matcher = ROLE_MENTION_PATTERN.matcher(s);

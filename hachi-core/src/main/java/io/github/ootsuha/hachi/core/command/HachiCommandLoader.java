@@ -2,6 +2,7 @@ package io.github.ootsuha.hachi.core.command;
 
 import io.github.ootsuha.hachi.core.*;
 import io.github.ootsuha.hachi.core.command.help.*;
+import net.dv8tion.jda.api.events.interaction.*;
 
 import javax.annotation.*;
 import java.util.*;
@@ -48,6 +49,56 @@ public final class HachiCommandLoader {
             return null;
         }
         return this.hachiCommandMap.get(converted);
+    }
+
+    /**
+     * Gets a <code>HachiCommand</code>.
+     *
+     * @param event slash command event
+     * @return HachiCommand, or null
+     */
+    @Nullable
+    public HachiCommand getCommand(final SlashCommandEvent event) {
+        if (event.getSubcommandGroup() != null) {
+            return getSubcommand(event.getName(), event.getSubcommandGroup(), event.getSubcommandName());
+        } else if (event.getSubcommandName() != null) {
+            return getSubcommand(event.getName(), event.getSubcommandName());
+        } else {
+            return getCommand(event.getName());
+        }
+    }
+
+    /**
+     * Gets a <code>HachiCommand</code> that is a subcommand.
+     *
+     * @param command command to search for subcommand in
+     * @param name    name of the subcommand
+     * @return hachi command, or null if not found
+     */
+    @Nullable
+    public HachiCommand getSubcommand(final String command, final String name) {
+        var c = getCommand(command);
+        if (c instanceof HachiSubcommandContainer c2) {
+            return c2.getSubcommand(name);
+        }
+        return null;
+    }
+
+    /**
+     * Gets a <code>HachiCommand</code> that is a subcommand.
+     *
+     * @param command command to search for subcommand in
+     * @param group   group of the subcommand
+     * @param name    name of the subcommand
+     * @return hachi command, or null if not found
+     */
+    @Nullable
+    public HachiCommand getSubcommand(final String command, final String group, final String name) {
+        var c = getCommand(command);
+        if (c instanceof HachiSubcommandContainer c2) {
+            return c2.getSubcommand(group, name);
+        }
+        return null;
     }
 
     /**

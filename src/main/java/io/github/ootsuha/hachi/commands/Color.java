@@ -13,7 +13,7 @@ import org.springframework.stereotype.*;
 import java.util.*;
 
 @Component
-public final class Color extends HachiCommandImpl implements HachiEmbedCommand {
+public final class Color extends HachiSubcommandContainerImpl {
     private static final int HEX_RADIX = 16;
     private static final int HEX_CODE_LENGTH = 7;
     private static final String ROLE_TYPE = "color";
@@ -23,7 +23,7 @@ public final class Color extends HachiCommandImpl implements HachiEmbedCommand {
     @Autowired
     public Color(final GuildService guildService, final HachiRoleService hachiRoleService) {
         super("color", "Sets user color.");
-        addOption(OptionType.STRING, "hex", "Hex color code.");
+        addSubcommands(Set.class, Remove.class);
 
         this.guildService = guildService;
         this.hachiRoleService = hachiRoleService;
@@ -55,13 +55,33 @@ public final class Color extends HachiCommandImpl implements HachiEmbedCommand {
         }
     }
 
-    @Override
-    public MessageEmbed output(final HachiCommandRequest r) {
-        Guild guild = r.getChannel().getGuild();
-        var guildData = this.guildService.findByRequest(r);
-        var b = new EmbedBuilder();
-        b.setTitle("Color");
-        if (r.getOptions().hasOption("hex")) {
+    public final class Remove extends HachiCommandImpl implements HachiEmbedCommand {
+        public Remove() {
+            super("remove", "Resets user color.");
+        }
+
+        @Override
+        public MessageEmbed output(final HachiCommandRequest r) {
+            Guild guild = r.getChannel().getGuild();
+            var b = new EmbedBuilder();
+            b.setTitle("Color");
+            removeColorRole(guild, r.getUser());
+            return b.setDescription("Cleared color.").build();
+        }
+    }
+
+    public final class Set extends HachiCommandImpl implements HachiEmbedCommand {
+        public Set() {
+            super("set", "Sets user color.");
+            addOption(OptionType.STRING, "hex", "Hex color code.", true);
+        }
+
+        @Override
+        public MessageEmbed output(final HachiCommandRequest r) {
+            Guild guild = r.getChannel().getGuild();
+            var guildData = guildService.findByRequest(r);
+            var b = new EmbedBuilder();
+            b.setTitle("Color");
             String hex = r.getOptions().getString("hex").toUpperCase();
             if (!hex.startsWith("#")) {
                 hex = '#' + hex;
@@ -71,18 +91,15 @@ public final class Color extends HachiCommandImpl implements HachiEmbedCommand {
                 return b.setDescription("Invalid hex code.").build();
             }
             removeColorRole(guild, r.getUser());
-            HachiRole hachiRole = this.hachiRoleService.findByGuildAndName(guild, hex, ROLE_TYPE);
+            HachiRole hachiRole = hachiRoleService.findByGuildAndName(guild, hex, ROLE_TYPE);
             var role = guild.getRoleById(hachiRole.id);
             assert role != null;
             role.getManager().setColor(color).queue();
             guild.addRoleToMember(r.getUser().getId(), role).queue();
             hachiRole.count++;
-            this.guildService.save(guildData);
-            this.hachiRoleService.save(hachiRole);
+            guildService.save(guildData);
+            hachiRoleService.save(hachiRole);
             return b.setColor(color).setDescription(String.format("Set color to `%s`.", hex)).build();
-        } else {
-            removeColorRole(guild, r.getUser());
-            return b.setDescription("Cleared color.").build();
         }
     }
 }

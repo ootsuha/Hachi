@@ -65,4 +65,8 @@ public interface HachiCommand {
      * @param r event that called the command
      */
     void run(HachiCommandRequest r);
+
+    default SubcommandData getSubcommandData() {
+        return SubcommandData.fromData(getCommandData().toData());
+    }
 }
