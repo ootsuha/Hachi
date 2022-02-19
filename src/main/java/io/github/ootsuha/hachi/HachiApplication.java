@@ -52,7 +52,7 @@ public class HachiApplication {
             String content = e.getContentRaw().trim();
             var data = userService.findByUser(e.getAuthor());
             for (var entry : data.getAliasMap().entrySet()) {
-                String regex = String.format("((?<=^%s)%s)|(%%%<s%%)", config.getPrefix(), entry.getKey());
+                String regex = String.format("((?<=^%s)%s )|(%%%<s%%)", config.getPrefix(), entry.getKey());
                 content = content.replaceAll(regex, entry.getValue());
             }
             return content;

@@ -1,7 +1,10 @@
 package io.github.ootsuha.hachi.core.command;
 
+import io.github.ootsuha.hachi.core.command.request.*;
+import net.dv8tion.jda.api.interactions.commands.*;
 import net.dv8tion.jda.api.interactions.commands.build.*;
 
+import javax.annotation.*;
 import java.util.*;
 
 public abstract class HachiSubcommandContainerImpl extends HachiCommandImpl implements HachiSubcommandContainer {
@@ -10,6 +13,42 @@ public abstract class HachiSubcommandContainerImpl extends HachiCommandImpl impl
     public HachiSubcommandContainerImpl(final String name, final String description) {
         super(name, description);
         this.subcommands = new HashMap<>();
+    }
+
+    @Deprecated
+    @Override
+    public final void run(final HachiCommandRequest r) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Deprecated
+    @Nonnull
+    @Override
+    public final CommandData addOption(@Nonnull final OptionType type, @Nonnull final String name,
+            @Nonnull final String description) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Deprecated
+    @Nonnull
+    @Override
+    public final CommandData addOption(@Nonnull final OptionType type, @Nonnull final String name,
+            @Nonnull final String description, final boolean required) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Deprecated
+    @Nonnull
+    @Override
+    public final CommandData addOptions(@Nonnull final Collection<? extends OptionData> options) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Deprecated
+    @Nonnull
+    @Override
+    public final CommandData addOptions(@Nonnull final OptionData... options) {
+        throw new UnsupportedOperationException();
     }
 
     @SafeVarargs

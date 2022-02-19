@@ -55,21 +55,6 @@ public final class Color extends HachiSubcommandContainerImpl {
         }
     }
 
-    public final class Remove extends HachiCommandImpl implements HachiEmbedCommand {
-        public Remove() {
-            super("remove", "Resets user color.");
-        }
-
-        @Override
-        public MessageEmbed output(final HachiCommandRequest r) {
-            Guild guild = r.getChannel().getGuild();
-            var b = new EmbedBuilder();
-            b.setTitle("Color");
-            removeColorRole(guild, r.getUser());
-            return b.setDescription("Cleared color.").build();
-        }
-    }
-
     public final class Set extends HachiCommandImpl implements HachiEmbedCommand {
         public Set() {
             super("set", "Sets user color.");
@@ -100,6 +85,21 @@ public final class Color extends HachiSubcommandContainerImpl {
             guildService.save(guildData);
             hachiRoleService.save(hachiRole);
             return b.setColor(color).setDescription(String.format("Set color to `%s`.", hex)).build();
+        }
+    }
+
+    public final class Remove extends HachiCommandImpl implements HachiEmbedCommand {
+        public Remove() {
+            super("remove", "Resets user color.");
+        }
+
+        @Override
+        public MessageEmbed output(final HachiCommandRequest r) {
+            Guild guild = r.getChannel().getGuild();
+            var b = new EmbedBuilder();
+            b.setTitle("Color");
+            removeColorRole(guild, r.getUser());
+            return b.setDescription("Cleared color.").build();
         }
     }
 }

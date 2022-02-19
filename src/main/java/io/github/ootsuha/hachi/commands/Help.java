@@ -40,6 +40,8 @@ public final class Help extends HachiCommandImpl implements HachiEmbedCommand {
                 Hachi's prefix is "%s".
                 `    %<scommand                    `
                 `    %<scommand option1 option2    `
+                `    %<scommand.subcommand         `
+                `    %<scommand.group.subcommand   `
                 """, config.getPrefix()), false);
         b.addField("Command Information", """
                 For a list of all commands, use `/commands`.

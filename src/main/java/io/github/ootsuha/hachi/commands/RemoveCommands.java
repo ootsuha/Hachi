@@ -7,7 +7,7 @@ import org.springframework.stereotype.*;
 @Component
 public final class RemoveCommands extends HachiCommandImpl {
     public RemoveCommands() {
-        super("removecommands", "Removes all guild commands.");
+        super("remove-commands", "Removes all guild commands.");
         setAliases("rc");
     }
 

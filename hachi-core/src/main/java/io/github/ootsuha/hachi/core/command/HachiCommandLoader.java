@@ -26,14 +26,29 @@ public final class HachiCommandLoader {
      * @param command command to add
      */
     public void loadCommand(final HachiCommand command) {
-        assert !this.hachiCommandMap.containsKey(command.getName()) : "Duplicate HachiCommand name: "
-                + command.getName();
-        this.hachiCommandMap.put(command.getName(), command);
-        this.aliasMap.put(command.getName(), command.getName());
-        for (String alias : command.getAliases()) {
-            assert !this.aliasMap.containsKey(alias) : "Duplicate HachiCommand alias: " + alias;
-            this.aliasMap.put(alias, command.getName());
+        String commandName = command.getName();
+        mapUniqueAdd(this.hachiCommandMap, commandName, command);
+        mapUniqueAdd(this.aliasMap, commandName, commandName);
+        if (commandName.contains("-")) {
+            mapUniqueAdd(this.aliasMap, commandName.replace("-", ""), commandName);
         }
+        for (String alias : command.getAliases()) {
+            mapUniqueAdd(this.aliasMap, alias, commandName);
+        }
+    }
+
+    /**
+     * Adds an entry to a map and asserts that the key is unique.
+     *
+     * @param map   map to add to
+     * @param key   unique key
+     * @param value value
+     * @param <K>   type of key
+     * @param <V>   type of value
+     */
+    private <K, V> void mapUniqueAdd(final Map<K, V> map, final K key, final V value) {
+        assert !map.containsKey(key) : "Duplicate HachiCommand name/alias: " + key;
+        map.put(key, value);
     }
 
     /**

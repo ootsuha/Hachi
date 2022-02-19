@@ -18,7 +18,7 @@ public final class UpdateCommands extends HachiCommandImpl {
 
     @Autowired
     public UpdateCommands(final HachiCommandLoader loader) {
-        super("updatecommands", "Updates guild commands.");
+        super("update-commands", "Updates guild commands.");
         setAliases("uc");
 
         this.loader = loader;
