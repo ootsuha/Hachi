@@ -1,6 +1,7 @@
-package io.github.ootsuha.hachi.core.command;
+package io.github.ootsuha.hachi.core.command.loader;
 
 import io.github.ootsuha.hachi.core.*;
+import io.github.ootsuha.hachi.core.command.*;
 import io.github.ootsuha.hachi.core.command.help.*;
 import net.dv8tion.jda.api.events.interaction.command.*;
 

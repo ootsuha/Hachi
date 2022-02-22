@@ -10,75 +10,75 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class TestHachiSlashCommandReplyAction {
+    private SlashCommandInteractionEvent mockEvent(String content, MessageEmbed embed) {
+        var event = mock(SlashCommandInteractionEvent.class);
+        var action = mock(ReplyCallbackAction.class);
+        when(event.reply(content)).thenReturn(action);
+        when(event.replyEmbeds(embed)).thenReturn(action);
+        // surely there is a better way to do this?
+        when(action.addActionRow()).thenReturn(action);
+        when(action.addActionRows()).thenReturn(action);
+        when(action.addActionRow(anyCollection())).thenReturn(action);
+        when(action.addActionRows(anyCollection())).thenReturn(action);
+        when(action.setEphemeral(false)).thenReturn(action);
+        when(action.setEphemeral(true)).thenReturn(action);
+        return event;
+    }
+
     @Test
     public void queueString() {
         String content = "";
-        SlashCommandInteractionEvent event = mock(SlashCommandInteractionEvent.class);
-        ReplyCallbackAction replyAction = mock(ReplyCallbackAction.class);
-        when(event.reply(content)).thenReturn(replyAction);
-        when(replyAction.setEphemeral(false)).thenReturn(replyAction);
-        HachiCommandReplyAction ra = new HachiSlashCommandReplyAction(event, content);
+        var event = mockEvent(content, null);
+        var ra = new HachiSlashCommandReplyAction(event, content);
 
         ra.queue();
 
-        verify(replyAction).queue();
+        verify(event.reply(content)).queue();
     }
 
     @Test
     public void queueEmbed() {
         MessageEmbed embed = mock(MessageEmbed.class);
-        SlashCommandInteractionEvent event = mock(SlashCommandInteractionEvent.class);
-        ReplyCallbackAction replyAction = mock(ReplyCallbackAction.class);
-        when(event.replyEmbeds(embed)).thenReturn(replyAction);
-        when(replyAction.setEphemeral(false)).thenReturn(replyAction);
-        HachiCommandReplyAction ra = new HachiSlashCommandReplyAction(event, embed);
+        var event = mockEvent(null, embed);
+        var ra = new HachiSlashCommandReplyAction(event, embed);
 
         ra.queue();
 
-        verify(replyAction).queue();
+        verify(event.replyEmbeds(embed)).queue();
     }
 
     @Test
     public void completeString() {
         String content = "";
-        SlashCommandInteractionEvent event = mock(SlashCommandInteractionEvent.class);
-        ReplyCallbackAction replyAction = mock(ReplyCallbackAction.class);
-        when(event.reply(content)).thenReturn(replyAction);
-        when(replyAction.setEphemeral(false)).thenReturn(replyAction);
-        HachiCommandReplyAction ra = new HachiSlashCommandReplyAction(event, content);
+        var event = mockEvent(content, null);
+        var ra = new HachiSlashCommandReplyAction(event, content);
 
         ra.complete();
 
-        verify(replyAction).complete();
+        verify(event.reply(content)).complete();
     }
 
     @Test
     public void completeEmbed() {
         MessageEmbed embed = mock(MessageEmbed.class);
-        SlashCommandInteractionEvent event = mock(SlashCommandInteractionEvent.class);
-        ReplyCallbackAction replyAction = mock(ReplyCallbackAction.class);
-        when(event.replyEmbeds(embed)).thenReturn(replyAction);
-        when(replyAction.setEphemeral(false)).thenReturn(replyAction);
-        HachiCommandReplyAction ra = new HachiSlashCommandReplyAction(event, embed);
+        var event = mockEvent(null, embed);
+        var ra = new HachiSlashCommandReplyAction(event, embed);
 
         ra.complete();
 
-        verify(replyAction).complete();
+        verify(event.replyEmbeds(embed)).complete();
     }
 
     @Test
     public void ephemeral() {
         MessageEmbed embed = mock(MessageEmbed.class);
-        SlashCommandInteractionEvent event = mock(SlashCommandInteractionEvent.class);
-        ReplyCallbackAction replyAction = mock(ReplyCallbackAction.class);
-        when(event.replyEmbeds(embed)).thenReturn(replyAction);
-        when(replyAction.setEphemeral(true)).thenReturn(replyAction);
-        HachiCommandReplyAction ra = new HachiSlashCommandReplyAction(event, embed);
+        var event = mockEvent(null, embed);
+        var ra = new HachiSlashCommandReplyAction(event, embed);
 
         ra.setEphemeral().complete();
 
-        verify(replyAction).setEphemeral(true);
-        verify(replyAction).complete();
+        verify(event.replyEmbeds(embed)).complete();
+        verify(event.replyEmbeds(embed)).setEphemeral(true);
     }
 
     @Test

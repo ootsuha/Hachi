@@ -3,6 +3,7 @@ package io.github.ootsuha.hachi.commands;
 import io.github.ootsuha.hachi.core.*;
 import io.github.ootsuha.hachi.core.command.*;
 import io.github.ootsuha.hachi.core.command.request.*;
+import io.github.ootsuha.hachi.core.command.specialized.*;
 import net.dv8tion.jda.api.*;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.interactions.commands.*;

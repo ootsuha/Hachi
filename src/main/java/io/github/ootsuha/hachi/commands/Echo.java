@@ -2,6 +2,7 @@ package io.github.ootsuha.hachi.commands;
 
 import io.github.ootsuha.hachi.core.command.*;
 import io.github.ootsuha.hachi.core.command.request.*;
+import io.github.ootsuha.hachi.core.command.specialized.*;
 import net.dv8tion.jda.api.interactions.commands.*;
 import org.springframework.stereotype.*;
 

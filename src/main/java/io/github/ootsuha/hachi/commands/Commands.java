@@ -1,7 +1,9 @@
 package io.github.ootsuha.hachi.commands;
 
 import io.github.ootsuha.hachi.core.command.*;
+import io.github.ootsuha.hachi.core.command.loader.*;
 import io.github.ootsuha.hachi.core.command.request.*;
+import io.github.ootsuha.hachi.core.command.specialized.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 

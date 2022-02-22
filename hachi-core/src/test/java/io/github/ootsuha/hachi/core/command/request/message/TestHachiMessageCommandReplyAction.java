@@ -9,52 +9,55 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class TestHachiMessageCommandReplyAction {
+    private Message mockMessage(String reply, MessageEmbed embed) {
+        var message = mock(Message.class);
+        var action = mock(MessageAction.class);
+        when(message.reply(reply)).thenReturn(action);
+        when(message.replyEmbeds(embed)).thenReturn(action);
+        when(action.setActionRows()).thenReturn(action);
+        when(action.setActionRows(anyCollection())).thenReturn(action);
+        when(action.complete()).thenReturn(null);
+        return message;
+    }
+
     @Test
     public void queueString() {
         String content = "";
-        Message message = mock(Message.class);
-        MessageAction messageAction = mock(MessageAction.class);
-        when(message.reply(content)).thenReturn(messageAction);
+        Message message = mockMessage(content, null);
 
         HachiCommandReplyAction ra = new HachiMessageCommandReplyAction(message, content);
         ra.queue();
-        verify(messageAction).queue();
+        verify(message.reply(content)).queue();
     }
 
     @Test
     public void queueEmbed() {
         MessageEmbed embed = mock(MessageEmbed.class);
-        Message message = mock(Message.class);
-        MessageAction messageAction = mock(MessageAction.class);
-        when(message.replyEmbeds(embed)).thenReturn(messageAction);
+        Message message = mockMessage(null, embed);
 
         HachiCommandReplyAction ra = new HachiMessageCommandReplyAction(message, embed);
         ra.queue();
-        verify(messageAction).queue();
+        verify(message.replyEmbeds(embed)).queue();
     }
 
     @Test
     public void completeString() {
         String content = "";
-        Message message = mock(Message.class);
-        MessageAction messageAction = mock(MessageAction.class);
-        when(message.reply(content)).thenReturn(messageAction);
+        Message message = mockMessage(content, null);
 
         HachiCommandReplyAction ra = new HachiMessageCommandReplyAction(message, content);
         ra.complete();
-        verify(messageAction).complete();
+        verify(message.reply(content)).complete();
     }
 
     @Test
     public void completeEmbed() {
         MessageEmbed embed = mock(MessageEmbed.class);
-        Message message = mock(Message.class);
-        MessageAction messageAction = mock(MessageAction.class);
-        when(message.replyEmbeds(embed)).thenReturn(messageAction);
+        Message message = mockMessage(null, embed);
 
         HachiCommandReplyAction ra = new HachiMessageCommandReplyAction(message, embed);
         ra.complete();
-        verify(messageAction).complete();
+        verify(message.replyEmbeds(embed)).complete();
     }
 
     @Test

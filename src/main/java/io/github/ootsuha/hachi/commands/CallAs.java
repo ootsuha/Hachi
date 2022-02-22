@@ -15,8 +15,8 @@ public final class CallAs extends HachiCommandImpl {
     @Autowired
     public CallAs(final Parser parser) {
         super("call-as", "Call a command as another user.");
-        addOption(OptionType.USER, "user", "User");
-        addOption(OptionType.STRING, "command", "Command string.");
+        addOption(OptionType.USER, "user", "User", true);
+        addOption(OptionType.STRING, "command", "Command string.", true);
         this.parser = parser;
     }
 

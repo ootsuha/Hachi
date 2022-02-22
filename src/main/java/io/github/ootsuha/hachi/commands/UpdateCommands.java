@@ -1,6 +1,7 @@
 package io.github.ootsuha.hachi.commands;
 
 import io.github.ootsuha.hachi.core.command.*;
+import io.github.ootsuha.hachi.core.command.loader.*;
 import io.github.ootsuha.hachi.core.command.request.*;
 import net.dv8tion.jda.api.interactions.commands.build.*;
 import org.springframework.beans.factory.annotation.*;

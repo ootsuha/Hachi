@@ -3,6 +3,7 @@ package io.github.ootsuha.hachi;
 import io.github.ootsuha.hachi.core.*;
 import io.github.ootsuha.hachi.core.command.*;
 import io.github.ootsuha.hachi.core.command.help.*;
+import io.github.ootsuha.hachi.core.command.loader.*;
 import io.github.ootsuha.hachi.core.parser.*;
 import io.github.ootsuha.hachi.service.*;
 import org.springframework.beans.factory.annotation.*;
@@ -52,7 +53,7 @@ public class HachiApplication {
             String content = e.getContentRaw().trim();
             var data = userService.findByUser(e.getAuthor());
             for (var entry : data.getAliasMap().entrySet()) {
-                String regex = String.format("((?<=^%s)%s )|(%%%<s%%)", config.getPrefix(), entry.getKey());
+                String regex = String.format("((?<=^%s)%s( |$))|(%%%<s%%)", config.getPrefix(), entry.getKey());
                 content = content.replaceAll(regex, entry.getValue());
             }
             return content;

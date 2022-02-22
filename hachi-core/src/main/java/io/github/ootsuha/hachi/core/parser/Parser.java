@@ -1,8 +1,10 @@
 package io.github.ootsuha.hachi.core.parser;
 
 import io.github.ootsuha.hachi.core.command.*;
+import io.github.ootsuha.hachi.core.command.loader.*;
 import io.github.ootsuha.hachi.core.command.request.*;
 import io.github.ootsuha.hachi.core.command.request.message.*;
+import io.github.ootsuha.hachi.core.types.*;
 import lombok.*;
 import net.dv8tion.jda.api.*;
 import net.dv8tion.jda.api.entities.*;
@@ -79,7 +81,7 @@ public final class Parser {
         if (options == null) {
             return null;
         }
-        return new Pair<>(comm, options);
+        return Pair.of(comm, options);
     }
 
     /**

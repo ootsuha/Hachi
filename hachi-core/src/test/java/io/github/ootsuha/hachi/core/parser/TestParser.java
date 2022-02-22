@@ -1,6 +1,7 @@
 package io.github.ootsuha.hachi.core.parser;
 
 import io.github.ootsuha.hachi.core.command.*;
+import io.github.ootsuha.hachi.core.command.loader.*;
 import io.github.ootsuha.hachi.core.command.request.*;
 import io.github.ootsuha.hachi.core.command.request.message.*;
 import net.dv8tion.jda.api.entities.*;
