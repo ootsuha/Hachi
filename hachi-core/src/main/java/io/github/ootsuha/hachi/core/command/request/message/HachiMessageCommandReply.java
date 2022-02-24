@@ -5,6 +5,9 @@ import lombok.*;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.requests.*;
 
+/**
+ * Wraps a <code>Message</code>.
+ */
 @RequiredArgsConstructor
 public final class HachiMessageCommandReply implements HachiCommandReply {
     private final Message message;
@@ -15,13 +18,13 @@ public final class HachiMessageCommandReply implements HachiCommandReply {
     }
 
     @Override
-    public void editContent(final String content) {
-        this.message.editMessage(content).queue();
+    public RestAction<Message> editContent(final String content) {
+        return this.message.editMessage(content);
     }
 
     @Override
-    public void editEmbed(final MessageEmbed embed) {
-        this.message.editMessageEmbeds(embed).queue();
+    public RestAction<Message> editEmbed(final MessageEmbed embed) {
+        return this.message.editMessageEmbeds(embed);
     }
 
     @Override

@@ -63,7 +63,7 @@ public interface HachiSelectMenuCommand extends HachiCommand {
         // supplies a scheduled future for the removal of the select menu
         Supplier<ScheduledFuture<?>> scheduleRemove = () -> SCHEDULER.schedule(() -> {
             SelectMenuListener.removeMenu(id);
-            reply.removeComponents();
+            reply.removeComponents().queue();
         }, TIMEOUT_MINUTES, TimeUnit.MINUTES);
 
         // used to cancel the menu removal if an option is picked

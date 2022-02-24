@@ -6,8 +6,10 @@ import lombok.*;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.interaction.command.*;
 
+import java.io.*;
+
 /**
- * Represents user command requests that come from a slash command.
+ * User command requests that come from a slash command.
  */
 @EqualsAndHashCode(callSuper = true)
 public final class HachiSlashCommandRequest extends HachiCommandRequestAbstract {
@@ -32,5 +34,10 @@ public final class HachiSlashCommandRequest extends HachiCommandRequestAbstract 
     @Override
     public HachiCommandReplyAction replyEmbed(final MessageEmbed embed) {
         return new HachiSlashCommandReplyAction(this.event, embed);
+    }
+
+    @Override
+    public HachiCommandReplyAction replyFile(final InputStream data, final String name) {
+        return new HachiSlashCommandReplyAction(this.event, data, name);
     }
 }

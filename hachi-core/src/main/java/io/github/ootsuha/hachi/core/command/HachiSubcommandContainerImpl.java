@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.interactions.commands.build.*;
 import net.dv8tion.jda.internal.interactions.*;
 
 import javax.annotation.*;
+import java.lang.reflect.*;
 import java.util.*;
 
 public abstract class HachiSubcommandContainerImpl extends HachiCommandImpl implements HachiSubcommandContainer {
@@ -56,7 +57,12 @@ public abstract class HachiSubcommandContainerImpl extends HachiCommandImpl impl
     public final void addSubcommands(final Class<? extends HachiCommandImpl>... classes) {
         try {
             for (Class<? extends HachiCommandImpl> clazz : classes) {
-                var c = clazz.getConstructor(this.getClass()).newInstance(this);
+                HachiCommandImpl c;
+                if (Modifier.isStatic(clazz.getModifiers())) {
+                    c = clazz.getConstructor().newInstance();
+                } else {
+                    c = clazz.getConstructor(this.getClass()).newInstance(this);
+                }
                 this.subcommands.put(c.getName(), c);
                 addSubcommands(c.getSubcommandData());
             }

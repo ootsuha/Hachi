@@ -2,11 +2,11 @@ package io.github.ootsuha.hachi.core.command.request.message;
 
 import io.github.ootsuha.hachi.core.command.request.*;
 import lombok.*;
-import lombok.experimental.*;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.interactions.components.*;
 import net.dv8tion.jda.api.requests.restaction.*;
 
+import java.io.*;
 import java.util.*;
 import java.util.function.*;
 
@@ -14,14 +14,8 @@ import java.util.function.*;
  * Represents reply actions for commands requested from a message.
  */
 @EqualsAndHashCode
-@Accessors(chain = true)
 public final class HachiMessageCommandReplyAction implements HachiCommandReplyAction {
-    private final Message message;
-    private final boolean isEmbed;
-    @Setter
-    private List<ActionRow> actionRows;
-    private String content;
-    private MessageEmbed embed;
+    private MessageAction action;
     private boolean ephemeral;
 
     /**
@@ -31,11 +25,8 @@ public final class HachiMessageCommandReplyAction implements HachiCommandReplyAc
      * @param content reply text
      */
     public HachiMessageCommandReplyAction(final Message message, final String content) {
-        this.message = message;
-        this.isEmbed = false;
-        this.content = content;
+        this.action = message.reply(content);
         this.ephemeral = false;
-        this.actionRows = new ArrayList<>();
     }
 
     /**
@@ -45,38 +36,50 @@ public final class HachiMessageCommandReplyAction implements HachiCommandReplyAc
      * @param embed   message embed
      */
     public HachiMessageCommandReplyAction(final Message message, final MessageEmbed embed) {
-        this.message = message;
-        this.isEmbed = true;
-        this.embed = embed;
+        this.action = message.replyEmbeds(embed);
         this.ephemeral = false;
-        this.actionRows = new ArrayList<>();
     }
 
-    private MessageAction reply() {
-        if (this.isEmbed) {
-            return this.message.replyEmbeds(this.embed).setActionRows(this.actionRows);
-        }
-        return this.message.reply(this.content).setActionRows(this.actionRows);
+    public HachiMessageCommandReplyAction(final Message message, final InputStream data, final String name) {
+        this.action = message.reply(data, name);
     }
 
     @Override
     public void queue() {
-        reply().queue();
+        this.action.queue();
     }
 
     @Override
     public void queue(final Consumer<HachiCommandReply> callback) {
-        reply().queue(e -> callback.accept(new HachiMessageCommandReply(e)));
+        this.action.queue(e -> callback.accept(new HachiMessageCommandReply(e)));
     }
 
     @Override
     public HachiCommandReply complete() {
-        return new HachiMessageCommandReply(reply().complete());
+        return new HachiMessageCommandReply(this.action.complete());
     }
 
     @Override
     public HachiCommandReplyAction setEphemeral() {
         this.ephemeral = true;
+        return this;
+    }
+
+    @Override
+    public HachiCommandReplyAction addFile(final InputStream data, final String name) {
+        this.action = this.action.addFile(data, name);
+        return this;
+    }
+
+    @Override
+    public HachiCommandReplyAction setActionRows(final List<ActionRow> rows) {
+        this.action = this.action.setActionRows(rows);
+        return this;
+    }
+
+    @Override
+    public HachiCommandReplyAction setEmbed(final MessageEmbed embed) {
+        this.action = this.action.setEmbeds(embed);
         return this;
     }
 }

@@ -5,8 +5,10 @@ import io.github.ootsuha.hachi.core.command.request.*;
 import lombok.*;
 import net.dv8tion.jda.api.entities.*;
 
+import java.io.*;
+
 /**
- * Represents user command requests that come from a message.
+ * User command requests that come from a message.
  */
 @EqualsAndHashCode(callSuper = true)
 public final class HachiMessageCommandRequest extends HachiCommandRequestAbstract {
@@ -31,5 +33,10 @@ public final class HachiMessageCommandRequest extends HachiCommandRequestAbstrac
     @Override
     public HachiCommandReplyAction replyEmbed(final MessageEmbed embed) {
         return new HachiMessageCommandReplyAction(this.message, embed);
+    }
+
+    @Override
+    public HachiCommandReplyAction replyFile(final InputStream data, final String name) {
+        return new HachiMessageCommandReplyAction(this.message, data, name);
     }
 }

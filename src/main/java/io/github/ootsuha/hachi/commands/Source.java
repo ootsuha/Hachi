@@ -8,14 +8,9 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.*;
 
 import java.io.*;
-import java.net.*;
 
 @Component
 public final class Source extends HachiCommandImpl {
-    /**
-     * Link to source code files.
-     */
-    private static final String REPO = "https://raw.githubusercontent.com/ootsuha/Hachi/master/src/main/java/";
     private final HachiCommandLoader loader;
 
     @Autowired
@@ -25,27 +20,26 @@ public final class Source extends HachiCommandImpl {
         this.loader = loader;
     }
 
-    private InputStream getInputStream(final String name) {
+    private File getFile(final String name) {
         HachiCommand c = this.loader.getCommand(name);
         if (c == null) {
             return null;
         }
         String path = c.getClass().getName().replaceAll("\\.", "/");
-        try {
-            return new URL(REPO + path + ".java").openStream();
-        } catch (IOException e) {
-            return null;
+        File f = new File("./src/main/java/" + path + ".java");
+        if (f.canRead()) {
+            return f;
         }
+        return null;
     }
 
     @Override
     public void run(final HachiCommandRequest r) {
         HachiCommandOptions o = r.getOptions();
         String name = o.getString("name").toLowerCase();
-        InputStream file = getInputStream(name);
+        File file = getFile(name);
         if (file != null) {
-            r.reply(String.format("Source code for `%s`:", name)).complete();
-            r.getChannel().sendFile(file, name + ".java").queue();
+            r.reply(String.format("Source code for `%s`:", name)).addFile(file, name + ".java").queue();
         } else {
             r.reply(String.format("Command `%s` does not exist.", name)).setEphemeral().queue();
         }

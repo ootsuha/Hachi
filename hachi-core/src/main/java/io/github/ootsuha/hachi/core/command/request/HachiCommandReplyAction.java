@@ -1,35 +1,25 @@
 package io.github.ootsuha.hachi.core.command.request;
 
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.interactions.components.*;
 
 import javax.annotation.*;
+import java.io.*;
 import java.util.*;
 import java.util.function.*;
 
 /**
- * Simulates a <code>RestAction</code> for responses to user command requests.
- * (doesn't implement <code>RestAction</code> because i'm lazy)
+ * Wraps <code>MessageAction</code>s and <code>ReplyCallbackAction</code>s to be used interchangeably.
  */
 public interface HachiCommandReplyAction {
-    /**
-     * Queue the reply to the command request.
-     */
     void queue();
 
     void queue(Consumer<HachiCommandReply> callback);
 
-    /**
-     * Reply to the command request and blocks until the reply goes through.
-     *
-     * @return reply
-     */
     HachiCommandReply complete();
 
-    /**
-     * Set the request as ephemeral.
-     *
-     * @return this
-     */
+    HachiCommandReplyAction setEmbed(MessageEmbed embed);
+
     @CheckReturnValue
     HachiCommandReplyAction setEphemeral();
 
@@ -37,5 +27,19 @@ public interface HachiCommandReplyAction {
 
     default HachiCommandReplyAction setActionRow(ActionRow row) {
         return setActionRows(List.of(row));
+    }
+
+    HachiCommandReplyAction addFile(InputStream data, String name);
+
+    default HachiCommandReplyAction addFile(final byte[] data, final String name) {
+        return addFile(new ByteArrayInputStream(data), name);
+    }
+
+    default HachiCommandReplyAction addFile(final File file, final String name) {
+        try {
+            return addFile(new FileInputStream(file), name);
+        } catch (FileNotFoundException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 }

@@ -6,6 +6,9 @@ import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.interactions.*;
 import net.dv8tion.jda.api.requests.*;
 
+/**
+ * Wraps an <code>InteractionHook</code>.
+ */
 @RequiredArgsConstructor
 public final class HachiSlashCommandReply implements HachiCommandReply {
     private final InteractionHook hook;
@@ -16,13 +19,13 @@ public final class HachiSlashCommandReply implements HachiCommandReply {
     }
 
     @Override
-    public void editContent(final String content) {
-        this.hook.editOriginal(content).queue();
+    public RestAction<Message> editContent(final String content) {
+        return this.hook.editOriginal(content);
     }
 
     @Override
-    public void editEmbed(final MessageEmbed embed) {
-        this.hook.editOriginalEmbeds(embed).queue();
+    public RestAction<Message> editEmbed(final MessageEmbed embed) {
+        return this.hook.editOriginalEmbeds(embed);
     }
 
     @Override
