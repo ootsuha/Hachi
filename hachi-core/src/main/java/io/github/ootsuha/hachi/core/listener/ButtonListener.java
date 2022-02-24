@@ -14,7 +14,27 @@ import java.util.function.*;
  * Handles <code>ButtonInteractionEvent</code>s.
  */
 public final class ButtonListener implements EventListener {
+    public static final String USER_CHECK_HANDLER = "forUser";
     private static final Map<String, BiConsumer<ButtonInteractionEvent, String>> HANDLER_MAP = new HashMap<>();
+
+    static {
+        ButtonListener.addHandler(USER_CHECK_HANDLER, (bEvent, value) -> {
+            var pair = ButtonRow.parseFirst(value);
+            var id = pair.left();
+            var nextHandlerAndValue = pair.right();
+            if (bEvent.getUser().getId().equals(id)) {
+                Pair<String, String> handlerValue = ButtonRow.parseFirst(nextHandlerAndValue);
+                if (HANDLER_MAP.containsKey(handlerValue.left())) {
+                    handle(bEvent, handlerValue.left(), handlerValue.right());
+                } else {
+                    bEvent.reply("This button already expired...").setEphemeral(true).queue();
+                    bEvent.getMessage().editMessageComponents().queue();
+                }
+            } else {
+                bEvent.reply("You cannot use this button.").setEphemeral(true).queue();
+            }
+        });
+    }
 
     public static void addHandler(final String handler, final BiConsumer<ButtonInteractionEvent, String> callback) {
         assert !HANDLER_MAP.containsKey(handler);
@@ -31,12 +51,16 @@ public final class ButtonListener implements EventListener {
         HANDLER_MAP.remove(row.getHandler());
     }
 
+    public static void handle(final ButtonInteractionEvent bEvent, final String handler, final String value) {
+        HANDLER_MAP.get(handler).accept(bEvent, value);
+    }
+
     @Override
     public void onEvent(@NotNull final GenericEvent event) {
         if (event instanceof ButtonInteractionEvent bEvent) {
-            Pair<String, String> handlerValue = ButtonRow.parseHandlerAndValue(bEvent.getComponentId());
+            Pair<String, String> handlerValue = ButtonRow.parseFirst(bEvent.getComponentId());
             if (HANDLER_MAP.containsKey(handlerValue.left())) {
-                HANDLER_MAP.get(handlerValue.left()).accept(bEvent, handlerValue.right());
+                handle(bEvent, handlerValue.left(), handlerValue.right());
             } else {
                 bEvent.reply("This button already expired...").setEphemeral(true).queue();
                 bEvent.getMessage().editMessageComponents().queue();

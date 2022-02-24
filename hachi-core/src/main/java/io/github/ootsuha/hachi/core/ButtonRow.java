@@ -31,9 +31,13 @@ public class ButtonRow {
         this(UUID.randomUUID().toString(), count);
     }
 
-    public static Pair<String, String> parseHandlerAndValue(final String id) {
+    public static Pair<String, String> parseFirst(final String id) {
         int delimiterIndex = id.indexOf(DELIMITER);
         return Pair.of(id.substring(0, delimiterIndex), id.substring(delimiterIndex + 1));
+    }
+
+    public static String joinWithDelimiter(final String... handlers) {
+        return String.join(DELIMITER, handlers);
     }
 
     public void setValues(final String... values) {
